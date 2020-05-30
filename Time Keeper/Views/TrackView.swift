@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TrackView: View {
 
-    @ObservedObject var stopwatch = Stopwatch()
+    @ObservedObject var tracker = SpeedDistanceTimeTracker()
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
@@ -18,6 +18,14 @@ struct TrackView: View {
     @Binding var overlayOpacity: Double
     @Binding var trackBlur : Double
     @State var steps = 1
+    
+    private func beginRun() {
+        
+    }
+    
+    private func endRun() {
+        
+    }
     
     
     var body: some View {
@@ -39,20 +47,14 @@ struct TrackView: View {
                     }
                     
                     //                        .fill(style: FillStyle(eoFill: false, antialiased: true))
-                    Text("Distance:")
-//                    HStack {
-//                        Text("Time: ")
-////                        Spacer().frame(width: 2)
-//                        Text(String(self.stopwatch.minuteString)).frame(width: 22)
-////                        Spacer().frame(width: 2)
-//                        Text(":")
-////                        Spacer().frame(width: 2)
-//                        Text(String(self.stopwatch.secondString)).frame(width: 22)
-//                        Text(".")
-////                        Spacer().frame(width: 2)
-//                        Text(String(self.stopwatch.centisecondString)).frame(width: 22)
-//                    }
-                    Text("\(self.stopwatch.secondsElapsedString)").frame(maxWidth: .infinity, alignment: .center).font(.system(size: 14, design: .monospaced))
+                    if self.tracker.distance.value < 10 {
+                        Text("Distance: \(self.tracker.distanceString)").font(.system(size: 24, design: .monospaced))
+                    } else {
+//                        self.tracker.stop()
+                        Text("ok")
+                    }
+                    
+                    Text("Time: \(self.tracker.secondsElapsedString)").font(.system(size: 24, design: .monospaced))
                     Stepper(value: self.$steps, in: 1...10) {
                         Text("Speed: \(self.steps)")
                     }
@@ -64,7 +66,7 @@ struct TrackView: View {
                                 self.disableOverlay.toggle()
                                 self.overlayOpacity = 1.0
                                 self.trackBlur = 5.0
-                                self.stopwatch.stop()
+                                self.tracker.stop()
                             }
                         }) {
                             Text("Cancel")
@@ -91,7 +93,8 @@ struct TrackView: View {
                         .foregroundColor(.green)
                         
                         Button(action: {
-                            self.stopwatch.start()
+                            self.tracker.start()
+                            self.tracker.startLocationUpdates()
                         }) {
                             Text("Start").bold()
                         }
@@ -112,5 +115,12 @@ struct TrackView_Previews: PreviewProvider {
     
     static var previews: some View {
         TrackView(disableOverlay: .constant(false), overlayOpacity: .constant(0.5), trackBlur: .constant(0.5))
+    }
+}
+
+extension Double {
+    func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }

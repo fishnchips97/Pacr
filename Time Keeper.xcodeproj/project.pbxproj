@@ -19,7 +19,8 @@
 		D939D4F323CA627600936FC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D939D4F223CA627600936FC1 /* Assets.xcassets */; };
 		D939D4F623CA627600936FC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D939D4F523CA627600936FC1 /* Preview Assets.xcassets */; };
 		D939D4F923CA627600936FC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D939D4F723CA627600936FC1 /* LaunchScreen.storyboard */; };
-		D96DC917247B1E5900408921 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96DC916247B1E5900408921 /* Stopwatch.swift */; };
+		D93D82C8247F046200316608 /* SpeedDistanceTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C7247F046200316608 /* SpeedDistanceTimeTracker.swift */; };
+		D93D82CA247F158300316608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C9247F158300316608 /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +38,8 @@
 		D939D4F523CA627600936FC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D939D4F823CA627600936FC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D939D4FA23CA627600936FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D96DC916247B1E5900408921 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
+		D93D82C7247F046200316608 /* SpeedDistanceTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedDistanceTimeTracker.swift; sourceTree = "<group>"; };
+		D93D82C9247F158300316608 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,9 +73,10 @@
 			isa = PBXGroup;
 			children = (
 				D939D4E923CA627100936FC1 /* AppDelegate.swift */,
+				D93D82C9247F158300316608 /* LocationManager.swift */,
 				D939D4EB23CA627100936FC1 /* SceneDelegate.swift */,
 				D907D91023D77845001C3A0B /* Record.swift */,
-				D96DC916247B1E5900408921 /* Stopwatch.swift */,
+				D93D82C7247F046200316608 /* SpeedDistanceTimeTracker.swift */,
 				D96DC915247B0E7700408921 /* Views */,
 				D939D4F223CA627600936FC1 /* Assets.xcassets */,
 				D939D4F723CA627600936FC1 /* LaunchScreen.storyboard */,
@@ -181,8 +184,9 @@
 				D907D90B23D76733001C3A0B /* MainMenuView.swift in Sources */,
 				D939D4EF23CA627100936FC1 /* Time_Keeper.xcdatamodeld in Sources */,
 				D939D4EA23CA627100936FC1 /* AppDelegate.swift in Sources */,
+				D93D82C8247F046200316608 /* SpeedDistanceTimeTracker.swift in Sources */,
 				D907D90923D762DA001C3A0B /* TrackView.swift in Sources */,
-				D96DC917247B1E5900408921 /* Stopwatch.swift in Sources */,
+				D93D82CA247F158300316608 /* LocationManager.swift in Sources */,
 				D939D4F123CA627100936FC1 /* ContentView.swift in Sources */,
 				D939D4EC23CA627100936FC1 /* SceneDelegate.swift in Sources */,
 			);
