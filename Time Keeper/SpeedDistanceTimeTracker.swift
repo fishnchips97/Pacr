@@ -11,7 +11,7 @@ import CoreLocation
 
 class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     
-    var runCompleted = false
+    @Published var runCompleted = false
     private var timer = Timer()
     private let locationManager = LocationManager.shared
     var secondsElapsed = 0.0 {
@@ -21,6 +21,10 @@ class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     }
     var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
+            if self.distance >= Measurement(value: 15, unit: UnitLength.meters) {
+                self.stop()
+                self.locationManager.stopUpdatingLocation()
+            }
             objectWillChange.send()
         }
     }
@@ -69,7 +73,8 @@ extension SpeedDistanceTimeTracker {
     }
     
     func stop() {
-        self.secondsElapsed = 0
+        runCompleted.toggle()
+//        self.secondsElapsed = 0
         timer.invalidate()
     }
     
@@ -123,5 +128,13 @@ extension SpeedDistanceTimeTracker {
 extension SpeedDistanceTimeTracker {
     func completeRun() {
         runCompleted = true
+    }
+}
+
+
+extension Double {
+    func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }
