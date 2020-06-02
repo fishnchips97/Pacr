@@ -10,22 +10,36 @@ import SwiftUI
 
 struct SaveRunView: View {
     
-    @Binding var isShowing : Bool
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
+    var tracker : SpeedDistanceTimeTracker
     
     var body: some View {
         VStack {
             Text("Save Time?")
-            Text("Time: 5:30")
-            Text("Distance: 1 Mile")
+            Text("Time: \(self.tracker.secondsElapsed)")
+            Text("Distance: \(self.tracker.currentDistanceGoal)")
 
             HStack {
                 Button(action: {
-                    self.isShowing.toggle()
+                    self.tracker.runStatus = .notStarted
+                    self.tracker.reset()
                 }) {
                     Text("Cancel")
                 }
                 Button(action: {
-                    self.isShowing.toggle()
+                    let record = Record(context: self.managedObjectContext)
+                    record.dateRecorded = Date()
+                    record.timeInSeconds = NSNumber(value: self.tracker.secondsElapsed)
+                    record.distance = NSString(utf8String: self.tracker.currentDistanceGoal)
+                    do {
+                        try self.managedObjectContext.save()
+                    } catch {
+                        print(error)
+                    }
+                    
+                    self.tracker.runStatus = .notStarted
+                    self.tracker.reset()
                 }) {
                     Text("Save")
                 }
@@ -40,6 +54,6 @@ struct SaveRunView: View {
 
 struct SaveRunView_Previews: PreviewProvider {
     static var previews: some View {
-        SaveRunView(isShowing: .constant(true))
+        SaveRunView(tracker: SpeedDistanceTimeTracker())
     }
 }

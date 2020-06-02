@@ -9,9 +9,24 @@
 import Foundation
 import CoreLocation
 
+enum runStatusPossibilities {
+    case notStarted
+    case inProgress
+    case finished
+}
+
+let distances = [
+    "1 Mile" : Measurement(value: 1, unit: UnitLength.miles),
+    "10 Km" : Measurement(value: 10, unit: UnitLength.kilometers),
+    "Half Marathon" : Measurement(value: 21.0975, unit: UnitLength.kilometers),
+]
+
 class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     
-    @Published var runCompleted = false
+    
+    
+    @Published var runStatus = runStatusPossibilities.notStarted
+    var currentDistanceGoal = "1 Mile"
     private var timer = Timer()
     private let locationManager = LocationManager.shared
     var secondsElapsed = 0.0 {
@@ -21,9 +36,10 @@ class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     }
     var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
-            if self.distance >= Measurement(value: 15, unit: UnitLength.meters) {
-                self.stop()
-                self.locationManager.stopUpdatingLocation()
+            if let goal = distances[self.currentDistanceGoal] {
+                if self.distance >= goal {
+                    self.stop()
+                }
             }
             objectWillChange.send()
         }
@@ -43,6 +59,12 @@ class SpeedDistanceTimeTracker : NSObject, ObservableObject {
         self.locationManager.activityType = .fitness
         self.locationManager.distanceFilter = 10
         self.locationManager.startUpdatingLocation()
+    }
+    
+    func reset() {
+        self.distance = Measurement(value: 0, unit: UnitLength.meters)
+        self.secondsElapsed = 0.0
+        self.locationList.removeAll()
     }
     
 }
@@ -65,6 +87,8 @@ extension SpeedDistanceTimeTracker : CLLocationManagerDelegate {
 
 extension SpeedDistanceTimeTracker {
     func start() {
+        self.startLocationUpdates()
+        self.runStatus = .inProgress
         if !timer.isValid {
             timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
                 self.secondsElapsed += 0.01
@@ -73,7 +97,9 @@ extension SpeedDistanceTimeTracker {
     }
     
     func stop() {
-        runCompleted.toggle()
+
+        self.locationManager.stopUpdatingLocation()
+        self.runStatus = runStatusPossibilities.finished
 //        self.secondsElapsed = 0
         timer.invalidate()
     }
@@ -127,7 +153,7 @@ extension SpeedDistanceTimeTracker {
 
 extension SpeedDistanceTimeTracker {
     func completeRun() {
-        runCompleted = true
+        self.runStatus = .finished
     }
 }
 

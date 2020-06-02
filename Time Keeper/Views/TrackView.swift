@@ -17,15 +17,10 @@ struct TrackView: View {
     @Binding var disableOverlay : Bool
     @Binding var overlayOpacity: Double
     @Binding var trackBlur : Double
-    @State var steps = 1
+    @State private var selectedOption: Int = 0
+    @State private var isRunning = false
+    let distances = ["1 Mile", "10 Km", "Half Marathon"]
     
-    private func beginRun() {
-        
-    }
-    
-    private func endRun() {
-        
-    }
     
     
     var body: some View {
@@ -55,10 +50,13 @@ struct TrackView: View {
                         
                         
                         Text("Time: \(self.tracker.secondsElapsedString)").font(.system(size: 24, design: .monospaced))
-                        Stepper(value: self.$steps, in: 1...10) {
-                            Text("Speed: \(self.steps)")
-                        }
-                        .padding(.horizontal)
+                        Picker("Option Picker", selection: self.$selectedOption) {
+                            ForEach(0 ..< self.distances.count) { index in
+                                Text(self.distances[index]).tag(index)
+                            }
+                        }.pickerStyle(SegmentedPickerStyle())
+                            .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
+                            .padding()
                         HStack{
                             
                             Button(action: {
@@ -73,28 +71,11 @@ struct TrackView: View {
                             }
                             .disabled(!self.disableOverlay)
                             
-                            Button(action: {
-                                let record = Record(context: self.managedObjectContext)
-                                record.dateRecorded = Date()
-                                print("test")
-                                record.timeInSeconds = NSNumber(value: self.steps)
-                                do {
-                                    print("ok")
-                                    try self.managedObjectContext.save()
-                                } catch {
-                                    print(error)
-                                }
-                                self.steps = 1
-                                
-                            }) {
-                                Text("Submit").bold()
-                            }
-                            .disabled(!self.disableOverlay)
-                            .foregroundColor(.green)
                             
                             Button(action: {
                                 self.tracker.start()
-                                self.tracker.startLocationUpdates()
+                                self.isRunning.toggle()
+                                self.tracker.currentDistanceGoal = self.distances[self.selectedOption]
                             }) {
                                 Text("Start").bold()
                             }
@@ -108,12 +89,13 @@ struct TrackView: View {
     //                        .background(Color.red)
                 
             }
-            if self.tracker.runCompleted {
-                SaveRunView(isShowing: self.$tracker.runCompleted)
+            if self.tracker.runStatus == runStatusPossibilities.finished {
+                SaveRunView(tracker: self.tracker)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .background(
                         Color.black.opacity(0.5)
                             .edgesIgnoringSafeArea(.all)
+                    .environment(\.managedObjectContext, self.managedObjectContext)
                 )
             }
         }

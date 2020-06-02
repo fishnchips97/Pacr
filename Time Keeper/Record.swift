@@ -12,7 +12,7 @@ import CoreData
 public class Record:NSManagedObject, Identifiable {
     @NSManaged public var timeInSeconds: NSNumber?
     @NSManaged public var dateRecorded: Date?
-//    @NSManaged public var pace: NSNumber?
+    @NSManaged public var distance: NSString?
 }
 
 extension Record {
