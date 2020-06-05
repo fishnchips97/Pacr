@@ -15,12 +15,35 @@ struct LeaderboardView: View {
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @Environment(\.managedObjectContext) var managedObjectContext
     
-    @State private var defaultPeopleIndex: Int = 0
-    let peopleOptions = ["Personal", "Friends"]
+    @State private var orderOptionIndex: Int = 0
+    let orderingOptions = ["Fastest Pace", "Most Recent"]
     @State private var defaultTimeRangeIndex: Int = 0
     let timeRanges = ["3 Months", "All Time"]
     @State private var defaultDistanceIndex: Int = 0
-    let distances = ["1 Mile", "10 Km", "Half Marathon"]
+    private var sortedRecords : [Record] {
+        var result = Array(records).filter { (record) -> Bool in
+            if timeRanges[defaultTimeRangeIndex] == "3 Months" {
+                let threeMonthsInSeconds = 2592000.0
+//                let threeMonthsInSeconds = 600.0
+                let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
+                return timeSinceRecordDateInSeconds < threeMonthsInSeconds
+            }
+            return true
+        }
+        result = result.filter { (record) -> Bool in
+            record.distance?.description ?? "" == distances[defaultDistanceIndex]
+        }
+        if orderingOptions[orderOptionIndex] == "Fastest Pace" {
+            result.sort {
+                return $0.timeInSeconds?.decimalValue ?? 0 < $1.timeInSeconds?.decimalValue ?? 0
+            }
+        } else if orderingOptions[orderOptionIndex] == "Most Recent" {
+            result.sort {
+                return $0.dateRecorded ?? Date() > $1.dateRecorded ?? Date()
+            }
+        }
+        return result
+    }
     
     var body: some View {
         VStack {
@@ -29,28 +52,46 @@ struct LeaderboardView: View {
             HStack{
                 
                 Text("Leaderboard")
-                    .font(.title)
+                    .font(.headline)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
                     .padding([.top, .leading], 20.0)
                 Spacer()
             }
+            HStack {
+                Text("\(distances[defaultDistanceIndex])")
+                .font(.subheadline)
+                .multilineTextAlignment(.leading)
+                .padding(.leading, 20.0)
+                .padding(.top, 10.0)
+                Spacer()
+            }
+            
             
             
             List {
-                ForEach (0 ..< self.records.count) { index in
+                HStack {
+                    Text("Time").font(.system(size: 20)).bold()
+                    Spacer()
+                    Text("Date").font(.system(size: 20)).bold()
+                }
+                
+                ForEach (self.sortedRecords) { record in
+                    
                     HStack {
-                        Text("\(index + 1).").font(.system(size: 20)).bold()
-                        Text("\(self.records[index].time)").font(.system(size: 20)).bold()
+                        if self.orderingOptions[self.orderOptionIndex] == "Fastest Pace" {
+                            Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20)).bold()
+                        }
+                        Text("\(record.time)").font(.system(size: 20)).bold()
                         Spacer()
-                        Text("\(self.records[index].date)")
+                        Text("\(record.date)")
                     }
                 }
                 
             }
             VStack {
                 Spacer().frame(height: 24)
-                filterPicker(options: peopleOptions, selectedOption: $defaultPeopleIndex)
+                filterPicker(options: orderingOptions, selectedOption: $orderOptionIndex)
                 filterPicker(options: timeRanges, selectedOption: $defaultTimeRangeIndex)
                 filterPicker(options: distances, selectedOption: $defaultDistanceIndex)
                 Spacer().frame(height: 24)

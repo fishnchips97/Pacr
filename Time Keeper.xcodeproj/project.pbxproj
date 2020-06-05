@@ -21,6 +21,7 @@
 		D939D4F923CA627600936FC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D939D4F723CA627600936FC1 /* LaunchScreen.storyboard */; };
 		D93D82C8247F046200316608 /* SpeedDistanceTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C7247F046200316608 /* SpeedDistanceTimeTracker.swift */; };
 		D93D82CA247F158300316608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C9247F158300316608 /* LocationManager.swift */; };
+		D946C35C2489B00D00448C2D /* distances.swift in Sources */ = {isa = PBXBuildFile; fileRef = D946C35B2489B00D00448C2D /* distances.swift */; };
 		D982235E2484A1B900A33036 /* SaveRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982235D2484A1B900A33036 /* SaveRunView.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		D939D4FA23CA627600936FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D93D82C7247F046200316608 /* SpeedDistanceTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedDistanceTimeTracker.swift; sourceTree = "<group>"; };
 		D93D82C9247F158300316608 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		D946C35B2489B00D00448C2D /* distances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = distances.swift; sourceTree = "<group>"; };
 		D982235D2484A1B900A33036 /* SaveRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRunView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +81,7 @@
 				D939D4EB23CA627100936FC1 /* SceneDelegate.swift */,
 				D907D91023D77845001C3A0B /* Record.swift */,
 				D93D82C7247F046200316608 /* SpeedDistanceTimeTracker.swift */,
+				D946C35B2489B00D00448C2D /* distances.swift */,
 				D96DC915247B0E7700408921 /* Views */,
 				D939D4F223CA627600936FC1 /* Assets.xcassets */,
 				D939D4F723CA627600936FC1 /* LaunchScreen.storyboard */,
@@ -187,6 +190,7 @@
 				D907D90B23D76733001C3A0B /* MainMenuView.swift in Sources */,
 				D939D4EF23CA627100936FC1 /* Time_Keeper.xcdatamodeld in Sources */,
 				D939D4EA23CA627100936FC1 /* AppDelegate.swift in Sources */,
+				D946C35C2489B00D00448C2D /* distances.swift in Sources */,
 				D93D82C8247F046200316608 /* SpeedDistanceTimeTracker.swift in Sources */,
 				D982235E2484A1B900A33036 /* SaveRunView.swift in Sources */,
 				D907D90923D762DA001C3A0B /* TrackView.swift in Sources */,

@@ -19,7 +19,8 @@ struct TrackView: View {
     @Binding var trackBlur : Double
     @State private var selectedOption: Int = 0
     @State private var isRunning = false
-    let distances = ["1 Mile", "10 Km", "Half Marathon"]
+    @State private var minutes = 0
+    @State private var seconds = 0
     
     
     
@@ -33,9 +34,6 @@ struct TrackView: View {
                     Spacer()
                     VStack {
                         Spacer()
-                        Spacer()
-                        Spacer()
-                        Spacer()
                         
                         Path { path in
                             let rect = CGRect(x: geometry.size.width / 4, y: geometry.size.height / 8, width: geometry.size.width / 2, height: geometry.size.height / 2)
@@ -45,14 +43,36 @@ struct TrackView: View {
                         }
                         
                         //                        .fill(style: FillStyle(eoFill: false, antialiased: true))
-                        
                         Text("Distance: \(self.tracker.distanceString)").font(.system(size: 24, design: .monospaced))
                         
                         
                         Text("Time: \(self.tracker.secondsElapsedString)").font(.system(size: 24, design: .monospaced))
+                        Spacer()
+                        Text("Target Pace").font(.system(size: 24, design: .monospaced))
+                        HStack {
+                            Text("\(String(format: "%02d", self.minutes)) : \(String(format: "%02d", self.seconds))").font(.system(size: 24, design: .monospaced))
+                        }
+                        HStack {
+                            Stepper(onIncrement: {
+                                self.minutes += 1
+                            }, onDecrement: {
+                                if self.minutes >= 1 {
+                                    self.minutes -= 1
+                                }
+                                }, label: {Text("")})
+                            Stepper(onIncrement: {
+                                self.seconds += 1
+                            }, onDecrement: {
+                                if self.seconds >= 1 {
+                                    self.seconds -= 1
+                                }
+                            }, label: {Text("")})
+                        }.labelsHidden()
+                        
+                        
                         Picker("Option Picker", selection: self.$selectedOption) {
-                            ForEach(0 ..< self.distances.count) { index in
-                                Text(self.distances[index]).tag(index)
+                            ForEach(0 ..< distances.count) { index in
+                                Text(distances[index]).tag(index)
                             }
                         }.pickerStyle(SegmentedPickerStyle())
                             .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
@@ -75,14 +95,13 @@ struct TrackView: View {
                             Button(action: {
                                 self.tracker.start()
                                 self.isRunning.toggle()
-                                self.tracker.currentDistanceGoal = self.distances[self.selectedOption]
+                                self.tracker.currentDistanceGoal = distances[self.selectedOption]
                             }) {
                                 Text("Start").bold()
                             }
                             .disabled(!self.disableOverlay)
                             .foregroundColor(.green)
                         }
-                        Spacer()
                     }
                     Spacer()
                 }

@@ -17,7 +17,7 @@ struct SaveRunView: View {
     var body: some View {
         VStack {
             Text("Save Time?")
-            Text("Time: \(self.tracker.secondsElapsed)")
+            Text("Time: \(self.tracker.secondsElapsedString)")
             Text("Distance: \(self.tracker.currentDistanceGoal)")
 
             HStack {
@@ -30,7 +30,7 @@ struct SaveRunView: View {
                 Button(action: {
                     let record = Record(context: self.managedObjectContext)
                     record.dateRecorded = Date()
-                    record.timeInSeconds = NSNumber(value: self.tracker.secondsElapsed)
+                    record.timeInSeconds = NSNumber(value: self.tracker.secondsElapsed.roundTo(places: 2))
                     record.distance = NSString(utf8String: self.tracker.currentDistanceGoal)
                     do {
                         try self.managedObjectContext.save()

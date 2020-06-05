@@ -15,18 +15,14 @@ enum runStatusPossibilities {
     case finished
 }
 
-let distances = [
-    "1 Mile" : Measurement(value: 1, unit: UnitLength.miles),
-    "10 Km" : Measurement(value: 10, unit: UnitLength.kilometers),
-    "Half Marathon" : Measurement(value: 21.0975, unit: UnitLength.kilometers),
-]
+
 
 class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     
     
     
     @Published var runStatus = runStatusPossibilities.notStarted
-    var currentDistanceGoal = "1 Mile"
+    var currentDistanceGoal = distances.first ?? ""
     private var timer = Timer()
     private let locationManager = LocationManager.shared
     var secondsElapsed = 0.0 {
@@ -36,7 +32,7 @@ class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     }
     var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
-            if let goal = distances[self.currentDistanceGoal] {
+            if let goal = distanceMeasurements[self.currentDistanceGoal] {
                 if self.distance >= goal {
                     self.stop()
                 }
@@ -139,7 +135,7 @@ extension SpeedDistanceTimeTracker {
     }
     
     var centiseconds: Int {
-        Int(Int((secondsElapsed - Double(Int(secondsElapsed))) * 100))
+        Int((secondsElapsed - secondsElapsed.rounded(.down)) * 100)
     }
     
     var centisecondString : String {
@@ -147,7 +143,8 @@ extension SpeedDistanceTimeTracker {
     }
     
     var distanceString : String {
-        String(format: "%05.2f meters", self.distance.value.roundTo(places: 2))
+        let goal = distanceMeasurements[self.currentDistanceGoal]?.unit.symbol  ?? ""
+        return String(format: "%05.2f \(goal)", self.distance.value.roundTo(places: 2))
     }
 }
 
@@ -161,6 +158,6 @@ extension SpeedDistanceTimeTracker {
 extension Double {
     func roundTo(places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
-        return (self * divisor).rounded() / divisor
+        return (self * divisor).rounded(.down) / divisor
     }
 }

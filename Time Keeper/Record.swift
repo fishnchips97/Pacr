@@ -33,14 +33,15 @@ extension Record {
         let hours = Int(totalSeconds) / 3600
         let minutes = (Int(totalSeconds) % 3600) / 60
         let seconds = Int(totalSeconds) % 60
-//        let milliseconds = totalSeconds - Double(Int(totalSeconds))
+        let centiseconds = round((totalSeconds - Double(Int(totalSeconds))) * 100)
         var result = ""
         if hours != 0 {
             result += "\(hours):"
         }
         let minuteString = String(format: "%02d", minutes)
         let secondString = String(format: "%02d", seconds)
-        result += "\(minuteString):\(secondString)"
+        let centisecondString = String(format: "%02.f", centiseconds)
+        result += "\(minuteString):\(secondString).\(centisecondString)"
 
         return result
 
