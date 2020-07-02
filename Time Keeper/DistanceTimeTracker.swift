@@ -64,6 +64,7 @@ class DistanceTimeTracker : NSObject, ObservableObject {
     }
     
     func reset() {
+        self.runStatus = .notStarted
         self.distance = Measurement(value: 0, unit: UnitLength.meters)
         self.secondsElapsed = 0.0
         self.locationList.removeAll()
@@ -159,7 +160,7 @@ extension DistanceTimeTracker {
     }
     
     func updatePace() {
-        let convertedDistance = self.distance.converted(to: distanceMeasurements[self.currentDistanceGoal]!.unit)
+        let convertedDistance = self.distance.converted(to: .miles)
         let pace = convertedDistance.value > 0 ? Double(self.secondsElapsed) / convertedDistance.value / 60: 0
         let paceSeconds = modf(pace).1 * 60
         self.pace = String(format: "%02.f:%02.f min/\(convertedDistance.unit.symbol)", pace, paceSeconds)

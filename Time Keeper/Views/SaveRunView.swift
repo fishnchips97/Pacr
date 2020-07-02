@@ -13,6 +13,10 @@ struct SaveRunView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     
     var tracker : DistanceTimeTracker
+    @Binding var targetAnimating : Bool
+    @Binding var currentAnimating : Bool
+    @Binding var currentPct : CGFloat
+    
     
     var body: some View {
         VStack {
@@ -22,7 +26,6 @@ struct SaveRunView: View {
 
             HStack {
                 Button(action: {
-                    self.tracker.runStatus = .notStarted
                     self.tracker.reset()
                 }) {
                     Text("Cancel")
@@ -35,16 +38,21 @@ struct SaveRunView: View {
                     do {
                         try self.managedObjectContext.save()
                     } catch {
-                        print(error)
+//                        print(error)
                     }
-                    
-                    self.tracker.runStatus = .notStarted
                     self.tracker.reset()
                 }) {
                     Text("Save")
                 }
             }
-        }
+        }.onAppear(perform: {
+            withAnimation {
+                self.targetAnimating = false
+                self.currentAnimating = false
+                self.currentPct = 0.0
+            }
+            
+        })
         .padding()
         .background(Color.white)
         .cornerRadius(15)
@@ -54,6 +62,6 @@ struct SaveRunView: View {
 
 struct SaveRunView_Previews: PreviewProvider {
     static var previews: some View {
-        SaveRunView(tracker: DistanceTimeTracker())
+        SaveRunView(tracker: DistanceTimeTracker(), targetAnimating: .constant(false), currentAnimating: .constant(false), currentPct: .constant(0.0))
     }
 }

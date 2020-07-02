@@ -70,8 +70,13 @@ struct RecordingView: View {
                         
                         
                         Text("Time: \(self.tracker.secondsElapsedString)").font(.system(size: 24, design: .monospaced))
-                        Spacer()
-                        TargetPacePicker(targetMinutes: self.$targetMinutesPerMile, targetSeconds: self.$targetSecondsPerMile)
+                        VStack {
+                            Text("Target Pace").font(.system(size: 24, design: .monospaced))
+                            HStack {
+                                Text("\(String(format: "%02d", self.targetMinutesPerMile)) : \(String(format: "%02d", self.targetSecondsPerMile))")
+                                    .font(.system(size: 24, design: .monospaced))
+                            }
+                        }
                         VStack {
                             Text("Average Pace").font(.system(size: 24, design: .monospaced))
                             HStack {
@@ -129,13 +134,13 @@ struct RecordingView: View {
                 
             }
             if self.tracker.runStatus == .finished {
-                SaveRunView(tracker: self.tracker)
+                SaveRunView(tracker: self.tracker, targetAnimating: self.$targetAnimating, currentAnimating: self.$currentAnimating, currentPct: self.$currentPct)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .background(
                         Color.black.opacity(0.5)
                             .edgesIgnoringSafeArea(.all)
-                            .environment(\.managedObjectContext, self.managedObjectContext)
                 )
+                .environment(\.managedObjectContext, self.managedObjectContext)
             }
         }
     }
@@ -145,21 +150,5 @@ struct RecordingView_Previews: PreviewProvider {
     
     static var previews: some View {
         RecordingView(disableOverlay: .constant(false), overlayOpacity: .constant(0.5), trackBlur: .constant(0.5))
-    }
-}
-
-
-struct TargetPacePicker: View {
-    @Binding var targetMinutes: Int
-    @Binding var targetSeconds: Int
-    var body: some View {
-        VStack {
-            Text("Target Pace").font(.system(size: 24, design: .monospaced))
-            HStack {
-                Text("\(String(format: "%02d", self.targetMinutes)) : \(String(format: "%02d", self.targetSeconds))")
-                    .font(.system(size: 24, design: .monospaced))
-            }
-        }
-    
     }
 }
