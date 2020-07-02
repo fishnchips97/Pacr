@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RecordingView: View {
     
-    @ObservedObject var tracker = SpeedDistanceTimeTracker()
+    @ObservedObject var tracker = DistanceTimeTracker()
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
@@ -18,12 +18,14 @@ struct RecordingView: View {
     @Binding var overlayOpacity : Double
     @Binding var trackBlur      : Double
     @State private var selectedOption: Int = 0
-    @State private var isRunning = false
-    @State private var targetMinutes = 0
-    @State private var targetSeconds = 30
+    @State private var targetAnimating = false
+    @State private var currentAnimating = false
     @State private var currentPct : CGFloat = 0.0
     
+    @State private var targetMinutesPerMile = 7
+    @State private var targetSecondsPerMile = 02
     let trackDistanceInMeters = 400.0
+    let metersInMile = 1609.34
     
     
     
@@ -36,20 +38,29 @@ struct RecordingView: View {
                 HStack{
                     Spacer()
                     VStack {
-                        TrackView(targetSeconds: self.$targetSeconds, targetMinutes: self.$targetMinutes, startAnimation: self.$isRunning, currentPct: self.$currentPct)
+                        TrackView(
+                            targetSeconds: self.$targetSecondsPerMile,
+                            targetMinutes: self.$targetMinutesPerMile,
+                            startAnimationTarget: self.$targetAnimating,
+                            startAnimationCurrent: self.$currentAnimating,
+                            currentPct: self.$currentPct
+                        )
                             .padding()
                             .frame(width: geometry.size.width, height: geometry.size.height/1.5)
-                            .onReceive(self.tracker.$distance) { (status) in
-                                if status.value > 0 {
-                                    withAnimation (Animation.linear(duration: 0.1)) {
-                                        self.isRunning = false
+                            .onReceive(self.tracker.$distance) { (currentDistance) in
+                                let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
+                                let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
+                                let transitionTime = self.trackDistanceInMeters / currentSpeedInMetersPerSec
+                                if currentDistance.value > 0 {
+                                    withAnimation (Animation.linear(duration: 0)) {
+                                        self.currentAnimating = false
                                         
                                     }
-                                    withAnimation(Animation.linear(duration: Double(self.targetMinutes * 60 + self.targetSeconds))) {
-                                        let temp = status.converted(to: .meters)
+                                    withAnimation(Animation.linear(duration: transitionTime)) {
+                                        let temp = currentDistance.converted(to: .meters)
                                         let val = temp.value.truncatingRemainder(dividingBy: self.trackDistanceInMeters)
                                         self.currentPct = CGFloat(val / self.trackDistanceInMeters)
-                                        self.isRunning = true
+                                        self.currentAnimating = true
                                     }
                                 }
                             }
@@ -60,9 +71,9 @@ struct RecordingView: View {
                         
                         Text("Time: \(self.tracker.secondsElapsedString)").font(.system(size: 24, design: .monospaced))
                         Spacer()
-                        TargetPacePicker(targetMinutes: self.$targetMinutes, targetSeconds: self.$targetSeconds)
+                        TargetPacePicker(targetMinutes: self.$targetMinutesPerMile, targetSeconds: self.$targetSecondsPerMile)
                         VStack {
-                            Text("Current Pace").font(.system(size: 24, design: .monospaced))
+                            Text("Average Pace").font(.system(size: 24, design: .monospaced))
                             HStack {
                                 Text("\(self.tracker.pace)")
                                     .font(.system(size: 24, design: .monospaced))
@@ -85,8 +96,10 @@ struct RecordingView: View {
                                     self.overlayOpacity = 1.0
                                     self.trackBlur = 5.0
                                     self.tracker.stop()
-                                    self.isRunning = false
                                     self.tracker.runStatus = .notStarted
+                                    self.targetAnimating = false
+                                    self.currentAnimating = false
+                                    self.currentPct = 0.0
                                 }
                             }) {
                                 Text("Cancel")
@@ -95,9 +108,11 @@ struct RecordingView: View {
                             
                             
                             Button(action: {
-//                                withAnimation(Animation.linear(duration: Double(self.targetMinutes * 60 + self.targetSeconds)).repeatForever(autoreverses: false)) {
-//                                }
-                                self.isRunning = true
+                                let paceInSecondsPerMeter = Double(self.targetMinutesPerMile * 60 + self.targetSecondsPerMile) / self.metersInMile
+                                let animationTime = self.trackDistanceInMeters * paceInSecondsPerMeter
+                                withAnimation(Animation.linear(duration: animationTime).repeatForever(autoreverses: false)) {
+                                    self.targetAnimating = true
+                                }
                                 self.tracker.start()
                                 self.tracker.currentDistanceGoal = distances[self.selectedOption]
                                 self.tracker.updatePace()

@@ -20,7 +20,7 @@ enum runStatusPossibilities {
 
 
 
-class SpeedDistanceTimeTracker : NSObject, ObservableObject {
+class DistanceTimeTracker : NSObject, ObservableObject {
     
     
     
@@ -34,6 +34,7 @@ class SpeedDistanceTimeTracker : NSObject, ObservableObject {
             objectWillChange.send()
         }
     }
+    var secondsElapsedSinceLastUpdate = 0.0
     @Published var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
             if let goal = distanceMeasurements[self.currentDistanceGoal] {
@@ -70,7 +71,7 @@ class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     
 }
 
-extension SpeedDistanceTimeTracker : CLLocationManagerDelegate {
+extension DistanceTimeTracker : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
             let sinceNow = location.timestamp.timeIntervalSinceNow
@@ -85,16 +86,19 @@ extension SpeedDistanceTimeTracker : CLLocationManagerDelegate {
             }
             locationList.append(location)
         }
+        
+        self.secondsElapsedSinceLastUpdate = 0.0
     }
 }
 
-extension SpeedDistanceTimeTracker {
+extension DistanceTimeTracker {
     func start() {
         self.startLocationUpdates()
         self.runStatus = .inProgress
         if !timer.isValid {
             timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
                 self.secondsElapsed += 0.01
+                self.secondsElapsedSinceLastUpdate += 0.01
             }
         }
     }
@@ -164,7 +168,7 @@ extension SpeedDistanceTimeTracker {
     
 }
 
-extension SpeedDistanceTimeTracker {
+extension DistanceTimeTracker {
     func completeRun() {
         self.runStatus = .finished
     }

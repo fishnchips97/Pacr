@@ -13,7 +13,8 @@ struct TrackView: View {
     @Binding var targetSeconds: Int
     @Binding var targetMinutes: Int
     
-    @Binding var startAnimation: Bool
+    @Binding var startAnimationTarget: Bool
+    @Binding var startAnimationCurrent: Bool
     @Binding var currentPct: CGFloat
     
     var body: some View {
@@ -31,13 +32,13 @@ struct TrackView: View {
                 Circle().foregroundColor(Color.red)
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: self.startAnimation ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
+                    .modifier(FollowEffect(pct: self.startAnimationTarget ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
                 
                 /// current pace
                 Circle().foregroundColor(Color.green)
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: self.startAnimation ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
+                    .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
                     
 
                 }.frame(alignment: .topLeading)
@@ -49,7 +50,7 @@ struct TrackView: View {
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackView(targetSeconds: .constant(30), targetMinutes: .constant(5), startAnimation: .constant(false), currentPct: .constant(0.0))
+        TrackView(targetSeconds: .constant(30), targetMinutes: .constant(5), startAnimationTarget: .constant(false), startAnimationCurrent: .constant(false), currentPct: .constant(0.0))
     }
 }
 

@@ -12,7 +12,7 @@ struct SaveRunView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
-    var tracker : SpeedDistanceTimeTracker
+    var tracker : DistanceTimeTracker
     
     var body: some View {
         VStack {
@@ -54,6 +54,6 @@ struct SaveRunView: View {
 
 struct SaveRunView_Previews: PreviewProvider {
     static var previews: some View {
-        SaveRunView(tracker: SpeedDistanceTimeTracker())
+        SaveRunView(tracker: DistanceTimeTracker())
     }
 }
