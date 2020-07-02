@@ -22,17 +22,19 @@ struct ContentView: View {
 //    @State var trackBlur = 0.0
     
     var body: some View {
-
-        TrackView(disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur)
-            .environment(\.managedObjectContext, self.managedObjectContext)
-            .blur(radius: CGFloat(self.trackBlur))
-            .overlay(
-                MainMenuView(
-                    disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur
-                )
-                    .opacity(self.overlayOpacity)
-                    .environment(\.managedObjectContext, self.managedObjectContext)
-        )
+        ZStack {
+            RecordingView(disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur)
+                .environment(\.managedObjectContext, self.managedObjectContext)
+                .blur(radius: CGFloat(self.trackBlur))
+                .overlay(
+                    MainMenuView(
+                        disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur
+                    )
+                        .opacity(self.overlayOpacity)
+                        .environment(\.managedObjectContext, self.managedObjectContext)
+            )
+        }
+        
         
     }
 }

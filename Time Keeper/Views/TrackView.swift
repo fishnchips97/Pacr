@@ -2,128 +2,155 @@
 //  TrackView.swift
 //  Time Keeper
 //
-//  Created by Erik Fisher on 1/21/20.
+//  Created by Erik Fisher on 6/8/20.
 //  Copyright © 2020 Erik Fisher. All rights reserved.
 //
 
 import SwiftUI
 
 struct TrackView: View {
-
-    @ObservedObject var tracker = SpeedDistanceTimeTracker()
     
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Binding var targetSeconds: Int
+    @Binding var targetMinutes: Int
     
-    @Binding var disableOverlay : Bool
-    @Binding var overlayOpacity: Double
-    @Binding var trackBlur : Double
-    @State private var selectedOption: Int = 0
-    @State private var isRunning = false
-    @State private var minutes = 0
-    @State private var seconds = 0
-    
-    
+    @Binding var startAnimation: Bool
+    @Binding var currentPct: CGFloat
     
     var body: some View {
-        ZStack {
-            
-        
-            GeometryReader {
-                geometry in
-                HStack{
-                    Spacer()
-                    VStack {
-                        Spacer()
-                        
-                        Path { path in
-                            let rect = CGRect(x: geometry.size.width / 4, y: geometry.size.height / 8, width: geometry.size.width / 2, height: geometry.size.height / 2)
-                            let size = CGSize(width: 100.0, height: 100.0)
-                            
-                            path.addRoundedRect(in: rect, cornerSize: size, style: .circular)
-                        }
-                        
-                        //                        .fill(style: FillStyle(eoFill: false, antialiased: true))
-                        Text("Distance: \(self.tracker.distanceString)").font(.system(size: 24, design: .monospaced))
-                        
-                        
-                        Text("Time: \(self.tracker.secondsElapsedString)").font(.system(size: 24, design: .monospaced))
-                        Spacer()
-                        Text("Target Pace").font(.system(size: 24, design: .monospaced))
-                        HStack {
-                            Text("\(String(format: "%02d", self.minutes)) : \(String(format: "%02d", self.seconds))").font(.system(size: 24, design: .monospaced))
-                        }
-                        HStack {
-                            Stepper(onIncrement: {
-                                self.minutes += 1
-                            }, onDecrement: {
-                                if self.minutes >= 1 {
-                                    self.minutes -= 1
-                                }
-                                }, label: {Text("")})
-                            Stepper(onIncrement: {
-                                self.seconds += 1
-                            }, onDecrement: {
-                                if self.seconds >= 1 {
-                                    self.seconds -= 1
-                                }
-                            }, label: {Text("")})
-                        }.labelsHidden()
-                        
-                        
-                        Picker("Option Picker", selection: self.$selectedOption) {
-                            ForEach(0 ..< distances.count) { index in
-                                Text(distances[index]).tag(index)
-                            }
-                        }.pickerStyle(SegmentedPickerStyle())
-                            .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
-                            .padding()
-                        HStack{
-                            
-                            Button(action: {
-                                withAnimation {
-                                    self.disableOverlay.toggle()
-                                    self.overlayOpacity = 1.0
-                                    self.trackBlur = 5.0
-                                    self.tracker.stop()
-                                }
-                            }) {
-                                Text("Cancel")
-                            }
-                            .disabled(!self.disableOverlay)
-                            
-                            
-                            Button(action: {
-                                self.tracker.start()
-                                self.isRunning.toggle()
-                                self.tracker.currentDistanceGoal = distances[self.selectedOption]
-                            }) {
-                                Text("Start").bold()
-                            }
-                            .disabled(!self.disableOverlay)
-                            .foregroundColor(.green)
-                        }
-                    }
-                    Spacer()
-                }
-    //                        .background(Color.red)
+        GeometryReader { proxy in
+            ZStack(alignment: .topLeading) {
+
+                TrackShape().stroke(Color.orange, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                    .frame(width: proxy.size.width, height: proxy.size.height/2)
+                Rectangle()
+                    .frame(width: 30, height: 10)
+                    .offset(x: -15, y: -15)
+                    .modifier(FollowEffect(pct: 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: false))
+
+                /// target pace
+                Circle().foregroundColor(Color.red)
+                    .frame(width: 30, height: 30)
+                    .offset(x: -15, y: -15)
+                    .modifier(FollowEffect(pct: self.startAnimation ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
                 
-            }
-            if self.tracker.runStatus == runStatusPossibilities.finished {
-                SaveRunView(tracker: self.tracker)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    .background(
-                        Color.black.opacity(0.5)
-                            .edgesIgnoringSafeArea(.all)
-                    .environment(\.managedObjectContext, self.managedObjectContext)
-                )
-            }
+                /// current pace
+                Circle().foregroundColor(Color.green)
+                    .frame(width: 30, height: 30)
+                    .offset(x: -15, y: -15)
+                    .modifier(FollowEffect(pct: self.startAnimation ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
+                    
+
+                }.frame(alignment: .topLeading)
         }
+        .padding(20)
+        
     }
 }
 
 struct TrackView_Previews: PreviewProvider {
-    
     static var previews: some View {
-        TrackView(disableOverlay: .constant(false), overlayOpacity: .constant(0.5), trackBlur: .constant(0.5))
+        TrackView(targetSeconds: .constant(30), targetMinutes: .constant(5), startAnimation: .constant(false), currentPct: .constant(0.0))
+    }
+}
+
+struct TrackShape: Shape {
+    func path(in rect: CGRect) -> Path {
+//        var path = Path()
+//        path.move(to: CGPoint(x: rect.midX, y: rect.midY))
+//        path.closeSubpath()
+//        return Capsule.path(Capsule())(in: rect)
+//        return path
+        return TrackShape.createTrackPath(in: rect)
+    }
+    
+    static func createTrackPath(in rect: CGRect) -> Path {
+        var path = Path()
+        let distX = rect.maxX - rect.minX
+        let distY = rect.maxY - rect.minY
+        /// 0.43 is ratio of radius to straightaway from actual track dimensions
+        let radius = distY * 0.4325157009
+        let diameter = 2 * radius
+        let diff = distX - diameter
+        let offset = diff / 2
+        
+        let point1 = CGPoint(x: rect.minX + diameter + offset, y: rect.maxY)
+        let point2 = CGPoint(x: rect.minX + diameter + offset, y: rect.minY)
+        let point3 = CGPoint(x: rect.minX + offset, y: rect.maxY)
+        
+        path.move(to: point1)
+        path.addLine(to: point2)
+        path.addArc(center: CGPoint(x: rect.minX + radius + offset, y: rect.minY), radius: radius, startAngle: .degrees(0), endAngle: .degrees(180), clockwise: true)
+        path.addLine(to: point3)
+        path.addArc(center: CGPoint(x: rect.minX + radius + offset, y: rect.maxY), radius: radius, startAngle: .degrees(180), endAngle: .degrees(0), clockwise: true)
+//        path.closeSubpath()
+        
+        return path
+    }
+    
+    static func createTrackPath(from pct: CGFloat, rect: CGRect) -> Path {
+        let wholePath = TrackShape.createTrackPath(in: rect)
+        var firstPart = wholePath.trimmedPath(from: pct, to: 1)
+        let secondPart = wholePath.trimmedPath(from: 0, to: pct)
+        firstPart.addPath(secondPart)
+        return firstPart
+    }
+}
+
+struct Racer: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+        path.closeSubpath()
+        
+        return path
+    }
+}
+
+
+/// geometry effect taken from swiftui-lab
+/// Example 9 - https://gist.github.com/swiftui-lab/e5901123101ffad6d39020cc7a810798
+
+struct FollowEffect: GeometryEffect {
+    var pct: CGFloat = 0.5
+    let path: Path
+    var rotate = true
+
+    var animatableData: CGFloat {
+        get { return pct }
+        set { pct = newValue }
+    }
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+
+        if !rotate {
+            let pt = percentPoint(pct)
+
+            return ProjectionTransform(CGAffineTransform(translationX: pt.x, y: pt.y))
+        } else {
+            // Calculate rotation angle, by calculating an imaginary line between two points
+            // in the path: the current position (1) and a point very close behind in the path (2).
+            let pt1 = percentPoint(pct)
+            let pt2 = percentPoint(pct - 0.01)
+
+            let a = pt2.x - pt1.x
+            let b = pt2.y - pt1.y
+
+            let angle = a < 0 ? atan(Double(b / a)) : atan(Double(b / a)) - Double.pi
+
+            let transform = CGAffineTransform(translationX: pt1.x, y: pt1.y).rotated(by: CGFloat(angle))
+
+            return ProjectionTransform(transform)
+        }
+    }
+
+    func percentPoint(_ percent: CGFloat) -> CGPoint {
+
+        let pct = percent > 1 ? 0 : (percent < 0 ? 1 : percent)
+
+        let f = pct > 0.999 ? CGFloat(1-0.001) : pct
+        let t = pct > 0.999 ? CGFloat(1) : pct + 0.001
+        let tp = path.trimmedPath(from: f, to: t)
+
+        return CGPoint(x: tp.boundingRect.midX, y: tp.boundingRect.midY)
     }
 }

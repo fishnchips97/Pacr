@@ -9,6 +9,9 @@
 import Foundation
 import CoreLocation
 
+
+let trackDistanceInMeters = 400.0
+
 enum runStatusPossibilities {
     case notStarted
     case inProgress
@@ -24,20 +27,22 @@ class SpeedDistanceTimeTracker : NSObject, ObservableObject {
     @Published var runStatus = runStatusPossibilities.notStarted
     var currentDistanceGoal = distances.first ?? ""
     private var timer = Timer()
+    var pace = "00:00 min/mi"
     private let locationManager = LocationManager.shared
     var secondsElapsed = 0.0 {
         didSet {
             objectWillChange.send()
         }
     }
-    var distance = Measurement(value: 0, unit: UnitLength.meters) {
+    @Published var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
             if let goal = distanceMeasurements[self.currentDistanceGoal] {
                 if self.distance >= goal {
                     self.stop()
                 }
             }
-            objectWillChange.send()
+//            print(distanceString)
+//            objectWillChange.send()
         }
     }
     private var locationList: [CLLocation] = []
@@ -75,6 +80,8 @@ extension SpeedDistanceTimeTracker : CLLocationManagerDelegate {
             if let prevLocation = locationList.last {
                 let dist = location.distance(from: prevLocation)
                 distance = distance + Measurement(value: dist, unit: UnitLength.meters)
+                
+                updatePace()
             }
             locationList.append(location)
         }
@@ -146,6 +153,15 @@ extension SpeedDistanceTimeTracker {
         let goal = distanceMeasurements[self.currentDistanceGoal]?.unit.symbol  ?? ""
         return String(format: "%05.2f \(goal)", self.distance.value.roundTo(places: 2))
     }
+    
+    func updatePace() {
+        let convertedDistance = self.distance.converted(to: distanceMeasurements[self.currentDistanceGoal]!.unit)
+        let pace = convertedDistance.value > 0 ? Double(self.secondsElapsed) / convertedDistance.value / 60: 0
+        let paceSeconds = modf(pace).1 * 60
+        self.pace = String(format: "%02.f:%02.f min/\(convertedDistance.unit.symbol)", pace, paceSeconds)
+    }
+    
+    
 }
 
 extension SpeedDistanceTimeTracker {
