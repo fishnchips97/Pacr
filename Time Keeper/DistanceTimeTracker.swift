@@ -64,6 +64,7 @@ class DistanceTimeTracker : NSObject, ObservableObject {
     }
     
     func reset() {
+        self.pace = "00:00 min/mi"
         self.runStatus = .notStarted
         self.distance = Measurement(value: 0, unit: UnitLength.meters)
         self.secondsElapsed = 0.0
@@ -155,8 +156,9 @@ extension DistanceTimeTracker {
     }
     
     var distanceString : String {
-        let goal = distanceMeasurements[self.currentDistanceGoal]?.unit.symbol  ?? ""
-        return String(format: "%05.2f \(goal)", self.distance.value.roundTo(places: 2))
+        // using without units because units will be appended from view
+//        let goal = distanceMeasurements[self.currentDistanceGoal]?.unit.symbol  ?? ""
+        return String(format: "%05.2f", self.distance.value.roundTo(places: 2))
     }
     
     func updatePace() {

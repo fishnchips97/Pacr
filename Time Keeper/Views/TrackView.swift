@@ -10,9 +10,6 @@ import SwiftUI
 
 struct TrackView: View {
     
-    @Binding var targetSeconds: Int
-    @Binding var targetMinutes: Int
-    
     @Binding var startAnimationTarget: Bool
     @Binding var startAnimationCurrent: Bool
     @Binding var currentPct: CGFloat
@@ -50,7 +47,7 @@ struct TrackView: View {
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackView(targetSeconds: .constant(30), targetMinutes: .constant(5), startAnimationTarget: .constant(false), startAnimationCurrent: .constant(false), currentPct: .constant(0.0))
+        TrackView(startAnimationTarget: .constant(false), startAnimationCurrent: .constant(false), currentPct: .constant(0.0))
     }
 }
 

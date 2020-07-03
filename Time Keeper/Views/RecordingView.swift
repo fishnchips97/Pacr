@@ -22,10 +22,14 @@ struct RecordingView: View {
     @State private var currentAnimating = false
     @State private var currentPct : CGFloat = 0.0
     
-    @State private var targetMinutesPerMile = 7
-    @State private var targetSecondsPerMile = 02
     let trackDistanceInMeters = 400.0
     let metersInMile = 1609.34
+    @State private var show = false
+    
+    let minuteOptions: [Int] = Array(1 ..< 60)
+    @State var minuteIndex = 6
+    let secondOptions: [Int] = Array(0 ..< 60)
+    @State var secondIndex = 0
     
     
     
@@ -39,14 +43,12 @@ struct RecordingView: View {
                     Spacer()
                     VStack {
                         TrackView(
-                            targetSeconds: self.$targetSecondsPerMile,
-                            targetMinutes: self.$targetMinutesPerMile,
                             startAnimationTarget: self.$targetAnimating,
                             startAnimationCurrent: self.$currentAnimating,
                             currentPct: self.$currentPct
                         )
                             .padding()
-                            .frame(width: geometry.size.width, height: geometry.size.height/1.5)
+                            .frame(width: geometry.size.width, height: geometry.size.height/1.6)
                             .onReceive(self.tracker.$distance) { (currentDistance) in
                                 let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
                                 let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
@@ -64,7 +66,8 @@ struct RecordingView: View {
                                     }
                                 }
                             }
-                        Text("Distance: \(self.tracker.distanceString)")
+                        
+                        Text("Distance: \(self.tracker.distanceString) \(distanceMeasurements[distances[self.selectedOption]]?.unit.symbol ?? "")")
                             .font(.system(size: 24, design: .monospaced))
                             
                         
@@ -73,9 +76,15 @@ struct RecordingView: View {
                         VStack {
                             Text("Target Pace").font(.system(size: 24, design: .monospaced))
                             HStack {
-                                Text("\(String(format: "%02d", self.targetMinutesPerMile)) : \(String(format: "%02d", self.targetSecondsPerMile))")
+                                Text("\(String(format: "%02d", self.minuteOptions[self.minuteIndex])) : \(String(format: "%02d", self.secondOptions[self.secondIndex]))")
                                     .font(.system(size: 24, design: .monospaced))
                             }
+                            Button(action: {
+                                self.show.toggle()
+                            }) {
+                                Text("change")
+                            }
+                            .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
                         }
                         VStack {
                             Text("Average Pace").font(.system(size: 24, design: .monospaced))
@@ -113,7 +122,7 @@ struct RecordingView: View {
                             
                             
                             Button(action: {
-                                let paceInSecondsPerMeter = Double(self.targetMinutesPerMile * 60 + self.targetSecondsPerMile) / self.metersInMile
+                                let paceInSecondsPerMeter = Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]) / self.metersInMile
                                 let animationTime = self.trackDistanceInMeters * paceInSecondsPerMeter
                                 withAnimation(Animation.linear(duration: animationTime).repeatForever(autoreverses: false)) {
                                     self.targetAnimating = true
@@ -132,6 +141,53 @@ struct RecordingView: View {
                 }
                 //                        .background(Color.red)
                 
+            }
+            if show {
+                VStack {
+                    HStack {
+                        Text("\(String(format: "%02d", self.minuteOptions[self.minuteIndex])) : \(String(format: "%02d", self.secondOptions[self.secondIndex]))")
+                            .font(.system(size: 24, design: .monospaced))
+                    }
+                    GeometryReader { geometry in
+                        HStack(spacing: 0) {
+                            Picker(selection: self.$minuteIndex, label: Text("Minute"), content: {
+                                ForEach(0 ..< self.minuteOptions.count) {
+                                    Text("\(self.minuteOptions[$0])").tag($0)
+                                }
+                                
+                            })
+                                .frame(maxWidth: geometry.size.width / 2)
+                                .clipped()
+                            
+                            Picker(selection: self.$secondIndex, label: Text("Second"), content: {
+                                ForEach(0 ..< self.secondOptions.count) {
+                                    Text("\(self.secondOptions[$0])").tag($0)
+                                }
+                                
+                            })
+                                .frame(maxWidth: geometry.size.width / 2)
+                                .clipped()
+                        }
+                    }.frame(height: 250)
+                    
+                    
+                    
+                    Button(action: {
+                        self.show.toggle()
+                    }) {
+                        Text("Done")
+                    }
+                    
+                }.labelsHidden()
+                .padding()
+                .background(Color.white)
+                .cornerRadius(15)
+                
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    .background(
+                        Color.black.opacity(0.5)
+                            .edgesIgnoringSafeArea(.all)
+                )
             }
             if self.tracker.runStatus == .finished {
                 SaveRunView(tracker: self.tracker, targetAnimating: self.$targetAnimating, currentAnimating: self.$currentAnimating, currentPct: self.$currentPct)
