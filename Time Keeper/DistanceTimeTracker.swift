@@ -158,7 +158,8 @@ extension DistanceTimeTracker {
     var distanceString : String {
         // using without units because units will be appended from view
 //        let goal = distanceMeasurements[self.currentDistanceGoal]?.unit.symbol  ?? ""
-        return String(format: "%05.2f", self.distance.value.roundTo(places: 2))
+        let unit = distanceMeasurements[self.currentDistanceGoal]!.unit
+        return String(format: "%05.2f", self.distance.converted(to: unit).value.roundTo(places: 2))
     }
     
     func updatePace() {

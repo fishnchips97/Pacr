@@ -182,7 +182,7 @@ struct RecordingView: View {
                 .padding()
                 .background(Color.white)
                 .cornerRadius(15)
-                
+                .offset(x: 0, y: -50)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .background(
                         Color.black.opacity(0.5)
