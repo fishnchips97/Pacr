@@ -9,14 +9,31 @@
 import SwiftUI
 
 struct SettingsMenuView: View {
-//    @Environment(\.managedObjectContext) var managedObjectContext
-//    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
+    //    @Environment(\.managedObjectContext) var managedObjectContext
+    //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     var body: some View {
         NavigationView {
             
-            List {
-                Text("test")
-            }.navigationBarTitle("Settings")
+            VStack {
+                Button(action: {
+                    if let _ = UIApplication.shared.alternateIconName {
+                        UIApplication.shared.setAlternateIconName(nil) { (error) in
+                            if error != nil {
+                                print(error ?? "error")
+                            }
+                        }
+                    } else {
+                        UIApplication.shared.setAlternateIconName("Dark") { (error) in
+                            if error != nil {
+                                print(error ?? "error")
+                            }
+                        }
+                    }
+                    
+                    
+                }, label: {Text("Dark Mode App Icon Toggle")})
+            }.multilineTextAlignment(.center)
+            .navigationBarTitle("Settings")
         }
     }
 }

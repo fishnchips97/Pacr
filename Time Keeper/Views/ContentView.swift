@@ -21,6 +21,9 @@ struct ContentView: View {
 //    @State var overlayOpacity = 0.0
 //    @State var trackBlur = 0.0
     
+    @Environment(\.colorScheme) var colorScheme
+
+    
     var body: some View {
         ZStack {
             RecordingView(disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur)
@@ -33,6 +36,7 @@ struct ContentView: View {
                         .opacity(self.overlayOpacity)
                         .environment(\.managedObjectContext, self.managedObjectContext)
             )
+            
         }
         
         

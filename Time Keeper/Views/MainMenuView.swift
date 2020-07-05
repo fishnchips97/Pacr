@@ -52,23 +52,23 @@ struct MainMenuView: View {
                     LeaderboardView().environment(\.managedObjectContext, self.managedObjectContext)
                 }
                 
-//                Button(action: {
-//                    self.settingsPresented.toggle()
-//                }) {
-//                    HStack {
-//                        Image(systemName: "tortoise.fill")
-//                        Text("Settings")
-//                            .fontWeight(.bold)
-//                    }.padding()
-//                }
-//                .disabled(self.disableOverlay)
-//                .frame(width: geometry.size.width / 2)
-//                .background(Color.yellow)
-//                .cornerRadius(15)
-//                .foregroundColor(.white)
-//                .sheet(isPresented: self.$settingsPresented) {
-//                    SettingsMenuView().environment(\.managedObjectContext, self.managedObjectContext)
-//                }
+                Button(action: {
+                    self.settingsPresented.toggle()
+                }) {
+                    HStack {
+                        Image(systemName: "tortoise.fill")
+                        Text("Settings")
+                            .fontWeight(.bold)
+                    }.padding()
+                }
+                .disabled(self.disableOverlay)
+                .frame(width: geometry.size.width / 2)
+                .background(Color.yellow)
+                .cornerRadius(15)
+                .foregroundColor(.white)
+                .sheet(isPresented: self.$settingsPresented) {
+                    SettingsMenuView().environment(\.managedObjectContext, self.managedObjectContext)
+                }
                 
                 
                 Button(action: {
