@@ -23,9 +23,9 @@
 		D93D82CA247F158300316608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C9247F158300316608 /* LocationManager.swift */; };
 		D946C35C2489B00D00448C2D /* distances.swift in Sources */ = {isa = PBXBuildFile; fileRef = D946C35B2489B00D00448C2D /* distances.swift */; };
 		D982235E2484A1B900A33036 /* SaveRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982235D2484A1B900A33036 /* SaveRunView.swift */; };
-		D9D4270C24B1567900941649 /* Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D9D4270924B1567900941649 /* Dark.png */; };
-		D9D4270D24B1567900941649 /* Dark@2.png in Resources */ = {isa = PBXBuildFile; fileRef = D9D4270A24B1567900941649 /* Dark@2.png */; };
-		D9D4270E24B1567900941649 /* Dark@3.png in Resources */ = {isa = PBXBuildFile; fileRef = D9D4270B24B1567900941649 /* Dark@3.png */; };
+		D999040124B2CFC7000B2D89 /* Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D99903FE24B2CFC7000B2D89 /* Dark.png */; };
+		D999040224B2CFC7000B2D89 /* Dark@2.png in Resources */ = {isa = PBXBuildFile; fileRef = D99903FF24B2CFC7000B2D89 /* Dark@2.png */; };
+		D999040324B2CFC7000B2D89 /* Dark@3.png in Resources */ = {isa = PBXBuildFile; fileRef = D999040024B2CFC7000B2D89 /* Dark@3.png */; };
 		D9EE79EE248EC356002D747B /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EE79ED248EC356002D747B /* TrackView.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,9 +48,9 @@
 		D93D82C9247F158300316608 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D946C35B2489B00D00448C2D /* distances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = distances.swift; sourceTree = "<group>"; };
 		D982235D2484A1B900A33036 /* SaveRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRunView.swift; sourceTree = "<group>"; };
-		D9D4270924B1567900941649 /* Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Dark.png; path = ../../../../../Desktop/Dark.png; sourceTree = "<group>"; };
-		D9D4270A24B1567900941649 /* Dark@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Dark@2.png"; path = "../../../../../Desktop/Dark@2.png"; sourceTree = "<group>"; };
-		D9D4270B24B1567900941649 /* Dark@3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Dark@3.png"; path = "../../../../../Desktop/Dark@3.png"; sourceTree = "<group>"; };
+		D99903FE24B2CFC7000B2D89 /* Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dark.png; sourceTree = "<group>"; };
+		D99903FF24B2CFC7000B2D89 /* Dark@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dark@2.png"; sourceTree = "<group>"; };
+		D999040024B2CFC7000B2D89 /* Dark@3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dark@3.png"; sourceTree = "<group>"; };
 		D9EE79ED248EC356002D747B /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,9 +126,9 @@
 		D9D4270824B1564F00941649 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				D9D4270924B1567900941649 /* Dark.png */,
-				D9D4270A24B1567900941649 /* Dark@2.png */,
-				D9D4270B24B1567900941649 /* Dark@3.png */,
+				D99903FE24B2CFC7000B2D89 /* Dark.png */,
+				D99903FF24B2CFC7000B2D89 /* Dark@2.png */,
+				D999040024B2CFC7000B2D89 /* Dark@3.png */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -191,10 +191,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9D4270E24B1567900941649 /* Dark@3.png in Resources */,
+				D999040324B2CFC7000B2D89 /* Dark@3.png in Resources */,
 				D939D4F923CA627600936FC1 /* LaunchScreen.storyboard in Resources */,
-				D9D4270D24B1567900941649 /* Dark@2.png in Resources */,
-				D9D4270C24B1567900941649 /* Dark.png in Resources */,
+				D999040224B2CFC7000B2D89 /* Dark@2.png in Resources */,
+				D999040124B2CFC7000B2D89 /* Dark.png in Resources */,
 				D939D4F623CA627600936FC1 /* Preview Assets.xcassets in Resources */,
 				D939D4F323CA627600936FC1 /* Assets.xcassets in Resources */,
 			);

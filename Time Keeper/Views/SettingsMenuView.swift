@@ -11,30 +11,73 @@ import SwiftUI
 struct SettingsMenuView: View {
     //    @Environment(\.managedObjectContext) var managedObjectContext
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
+    @State var currentIcon = "AppIcon"
     var body: some View {
         NavigationView {
             
-            VStack {
-                Button(action: {
-                    if let _ = UIApplication.shared.alternateIconName {
-                        UIApplication.shared.setAlternateIconName(nil) { (error) in
-                            if error != nil {
-                                print(error ?? "error")
-                            }
-                        }
+            List {
+                HStack {
+                    if UIApplication.shared.alternateIconName == nil {
+                        Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(10)
+                            .shadow(radius: 10)
                     } else {
-                        UIApplication.shared.setAlternateIconName("Dark") { (error) in
-                            if error != nil {
-                                print(error ?? "error")
-                            }
-                        }
+                        Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(10)
+                            .shadow(radius: 10)
                     }
                     
                     
-                }, label: {Text("Dark Mode App Icon Toggle")})
-            }.multilineTextAlignment(.center)
+                    Spacer()
+                    
+                    Button(action: {
+                        if let _ = UIApplication.shared.alternateIconName {
+                            UIApplication.shared.setAlternateIconName(nil) { (error) in
+                                if error != nil {
+                                    print(error ?? "error")
+                                } else {
+                                    self.currentIcon = "AppIcon"
+                                }
+                            }
+                        } else {
+                            UIApplication.shared.setAlternateIconName("Dark") { (error) in
+                                if error != nil {
+                                    print(error ?? "error")
+                                }  else {
+                                    self.currentIcon = "Dark"
+                                }
+                            }
+                        }
+                        
+                        
+                        
+                    }, label: {
+                        Text("Toggle Icon")
+                            .foregroundColor(Color.white)
+                            .bold()
+//                            .frame(width: 200, height: 50)
+                        
+                    })
+                        .padding()
+                        .background(Color.yellow)
+                        .cornerRadius(10)
+                    
+                }
+            }
+        .buttonStyle(BorderlessButtonStyle())
             .navigationBarTitle("Settings")
+        }.onAppear {
+            if UIApplication.shared.alternateIconName == nil {
+                self.currentIcon = "AppIcon"
+            } else {
+                self.currentIcon = "Dark"
+            }
         }
+    
     }
 }
 
