@@ -48,7 +48,7 @@ struct RecordingView: View {
                             currentPct: self.$currentPct
                         )
                             .padding()
-                            .frame(width: geometry.size.width, height: geometry.size.height/1.6)
+                            .frame(width: geometry.size.width, height: geometry.size.height/1.7)
                             .onReceive(self.tracker.$distance) { (currentDistance) in
                                 let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
                                 let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
@@ -66,33 +66,60 @@ struct RecordingView: View {
                                     }
                                 }
                             }
-                        
-                        Text("Distance: \(self.tracker.distanceString) \(distanceMeasurements[distances[self.selectedOption]]?.unit.symbol ?? "")")
-                            .font(.system(size: 24, design: .monospaced))
+                        HStack {
+                            VStack {
+                                Text("Distance")
+                                    .font(.system(size: 24, design: .monospaced))
+                                    .underline()
+                                Text("\(self.tracker.distanceString) \(distanceMeasurements[distances[self.selectedOption]]?.unit.symbol ?? "")")
+                                .font(.system(size: 24, design: .monospaced))
+                            }
+                            .padding()
+                            .frame(width: geometry.size.width / 2)
                             
-                        
-                        
-                        Text("Time: \(self.tracker.secondsElapsedString)").font(.system(size: 24, design: .monospaced))
-                        VStack {
-                            Text("Target Pace").font(.system(size: 24, design: .monospaced))
-                            HStack {
-                                Text("\(String(format: "%02d", self.minuteOptions[self.minuteIndex])) : \(String(format: "%02d", self.secondOptions[self.secondIndex]))")
+                            
+                            
+                            VStack {
+                                Text("Time")
+                                    .font(.system(size: 24, design: .monospaced))
+                                    .underline()
+                                Text("\(self.tracker.secondsElapsedString)")
                                     .font(.system(size: 24, design: .monospaced))
                             }
-                            Button(action: {
-                                self.show.toggle()
-                            }) {
-                                Text("change")
-                            }
-                            .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
+                            .padding()
+                            .frame(width: geometry.size.width / 2)
                         }
-                        VStack {
-                            Text("Average Pace").font(.system(size: 24, design: .monospaced))
-                            HStack {
-                                Text("\(self.tracker.pace)")
-                                    .font(.system(size: 24, design: .monospaced))
+                        
+                        
+                        HStack {
+                            VStack {
+                                Text("Target Pace").font(.system(size: 16, design: .monospaced))
+                                HStack {
+                                    Text("\(String(format: "%02d", self.minuteOptions[self.minuteIndex])) : \(String(format: "%02d", self.secondOptions[self.secondIndex]))")
+                                        .font(.system(size: 18, design: .monospaced))
+                                }
+                                Button(action: {
+                                    self.show.toggle()
+                                }) {
+                                    Text("change")
+                                }
+                                .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
                             }
+                            .padding()
+                            .frame(width: geometry.size.width / 2)
+                            
+                            VStack {
+                                Text("Avg. Pace").font(.system(size: 16, design: .monospaced))
+                                HStack {
+                                    Text("\(self.tracker.pace)")
+                                        .font(.system(size: 18, design: .monospaced))
+                                }
+                            }
+                            .padding()
+                            .frame(width: geometry.size.width / 2)
                         }
+                        
+                        
                         
                         
                         Picker("Option Picker", selection: self.$selectedOption) {
