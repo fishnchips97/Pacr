@@ -145,6 +145,10 @@ struct RecordingView: View {
                             }) {
                                 Text("Cancel")
                             }
+                            .padding()
+                            .background(Color.red)
+                            .cornerRadius(15)
+                            .foregroundColor(.white)
                             .disabled(!self.disableOverlay)
                             
                             
@@ -160,8 +164,11 @@ struct RecordingView: View {
                             }) {
                                 Text("Start").bold()
                             }
+                            .padding()
+                            .background(Color.green)
+                            .cornerRadius(15)
+                            .foregroundColor(.white)
                             .disabled(!self.disableOverlay)
-                            .foregroundColor(.green)
                         }
                     }
                     Spacer()

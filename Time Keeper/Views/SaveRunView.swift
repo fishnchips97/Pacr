@@ -30,6 +30,7 @@ struct SaveRunView: View {
                 }) {
                     Text("Cancel")
                 }
+                
                 Button(action: {
                     let record = Record(context: self.managedObjectContext)
                     record.dateRecorded = Date()
