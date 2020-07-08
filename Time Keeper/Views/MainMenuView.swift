@@ -16,7 +16,7 @@ struct MainMenuView: View {
     @Binding var overlayOpacity: Double
     @Binding var trackBlur : Double
     @State var settingsPresented = false
-    @State var leaderboardPresented = false
+//    @State var leaderboardPresented = false
     var body: some View {
         GeometryReader {
             geometry in
@@ -34,23 +34,22 @@ struct MainMenuView: View {
                 Spacer()
                 Spacer()
                 Spacer()
-                Button(action: {
-                    self.leaderboardPresented.toggle()
-                }) {
+                
+                NavigationLink(destination: LeaderboardView().environment(\.managedObjectContext, self.managedObjectContext)) {
                     HStack {
                         Image(systemName: "star.circle.fill")
                         Text("Leaderboard")
                             .fontWeight(.bold)
                     }.padding()
                 }
+                    
+                
                 .disabled(self.disableOverlay)
                 .frame(width: geometry.size.width / 2)
                 .background(Color.blue)
                 .cornerRadius(15)
                 .foregroundColor(.white)
-                .sheet(isPresented: self.$leaderboardPresented) {
-                    LeaderboardView().environment(\.managedObjectContext, self.managedObjectContext)
-                }
+                
                 
                 Button(action: {
                     self.settingsPresented.toggle()

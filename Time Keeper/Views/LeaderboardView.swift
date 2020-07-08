@@ -46,58 +46,71 @@ struct LeaderboardView: View {
     }
     
     var body: some View {
-        VStack {
-            
-            
-            HStack{
-                
-                Text("Leaderboard")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                    .padding([.top, .leading], 20.0)
-                Spacer()
-            }
-            HStack {
-                Text("\(distances[defaultDistanceIndex])")
-                .font(.subheadline)
-                .multilineTextAlignment(.leading)
-                .padding(.leading, 20.0)
-                .padding(.top, 10.0)
-                Spacer()
-            }
-            
-            
-            
-            List {
-                HStack {
-                    Text("Time").font(.system(size: 20)).bold()
-                    Spacer()
-                    Text("Date").font(.system(size: 20)).bold()
-                }
-                
-                ForEach (self.sortedRecords) { record in
-                    
-                    HStack {
-                        if self.orderingOptions[self.orderOptionIndex] == "Fastest Pace" {
-                            Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20)).bold()
-                        }
-                        Text("\(record.time)").font(.system(size: 20)).bold()
-                        Spacer()
-                        Text("\(record.date)")
-                    }
-                }
-                
-            }
+        GeometryReader { geometry in
             VStack {
-                Spacer().frame(height: 24)
-                filterPicker(options: orderingOptions, selectedOption: $orderOptionIndex)
-                filterPicker(options: timeRanges, selectedOption: $defaultTimeRangeIndex)
-                filterPicker(options: distances, selectedOption: $defaultDistanceIndex)
-                Spacer().frame(height: 24)
+            
+                HStack{
+                        
+                        Text("Leaderboard")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.leading)
+                            .padding([.top, .leading], 20.0)
+                        Spacer()
+                    }
+                    HStack {
+                        Text("\(distances[self.defaultDistanceIndex])")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.leading)
+                        .padding(.leading, 20.0)
+                        .padding(.top, 10.0)
+                        Spacer()
+                    }
+                    
+                    
+                    if self.sortedRecords.count > 0 {
+                        List {
+                            HStack {
+                                Text("Time").font(.system(size: 20)).bold()
+                                Spacer()
+                                Text("Date").font(.system(size: 20)).bold()
+                            }
+                            
+                            ForEach (self.sortedRecords) { record in
+                                NavigationLink (destination: RunAnalysisView(run: record)) {
+                                    HStack {
+                                        if self.orderingOptions[self.orderOptionIndex] == "Fastest Pace" {
+                                            Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20)).bold()
+                                        }
+                                        Text("\(record.time)").font(.system(size: 20)).bold()
+                                        Spacer()
+                                        Text("\(record.date)")
+                                    }
+                                }
+                                
+                            }
+                            
+                        }
+                        .frame(height: geometry.size.height/1.3)
+                    } else {
+                        Text("Runs will show up here")
+                            .bold()
+                            .frame(height: geometry.size.height/1.3)
+                    }
+                    
+                    
+                    VStack {
+                        Spacer().frame(height: 24)
+                        filterPicker(options: self.orderingOptions, selectedOption: self.$orderOptionIndex)
+                        filterPicker(options: self.timeRanges, selectedOption: self.$defaultTimeRangeIndex)
+                        filterPicker(options: distances, selectedOption: self.$defaultDistanceIndex)
+                        Spacer().frame(height: 24)
+                    }
+                    
+                }
             }
             
-        }
+            
         
     }
 }
