@@ -46,26 +46,18 @@ struct LeaderboardView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
+        NavigationView {
+            GeometryReader { geometry in
             VStack {
             
-                HStack{
-                        
-                        Text("Leaderboard")
-                            .font(.headline)
-                            .fontWeight(.bold)
+                HStack {
+                        Text("\(distances[self.defaultDistanceIndex])")
+                            .font(.title)
                             .multilineTextAlignment(.leading)
                             .padding([.top, .leading], 20.0)
                         Spacer()
                     }
-                    HStack {
-                        Text("\(distances[self.defaultDistanceIndex])")
-                        .font(.subheadline)
-                        .multilineTextAlignment(.leading)
-                        .padding(.leading, 20.0)
-                        .padding(.top, 10.0)
-                        Spacer()
-                    }
+                    
                     
                     
                     if self.sortedRecords.count > 0 {
@@ -91,11 +83,11 @@ struct LeaderboardView: View {
                             }
                             
                         }
-                        .frame(height: geometry.size.height/1.3)
+                        .frame(height: geometry.size.height/1.4)
                     } else {
                         Text("Runs will show up here")
                             .bold()
-                            .frame(height: geometry.size.height/1.3)
+                            .frame(height: geometry.size.height/1.4)
                     }
                     
                     
@@ -107,8 +99,11 @@ struct LeaderboardView: View {
                         Spacer().frame(height: 24)
                     }
                     
-                }
+                }.navigationBarTitle("Leaderboard")
             }
+        }
+        
+        
             
             
         

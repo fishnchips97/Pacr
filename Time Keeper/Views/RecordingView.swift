@@ -48,7 +48,7 @@ struct RecordingView: View {
                             currentPct: self.$currentPct
                         )
                             .padding()
-                            .frame(width: geometry.size.width, height: geometry.size.height/1.7)
+                            .frame(width: geometry.size.width, height: geometry.size.height/1.8)
                             .onReceive(self.tracker.$distance) { (currentDistance) in
                                 let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
                                 let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct AppView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
@@ -24,35 +24,45 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        NavigationView {
+        TabView {
             
-            ZStack {
-                RecordingView(disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur)
-                    .environment(\.managedObjectContext, self.managedObjectContext)
-                    .blur(radius: CGFloat(self.trackBlur))
-                    
-                MainMenuView(
-                    disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur
-                )
-                    .opacity(self.overlayOpacity)
-                    .environment(\.managedObjectContext, self.managedObjectContext)
-            }
-                .navigationBarHidden(false)
-                .navigationBarTitle("TrackKeeper")
-            
+            LeaderboardView()
+                .environment(\.managedObjectContext, self.managedObjectContext)
+                .tabItem {
+                    Image(systemName: "list.dash")
+                    Text("Leaderboard")
+                }
+        
+        
+        RecordingView(disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur)
+        .environment(\.managedObjectContext, self.managedObjectContext)
+//        .blur(radius: CGFloat(self.trackBlur))
+//        .navigationBarHidden(false)
+//        .navigationBarTitle("TrackKeeper")
+        .tabItem {
+            Image(systemName: "hare")
+            Text("Run")
         }
-            //        .navigationBarHidden(true)
-        //        .edgesIgnoringSafeArea([.top, .bottom])
         
-        
-        
+        ProfileView()
+            .tabItem {
+                Image(systemName: "person.circle")
+                Text("Profile")
+            }
     }
+    //        .navigationBarHidden(true)
+    //        .edgesIgnoringSafeArea([.top, .bottom])
+    
+    
+    
+}
 }
 
 
 
-struct ContentView_Previews: PreviewProvider {
+struct AppView_Previews: PreviewProvider {
+    static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static var previews: some View {
-        ContentView()
+        AppView().environment(\.managedObjectContext, context)
     }
 }
