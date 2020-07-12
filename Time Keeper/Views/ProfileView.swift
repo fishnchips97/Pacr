@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
+    @State var defaultTimeRangeIndex: Int = 0
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
@@ -18,6 +19,8 @@ struct ProfileView: View {
                         Image(systemName: "person.circle")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                        
+                        Spacer(minLength: geometry.size.width / 7)
                         
                         VStack {
                             Text("100")
@@ -39,21 +42,54 @@ struct ProfileView: View {
                         .padding()
                         .frame(width: geometry.size.width / 4.1, height: 40)
                         .border(Color.black)
-                        
+                        Spacer(minLength: geometry.size.width / 7)
+                    }
+                    .padding()
+                    
+                    Spacer()
+                    
+                    HStack {
                         VStack {
                             Text("5:10")
                             Text("Best Mile")
                                 .bold()
                                 .font(.system(size: 15))
                         }
+                        .frame(width: geometry.size.width / 1.5, height: 40)
                         .padding()
-                        .frame(width: geometry.size.width / 4.1, height: 40)
-                        .border(Color.black)
+                        .border(Color.blue)
+                        .padding()
                     }
-                    .padding()
+                    
+                    HStack {
+                        VStack {
+                            Text("25:10")
+                            Text("Best 5k")
+                                .bold()
+                                .font(.system(size: 15))
+                        }
+                        .frame(width: geometry.size.width / 1.5, height: 40)
+                        .padding()
+                        .border(Color.yellow)
+                        .padding()
+                    }
+                    
+                    HStack {
+                        VStack {
+                            Text("42:10")
+                            Text("Best 10k")
+                                .bold()
+                                .font(.system(size: 15))
+                        }
+                        .frame(width: geometry.size.width / 1.5, height: 40)
+                        .padding()
+                        .border(Color.green)
+                        .padding()
+                    }
+                    
                     Spacer()
-                    Text("Best Times")
-                    Spacer()
+                    filterPicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex)
+                    
                     
                     
                 }.navigationBarTitle("Profile")

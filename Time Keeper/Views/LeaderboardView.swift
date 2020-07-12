@@ -9,6 +9,8 @@
 import SwiftUI
 
 
+let orderingOptions = ["Fastest Pace", "Most Recent"]
+let timeRanges = ["3 Months", "All Time"]
 
 struct LeaderboardView: View {
     
@@ -16,9 +18,7 @@ struct LeaderboardView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     
     @State private var orderOptionIndex: Int = 0
-    let orderingOptions = ["Fastest Pace", "Most Recent"]
     @State private var defaultTimeRangeIndex: Int = 0
-    let timeRanges = ["3 Months", "All Time"]
     @State private var defaultDistanceIndex: Int = 0
     private var sortedRecords : [Record] {
         var result = Array(records).filter { (record) -> Bool in
@@ -71,7 +71,7 @@ struct LeaderboardView: View {
                             ForEach (self.sortedRecords) { record in
                                 NavigationLink (destination: RunAnalysisView(run: record)) {
                                     HStack {
-                                        if self.orderingOptions[self.orderOptionIndex] == "Fastest Pace" {
+                                        if orderingOptions[self.orderOptionIndex] == "Fastest Pace" {
                                             Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20)).bold()
                                         }
                                         Text("\(record.time)").font(.system(size: 20)).bold()
@@ -83,7 +83,7 @@ struct LeaderboardView: View {
                             }
                             
                         }
-                        .frame(height: geometry.size.height/1.4)
+                        .frame(height: geometry.size.height/1.5)
                     } else {
                         Text("Runs will show up here")
                             .bold()
@@ -93,8 +93,8 @@ struct LeaderboardView: View {
                     
                     VStack {
                         Spacer().frame(height: 24)
-                        filterPicker(options: self.orderingOptions, selectedOption: self.$orderOptionIndex)
-                        filterPicker(options: self.timeRanges, selectedOption: self.$defaultTimeRangeIndex)
+                        filterPicker(options: orderingOptions, selectedOption: self.$orderOptionIndex)
+                        filterPicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex)
                         filterPicker(options: distances, selectedOption: self.$defaultDistanceIndex)
                         Spacer().frame(height: 24)
                     }
@@ -118,7 +118,10 @@ struct filterPicker: View {
             ForEach(0 ..< options.count) { index in
                 Text(self.options[index]).tag(index)
             }
-        }.pickerStyle(SegmentedPickerStyle())
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(.horizontal, 10)
+        .padding(.bottom, 10)
     }
 }
 
