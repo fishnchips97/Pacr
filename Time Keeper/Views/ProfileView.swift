@@ -52,60 +52,141 @@ struct ProfileView: View {
                         VStack {
                             Text("Mile")
                                 .bold()
-                                .font(.system(size: 20))
-                                .foregroundColor(Color.white)
-                                .padding()
+                                .font(.system(size: 25))
+                                .padding(10)
+                                .padding(.horizontal, 15)
+                                .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                                 .background(Color.black)
-                            Spacer()
+                            //                            Spacer()
                         }
-                        .padding(.bottom, 10)
-                        .padding(.trailing, 10)
+                        .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                        
+                        Spacer()
                         
                         VStack {
+                            Spacer()
                             Text("5:10")
+                                .bold()
+                                .font(.system(size: 25))
+                            Spacer()
                             Text("Best Time")
                                 .bold()
-                                .font(.system(size: 15))
+                                .font(.system(size: 20))
                         }
                         .padding()
-                        
+                        Spacer()
                         VStack {
+                            Spacer()
                             Text("5:40")
+                                .bold()
+                                .font(.system(size: 25))
+                            Spacer()
                             Text("Avg. Time")
                                 .bold()
-                                .font(.system(size: 15))
+                                .font(.system(size: 20))
                         }
                         .padding()
+                        Spacer()
                     }
-                    .frame(width: geometry.size.width / 1.3, height: 40)
-                    .padding()
-                    .border(Color.blue)
+                    .foregroundColor(Color.white)
+                    .frame(width: geometry.size.width / 1.1, height: geometry.size.height / 6.5)
+                    .background(Color.blue)
+                    .cornerRadius(15)
+                    
+                    Spacer()
                     
                     HStack {
                         VStack {
-                            Text("25:10")
-                            Text("Best 5k")
+                            Text("5k")
                                 .bold()
-                                .font(.system(size: 15))
+                                .font(.system(size: 25))
+                                .padding(10)
+                                .padding(.horizontal, 15)
+                                .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                                .background(Color.black)
+                            //                            Spacer()
                         }
-                        .frame(width: geometry.size.width / 1.5, height: 40)
+                        .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                        
+                        Spacer()
+                        
+                        VStack {
+                            Spacer()
+                            Text("5:10")
+                                .bold()
+                                .font(.system(size: 25))
+                            Spacer()
+                            Text("Best Time")
+                                .bold()
+                                .font(.system(size: 20))
+                        }
                         .padding()
-                        .border(Color.yellow)
+                        Spacer()
+                        VStack {
+                            Spacer()
+                            Text("5:40")
+                                .bold()
+                                .font(.system(size: 25))
+                            Spacer()
+                            Text("Avg. Time")
+                                .bold()
+                                .font(.system(size: 20))
+                        }
                         .padding()
+                        Spacer()
                     }
+                    .foregroundColor(Color.white)
+                    .frame(width: geometry.size.width / 1.1, height: geometry.size.height / 6.5)
+                    .background(Color.yellow)
+                    .cornerRadius(15)
+                    
+                    
+                    Spacer()
                     
                     HStack {
                         VStack {
-                            Text("42:10")
-                            Text("Best 10k")
+                            Text("10k")
                                 .bold()
-                                .font(.system(size: 15))
+                                .font(.system(size: 25))
+                                .padding(10)
+                                .padding(.horizontal, 15)
+                                .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                                .background(Color.black)
+                            //                            Spacer()
                         }
-                        .frame(width: geometry.size.width / 1.5, height: 40)
+                        .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                        
+                        Spacer()
+                        
+                        VStack {
+                            Spacer()
+                            Text("5:10")
+                                .bold()
+                                .font(.system(size: 25))
+                            Spacer()
+                            Text("Best Time")
+                                .bold()
+                                .font(.system(size: 20))
+                        }
                         .padding()
-                        .border(Color.green)
+                        Spacer()
+                        VStack {
+                            Spacer()
+                            Text("5:40")
+                                .bold()
+                                .font(.system(size: 25))
+                            Spacer()
+                            Text("Avg. Time")
+                                .bold()
+                                .font(.system(size: 20))
+                        }
                         .padding()
+                        Spacer()
                     }
+                    .foregroundColor(Color.white)
+                    .frame(width: geometry.size.width / 1.1, height: geometry.size.height / 6.5)
+                    .background(Color.green)
+                    .cornerRadius(15)
                     
                     Spacer()
                     filterPicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex)
