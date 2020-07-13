@@ -19,31 +19,54 @@ struct ProfileView: View {
                         Image(systemName: "person.circle")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                            .frame(width: geometry.size.width / 7, height: geometry.size.height / 9)
                         
-                        Spacer(minLength: geometry.size.width / 7)
+//                        Spacer(minLength: geometry.size.width / 7)
+                        Spacer()
                         
                         VStack {
+                            Spacer()
                             Text("100")
+                                .bold()
+                                .font(.system(size: 25))
+                                .padding(.top, 10)
+                                
+                            Spacer()
                             Text("Followers")
                                 .bold()
-                                .font(.system(size: 15))
+                                .font(.system(size: 18))
+                                .padding(.bottom, 15)
                         }
                         .padding()
-                        .frame(width: geometry.size.width / 4.1, height: 40)
-                        .border(Color.black)
+                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
+                        .foregroundColor(Color.white)
+                        .background(Color.black)
+                        .cornerRadius(10)
                         
                         
                         VStack {
+                            Spacer()
                             Text("100")
+                                .bold()
+                                .font(.system(size: 25))
+                                .padding(.top, 10)
+                                
+                            Spacer()
                             Text("Following")
                                 .bold()
-                                .font(.system(size: 15))
+                                .font(.system(size: 18))
+                                .padding(.bottom, 15)
                         }
                         .padding()
-                        .frame(width: geometry.size.width / 4.1, height: 40)
-                        .border(Color.black)
-                        Spacer(minLength: geometry.size.width / 7)
+                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
+                        .foregroundColor(Color.white)
+                        .background(Color.black)
+                        .cornerRadius(10)
+                        
+//                        Spacer(minLength: geometry.size.width / 7)
+                        Spacer()
                     }
+                    .frame(height: geometry.size.height / 8)
                     .padding()
                     
                     Spacer()
@@ -124,11 +147,11 @@ struct ProfileView: View {
                         Spacer()
                         VStack {
                             Spacer()
-                            Text("5:40")
+                            Text("7:40")
                                 .bold()
                                 .font(.system(size: 25))
                             Spacer()
-                            Text("Avg. Time")
+                            Text("Best Pace")
                                 .bold()
                                 .font(.system(size: 20))
                         }
@@ -172,11 +195,11 @@ struct ProfileView: View {
                         Spacer()
                         VStack {
                             Spacer()
-                            Text("5:40")
+                            Text("8:40")
                                 .bold()
                                 .font(.system(size: 25))
                             Spacer()
-                            Text("Avg. Time")
+                            Text("Best Pace")
                                 .bold()
                                 .font(.system(size: 20))
                         }
