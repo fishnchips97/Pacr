@@ -50,16 +50,36 @@ struct ProfileView: View {
                     
                     HStack {
                         VStack {
+                            Text("Mile")
+                                .bold()
+                                .font(.system(size: 20))
+                                .foregroundColor(Color.white)
+                                .padding()
+                                .background(Color.black)
+                            Spacer()
+                        }
+                        .padding(.bottom, 10)
+                        .padding(.trailing, 10)
+                        
+                        VStack {
                             Text("5:10")
-                            Text("Best Mile")
+                            Text("Best Time")
                                 .bold()
                                 .font(.system(size: 15))
                         }
-                        .frame(width: geometry.size.width / 1.5, height: 40)
                         .padding()
-                        .border(Color.blue)
+                        
+                        VStack {
+                            Text("5:40")
+                            Text("Avg. Time")
+                                .bold()
+                                .font(.system(size: 15))
+                        }
                         .padding()
                     }
+                    .frame(width: geometry.size.width / 1.3, height: 40)
+                    .padding()
+                    .border(Color.blue)
                     
                     HStack {
                         VStack {
