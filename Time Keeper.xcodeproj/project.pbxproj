@@ -25,6 +25,7 @@
 		D93D82CA247F158300316608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C9247F158300316608 /* LocationManager.swift */; };
 		D946C35C2489B00D00448C2D /* distances.swift in Sources */ = {isa = PBXBuildFile; fileRef = D946C35B2489B00D00448C2D /* distances.swift */; };
 		D982235E2484A1B900A33036 /* SaveRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982235D2484A1B900A33036 /* SaveRunView.swift */; };
+		D9896B5324BD29A900A8CB8F /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9896B5224BD29A900A8CB8F /* GraphView.swift */; };
 		D999040124B2CFC7000B2D89 /* Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D99903FE24B2CFC7000B2D89 /* Dark.png */; };
 		D999040224B2CFC7000B2D89 /* Dark@2.png in Resources */ = {isa = PBXBuildFile; fileRef = D99903FF24B2CFC7000B2D89 /* Dark@2.png */; };
 		D999040324B2CFC7000B2D89 /* Dark@3.png in Resources */ = {isa = PBXBuildFile; fileRef = D999040024B2CFC7000B2D89 /* Dark@3.png */; };
@@ -52,6 +53,7 @@
 		D93D82C9247F158300316608 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D946C35B2489B00D00448C2D /* distances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = distances.swift; sourceTree = "<group>"; };
 		D982235D2484A1B900A33036 /* SaveRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRunView.swift; sourceTree = "<group>"; };
+		D9896B5224BD29A900A8CB8F /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		D99903FE24B2CFC7000B2D89 /* Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dark.png; sourceTree = "<group>"; };
 		D99903FF24B2CFC7000B2D89 /* Dark@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dark@2.png"; sourceTree = "<group>"; };
 		D999040024B2CFC7000B2D89 /* Dark@3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dark@3.png"; sourceTree = "<group>"; };
@@ -117,14 +119,15 @@
 			isa = PBXGroup;
 			children = (
 				D939D4F023CA627100936FC1 /* ContentView.swift */,
+				D907D90E23D7686D001C3A0B /* LeaderboardView.swift */,
+				D907D90823D762DA001C3A0B /* RecordingView.swift */,
 				D90B18AE24B7986D0088499F /* ProfileView.swift */,
 				D907D90A23D76733001C3A0B /* MainMenuView.swift */,
-				D907D90E23D7686D001C3A0B /* LeaderboardView.swift */,
 				D935442024B61E6F008CB435 /* RunAnalysisView.swift */,
 				D907D90C23D767B5001C3A0B /* SettingsMenuView.swift */,
-				D907D90823D762DA001C3A0B /* RecordingView.swift */,
 				D9EE79ED248EC356002D747B /* TrackView.swift */,
 				D982235D2484A1B900A33036 /* SaveRunView.swift */,
+				D9896B5224BD29A900A8CB8F /* GraphView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 				D982235E2484A1B900A33036 /* SaveRunView.swift in Sources */,
 				D907D90923D762DA001C3A0B /* RecordingView.swift in Sources */,
 				D935442124B61E6F008CB435 /* RunAnalysisView.swift in Sources */,
+				D9896B5324BD29A900A8CB8F /* GraphView.swift in Sources */,
 				D93D82CA247F158300316608 /* LocationManager.swift in Sources */,
 				D939D4F123CA627100936FC1 /* ContentView.swift in Sources */,
 				D939D4EC23CA627100936FC1 /* SceneDelegate.swift in Sources */,

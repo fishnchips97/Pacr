@@ -12,7 +12,11 @@ struct RunAnalysisView: View {
     var run : Record
     
     var body: some View {
-        Text(run.time)
+        VStack {
+            Text("Graph goes here")
+//            Text(run.time)
+//            Text(run.date)
+        }
             .navigationBarTitle(Text("Analysis"), displayMode: .inline)
 
     }

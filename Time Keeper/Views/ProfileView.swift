@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
+//    @Environment(\.managedObjectContext) var managedObjectContext
     @State var defaultTimeRangeIndex: Int = 0
     var body: some View {
         NavigationView {
@@ -63,7 +63,6 @@ struct ProfileView: View {
                         .background(Color.black)
                         .cornerRadius(10)
                         
-//                        Spacer(minLength: geometry.size.width / 7)
                         Spacer()
                     }
                     .frame(height: geometry.size.height / 8)
@@ -80,7 +79,6 @@ struct ProfileView: View {
                                 .padding(.horizontal, 15)
                                 .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                                 .background(Color.black)
-                            //                            Spacer()
                         }
                         .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                         
@@ -127,7 +125,6 @@ struct ProfileView: View {
                                 .padding(.horizontal, 15)
                                 .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                                 .background(Color.black)
-                            //                            Spacer()
                         }
                         .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                         
@@ -175,7 +172,6 @@ struct ProfileView: View {
                                 .padding(.horizontal, 15)
                                 .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                                 .background(Color.black)
-                            //                            Spacer()
                         }
                         .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                         
@@ -220,7 +216,6 @@ struct ProfileView: View {
                     .navigationBarItems(trailing: NavigationLink(destination: SettingsMenuView()) {
                         HStack {
                             Image(systemName: "ellipsis.circle.fill").font(.system(size: 28)).foregroundColor(.black)
-                            //                    Text("Edit").font(.system(size: 20))
                         }
                     })
             }
@@ -234,6 +229,12 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//        let record = Record(context: context)
+//        record.dateRecorded = Date()
+//        record.timeInSeconds = NSNumber(value: 10.2)
+//        record.distance = NSString(utf8String: distances.first ?? "1 mile")
+//        return ProfileView().environment(\.managedObjectContext, context)
+        return ProfileView()
     }
 }

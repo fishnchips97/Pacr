@@ -14,35 +14,36 @@ let timeRanges = ["3 Months", "All Time"]
 
 struct LeaderboardView: View {
     
-    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
-    @Environment(\.managedObjectContext) var managedObjectContext
+//    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
+//    @Environment(\.managedObjectContext) var managedObjectContext
     
     @State private var orderOptionIndex: Int = 0
     @State private var defaultTimeRangeIndex: Int = 0
     @State private var defaultDistanceIndex: Int = 0
     private var sortedRecords : [Record] {
-        var result = Array(records).filter { (record) -> Bool in
-            if timeRanges[defaultTimeRangeIndex] == "3 Months" {
-                let threeMonthsInSeconds = 2592000.0
-//                let threeMonthsInSeconds = 600.0
-                let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
-                return timeSinceRecordDateInSeconds < threeMonthsInSeconds
-            }
-            return true
-        }
-        result = result.filter { (record) -> Bool in
-            record.distance?.description ?? "" == distances[defaultDistanceIndex]
-        }
-        if orderingOptions[orderOptionIndex] == "Fastest Pace" {
-            result.sort {
-                return $0.timeInSeconds?.decimalValue ?? 0 < $1.timeInSeconds?.decimalValue ?? 0
-            }
-        } else if orderingOptions[orderOptionIndex] == "Most Recent" {
-            result.sort {
-                return $0.dateRecorded ?? Date() > $1.dateRecorded ?? Date()
-            }
-        }
-        return result
+//        var result = Array(records).filter { (record) -> Bool in
+//            if timeRanges[defaultTimeRangeIndex] == "3 Months" {
+//                let threeMonthsInSeconds = 2592000.0
+////                let threeMonthsInSeconds = 600.0
+//                let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
+//                return timeSinceRecordDateInSeconds < threeMonthsInSeconds
+//            }
+//            return true
+//        }
+//        result = result.filter { (record) -> Bool in
+//            record.distance?.description ?? "" == distances[defaultDistanceIndex]
+//        }
+//        if orderingOptions[orderOptionIndex] == "Fastest Pace" {
+//            result.sort {
+//                return $0.timeInSeconds?.decimalValue ?? 0 < $1.timeInSeconds?.decimalValue ?? 0
+//            }
+//        } else if orderingOptions[orderOptionIndex] == "Most Recent" {
+//            result.sort {
+//                return $0.dateRecorded ?? Date() > $1.dateRecorded ?? Date()
+//            }
+//        }
+//        return result
+        return [Record]()
     }
     
     var body: some View {
