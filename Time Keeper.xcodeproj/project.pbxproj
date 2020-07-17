@@ -123,10 +123,10 @@
 				D907D90823D762DA001C3A0B /* RecordingView.swift */,
 				D90B18AE24B7986D0088499F /* ProfileView.swift */,
 				D907D90A23D76733001C3A0B /* MainMenuView.swift */,
-				D935442024B61E6F008CB435 /* RunAnalysisView.swift */,
 				D907D90C23D767B5001C3A0B /* SettingsMenuView.swift */,
 				D9EE79ED248EC356002D747B /* TrackView.swift */,
 				D982235D2484A1B900A33036 /* SaveRunView.swift */,
+				D935442024B61E6F008CB435 /* RunAnalysisView.swift */,
 				D9896B5224BD29A900A8CB8F /* DotGraphView.swift */,
 			);
 			path = Views;

@@ -13,9 +13,13 @@ struct RunAnalysisView: View {
     
     var body: some View {
         VStack {
-            Text("Graph goes here")
-//            Text(run.time)
-//            Text(run.date)
+            DotGraphView(xData: [1, 2, 3], yData: [10, 20, 30], highlightData: 3)
+            Text("\(run.distance!.description)")
+            Text("\(run.time)")
+            Text("\(run.date)")
+            
+//            Text("test")
+            
         }
             .navigationBarTitle(Text("Analysis"), displayMode: .inline)
 
