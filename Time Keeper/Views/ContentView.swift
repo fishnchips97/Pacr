@@ -13,7 +13,6 @@ struct AppView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     
-    @State var disableOverlay = false
     @State var overlayOpacity = 1.0
     @State var trackBlur = 5.0
     
@@ -34,7 +33,7 @@ struct AppView: View {
                 }
         
         
-        RecordingView(disableOverlay: self.$disableOverlay, overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur)
+        RecordingView(overlayOpacity: self.$overlayOpacity, trackBlur: self.$trackBlur)
         .environment(\.managedObjectContext, self.managedObjectContext)
 //        .blur(radius: CGFloat(self.trackBlur))
 //        .navigationBarHidden(false)

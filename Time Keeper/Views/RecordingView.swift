@@ -14,7 +14,7 @@ struct RecordingView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
-    @Binding var disableOverlay : Bool
+//    @Binding var disableOverlay : Bool
     @Binding var overlayOpacity : Double
     @Binding var trackBlur      : Double
     @State private var selectedOption: Int = 0
@@ -103,7 +103,7 @@ struct RecordingView: View {
                                 }) {
                                     Text("change")
                                 }
-                                .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
+                                .disabled(self.tracker.runStatus != .notStarted)
                             }
                             .padding()
                             .frame(width: geometry.size.width / 2)
@@ -127,13 +127,12 @@ struct RecordingView: View {
                                 Text(distances[index]).tag(index)
                             }
                         }.pickerStyle(SegmentedPickerStyle())
-                            .disabled(self.tracker.runStatus != .notStarted || !self.disableOverlay)
+                            .disabled(self.tracker.runStatus != .notStarted)
                             .padding()
                         HStack{
                             
                             Button(action: {
                                 withAnimation {
-                                    self.disableOverlay.toggle()
                                     self.overlayOpacity = 1.0
                                     self.trackBlur = 5.0
                                     self.tracker.stop()
@@ -149,7 +148,6 @@ struct RecordingView: View {
                             .background(Color.red)
                             .cornerRadius(15)
                             .foregroundColor(.white)
-                            .disabled(!self.disableOverlay)
                             
                             
                             Button(action: {
@@ -168,7 +166,6 @@ struct RecordingView: View {
                             .background(Color.green)
                             .cornerRadius(15)
                             .foregroundColor(.white)
-                            .disabled(!self.disableOverlay)
                         }
                     }
                     Spacer()
@@ -239,6 +236,6 @@ struct RecordingView: View {
 struct RecordingView_Previews: PreviewProvider {
     
     static var previews: some View {
-        RecordingView(disableOverlay: .constant(false), overlayOpacity: .constant(0.5), trackBlur: .constant(0.5))
+        RecordingView(overlayOpacity: .constant(0.5), trackBlur: .constant(0.5))
     }
 }

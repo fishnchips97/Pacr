@@ -21,34 +21,35 @@ struct DotGraphView: View {
         return numerator / denominator
     }
     
+    let circleSize = 20
     
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 25) {
+                    HStack(spacing: 40) {
                         Rectangle()
                         .fill(Color.white)
                         .frame(width: 70)
                         ForEach(0 ..< self.yData.count) {y_i in
                             
                             VStack {
-                                Spacer(minLength: (geometry.size.height - 11) * (1 - self.ratio(x: self.yData[y_i], xData: self.yData)))
+                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * (1 - self.ratio(x: self.yData[y_i], xData: self.yData)))
                                 
                                 if self.highlightData == self.yData[y_i] {
                                     Circle()
                                     .fill(Color.black)
-                                    .frame(width: 10, height: 10)
+                                    .frame(width: 20, height: 20)
                                 } else {
                                     Circle()
                                     .fill(Color.green)
-                                    .frame(width: 10, height: 10)
+                                    .frame(width: 20, height: 20)
                                 }
                                     
                                     
 //                                    .offset(x: 0, y: -5)
-                                Spacer(minLength: (geometry.size.height - 11) * self.ratio(x: self.yData[y_i], xData: self.yData))
+                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * self.ratio(x: self.yData[y_i], xData: self.yData))
                             }
                             
                             .frame(height: geometry.size.height)
@@ -63,13 +64,13 @@ struct DotGraphView: View {
                     }.scaleEffect(x: -1, y: 1, anchor: .center)
                 }
                 .scaleEffect(x: -1, y: 1, anchor: .center)
-                .frame(width: geometry.size.width, height: geometry.size.height - 10)
+                .frame(width: geometry.size.width, height: geometry.size.height - CGFloat(self.circleSize))
                 .offset(x: 0, y: 0)
                 
                 Rectangle()
 //                    .fill(Color.green)
                     .opacity(0)
-                    .frame(height: geometry.size.height - 10)
+                    .frame(height: geometry.size.height - CGFloat(self.circleSize))
                     .border(Color.black)
                 
                 HStack {
@@ -83,14 +84,16 @@ struct DotGraphView: View {
                         
                         VStack(alignment: .center) {
                             Text("\(self.xData.max() ?? 1)")
+                                .font(.system(size: 20))
                             Spacer()
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: 25, height: 3)
                             Spacer()
                             Text("\(self.xData.min() ?? 0)")
+                                .font(.system(size: 20))
                         }
-                        .frame(width: 50, height: geometry.size.height - 10)
+                        .frame(width: 50, height: geometry.size.height - CGFloat(self.circleSize))
                         .border(Color.black)
                     }
                     Spacer()
