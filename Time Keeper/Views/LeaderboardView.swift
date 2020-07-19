@@ -15,7 +15,7 @@ let timeRanges = ["3 Months", "All Time"]
 struct LeaderboardView: View {
     
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
-    @Environment(\.managedObjectContext) var managedObjectContext
+//    @Environment(\.managedObjectContext) var managedObjectContext
     
     @State private var orderOptionIndex: Int = 0
     @State private var defaultTimeRangeIndex: Int = 0
