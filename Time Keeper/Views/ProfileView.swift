@@ -13,7 +13,18 @@ struct ProfileView: View {
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State private var defaultDistanceIndex: Int = 0
     private var bestMile : Record? {
-        var result = Array(records).filter { (record) -> Bool in
+        fastestRecord(records: Array(records), distance: "1 mile")
+    }
+    private var best5k : Record? {
+        fastestRecord(records: Array(records), distance: "5 km")
+    }
+    private var best10k : Record? {
+        fastestRecord(records: Array(records), distance: "10 km")
+    }
+    
+    
+    private func fastestRecord(records: [Record], distance: String) -> Record? {
+        var result = records.filter { (record) -> Bool in
             if timeRanges[defaultTimeRangeIndex] == "3 Months" {
                 let threeMonthsInSeconds = 2592000.0
                 //                let threeMonthsInSeconds = 600.0
@@ -23,14 +34,14 @@ struct ProfileView: View {
             return true
         }
         result = result.filter { (record) -> Bool in
-            record.distance?.description == "1 mile"
+            record.distance?.description == distance
         }
         
         return result.min { (rec1, rec2) -> Bool in
             rec1.timeInSeconds!.doubleValue < rec2.timeInSeconds!.doubleValue
         }
-        //        return [Record]()
     }
+    
     private var mileAvgTime : String {
         var result = Array(records).filter { (record) -> Bool in
             if timeRanges[defaultTimeRangeIndex] == "3 Months" {
@@ -52,7 +63,7 @@ struct ProfileView: View {
             return "00:00"
         }
         let avgSeconds = sum / Double(result.count)
-        return Time.secondsToTraditionalFormatString(seconds: avgSeconds)
+        return TimeDatePaceFormatter.secondsToTraditionalFormatString(seconds: avgSeconds)
     }
     @State var defaultTimeRangeIndex: Int = 0
     var body: some View {
@@ -193,30 +204,41 @@ struct ProfileView: View {
                         .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
                         
                         Spacer()
+                        if self.best5k != nil {
+                            VStack {
+                                Spacer()
+                                Text("\(self.best5k!.time)")
+                                    .bold()
+                                    .font(.system(size: 20))
+                                Spacer()
+                                Text("Best Time")
+                                    .bold()
+                                    .font(.system(size: 15))
+                            }
+                            .padding()
+                            Spacer()
+                            VStack {
+                                Spacer()
+                                Text("\(TimeDatePaceFormatter.pace(timeInSecs: self.best5k!.timeInSeconds!.doubleValue, distance: distanceMeasurements["5 km"]!))")
+                                    .bold()
+                                    .font(.system(size: 20))
+                                Spacer()
+                                Text("Best Pace")
+                                    .bold()
+                                    .font(.system(size: 15))
+                            }
+                            .padding()
+                        } else {
+                            VStack (alignment: .center, spacing: 0) {
+                                Spacer()
+                                Text("No 5k")
+                                    .bold()
+                                    .font(.system(size: 20))
+                                Spacer()
+                            }
+                            .padding()
+                        }
                         
-                        VStack {
-                            Spacer()
-                            Text("5:10")
-                                .bold()
-                                .font(.system(size: 20))
-                            Spacer()
-                            Text("Best Time")
-                                .bold()
-                                .font(.system(size: 15))
-                        }
-                        .padding()
-                        Spacer()
-                        VStack {
-                            Spacer()
-                            Text("7:40")
-                                .bold()
-                                .font(.system(size: 20))
-                            Spacer()
-                            Text("Best Pace")
-                                .bold()
-                                .font(.system(size: 15))
-                        }
-                        .padding()
                         Spacer()
                     }
                     .foregroundColor(Color.white)
@@ -241,29 +263,42 @@ struct ProfileView: View {
                         
                         Spacer()
                         
-                        VStack {
+                        if self.best5k != nil {
+                            VStack {
+                                Spacer()
+                                Text("\(self.best10k!.time)")
+                                    .bold()
+                                    .font(.system(size: 20))
+                                Spacer()
+                                Text("Best Time")
+                                    .bold()
+                                    .font(.system(size: 15))
+                            }
+                            .padding()
                             Spacer()
-                            Text("5:10")
-                                .bold()
-                                .font(.system(size: 20))
-                            Spacer()
-                            Text("Best Time")
-                                .bold()
-                                .font(.system(size: 15))
+                            VStack {
+                                Spacer()
+                                Text("\(TimeDatePaceFormatter.pace(timeInSecs: self.best5k!.timeInSeconds!.doubleValue, distance: distanceMeasurements["10 km"]!))")
+                                    .bold()
+                                    .font(.system(size: 20))
+                                Spacer()
+                                Text("Best Pace")
+                                    .bold()
+                                    .font(.system(size: 15))
+                            }
+                            .padding()
+                        } else {
+                            VStack (alignment: .center, spacing: 0) {
+                                Spacer()
+                                Text("No 10k")
+                                    .bold()
+                                    .font(.system(size: 20))
+                                Spacer()
+                            }
+                            .padding()
                         }
-                        .padding()
-                        Spacer()
-                        VStack {
-                            Spacer()
-                            Text("8:40")
-                                .bold()
-                                .font(.system(size: 20))
-                            Spacer()
-                            Text("Best Pace")
-                                .bold()
-                                .font(.system(size: 15))
-                        }
-                        .padding()
+                        
+                        
                         Spacer()
                     }
                     .foregroundColor(Color.white)

@@ -26,7 +26,7 @@ struct RunAnalysisView: View {
                 Text("\(self.run.time) seconds")
                     .font(.system(size: 40))
                     .padding()
-                Text("\(self.run.date)")
+                Text("\(TimeDatePaceFormatter.dateToString(date: self.run.dateRecorded))")
                     .font(.system(size: 20))
                     .padding()
                 

@@ -77,7 +77,7 @@ struct LeaderboardView: View {
                                         }
                                         Text("\(record.time)").font(.system(size: 20)).bold()
                                         Spacer()
-                                        Text("\(record.date)")
+                                        Text("\(TimeDatePaceFormatter.dateToString(date: record.dateRecorded))")
                                     }
                                 }
                                 

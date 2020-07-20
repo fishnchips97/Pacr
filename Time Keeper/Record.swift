@@ -47,13 +47,5 @@ extension Record {
 
     }
     
-    var date: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, yyyy"
-        
-        if let date = dateRecorded {
-            return dateFormatter.string(from: date)
-        }
-        return ""
-    }
+    
 }
