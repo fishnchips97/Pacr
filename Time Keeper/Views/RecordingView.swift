@@ -14,13 +14,22 @@ struct RecordingView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
-//    @Binding var disableOverlay : Bool
-    @Binding var overlayOpacity : Double
-    @Binding var trackBlur      : Double
+
     @State private var selectedOption: Int = 0
+    
     @State private var targetAnimating = false
     @State private var currentAnimating = false
     @State private var currentPct : CGFloat = 0.0
+    @State private var finishLinePcts : [CGFloat] = distanceFinishLinePcts.map {CGFloat($0)}
+//    private var finishLinePct : CGFloat {
+//        get {
+//            let distanceString = distances[self.selectedOption]
+//            let distanceInMeters = distanceMeasurements[distanceString]!.converted(to: .meters).value
+//            let distanceOfOneLap = distanceInMeters.truncatingRemainder(dividingBy: 400)
+//
+//            return CGFloat(distanceOfOneLap / 400)
+//        }
+//    }
     
     let trackDistanceInMeters = 400.0
     let metersInMile = 1609.34
@@ -45,7 +54,8 @@ struct RecordingView: View {
                         TrackView(
                             startAnimationTarget: self.$targetAnimating,
                             startAnimationCurrent: self.$currentAnimating,
-                            currentPct: self.$currentPct
+                            currentPct: self.$currentPct,
+                            finishLinePct: self.$finishLinePcts[self.selectedOption]
                         )
                             .padding()
                             .frame(width: geometry.size.width, height: geometry.size.height/1.8)
@@ -133,8 +143,6 @@ struct RecordingView: View {
                             
                             Button(action: {
                                 withAnimation {
-                                    self.overlayOpacity = 1.0
-                                    self.trackBlur = 5.0
                                     self.tracker.stop()
                                     self.tracker.runStatus = .notStarted
                                     self.targetAnimating = false
@@ -236,6 +244,6 @@ struct RecordingView: View {
 struct RecordingView_Previews: PreviewProvider {
     
     static var previews: some View {
-        RecordingView(overlayOpacity: .constant(0.5), trackBlur: .constant(0.5))
+        RecordingView()
     }
 }

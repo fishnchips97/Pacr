@@ -13,6 +13,7 @@ struct TrackView: View {
     @Binding var startAnimationTarget: Bool
     @Binding var startAnimationCurrent: Bool
     @Binding var currentPct: CGFloat
+    @Binding var finishLinePct: CGFloat
     
     var body: some View {
         GeometryReader { proxy in
@@ -20,10 +21,11 @@ struct TrackView: View {
 
                 TrackShape().stroke(Color.orange, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
                     .frame(width: proxy.size.width, height: proxy.size.height/2)
+                /// finish line
                 Rectangle()
                     .frame(width: 30, height: 10)
                     .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: false))
+                    .modifier(FollowEffect(pct: 0.0, path: TrackShape.createTrackPath(from: self.finishLinePct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: false))
 
                 /// target pace
                 Circle().foregroundColor(Color.red)
@@ -47,7 +49,7 @@ struct TrackView: View {
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackView(startAnimationTarget: .constant(false), startAnimationCurrent: .constant(false), currentPct: .constant(0.0))
+        TrackView(startAnimationTarget: .constant(false), startAnimationCurrent: .constant(false), currentPct: .constant(0.0), finishLinePct: .constant(0.0))
     }
 }
 
