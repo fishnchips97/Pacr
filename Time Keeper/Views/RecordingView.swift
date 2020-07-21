@@ -149,6 +149,7 @@ struct RecordingView: View {
                                     self.currentAnimating = false
                                     self.currentPct = 0.0
                                 }
+                                self.tracker.reset()
                             }) {
                                 Text("Cancel")
                             }

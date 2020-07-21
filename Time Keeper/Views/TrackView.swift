@@ -15,29 +15,32 @@ struct TrackView: View {
     @Binding var currentPct: CGFloat
     @Binding var finishLinePct: CGFloat
     
+    
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .topLeading) {
 
                 TrackShape().stroke(Color.orange, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
-                    .frame(width: proxy.size.width, height: proxy.size.height/2)
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+//                    .border(Color.black)
                 /// finish line
                 Rectangle()
                     .frame(width: 30, height: 10)
-                    .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: 0.0, path: TrackShape.createTrackPath(from: self.finishLinePct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: false))
-
+                    .offset(x: -15, y: (self.finishLinePct < 0.5 ? -15 : 5))
+                    .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                
+                
                 /// target pace
                 Circle().foregroundColor(Color.red)
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: self.startAnimationTarget ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
+                    .modifier(FollowEffect(pct: self.startAnimationTarget ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
                 
                 /// current pace
                 Circle().foregroundColor(Color.green)
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height / 2)), rotate: true))
+                    .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
                     
 
                 }.frame(alignment: .topLeading)
@@ -54,12 +57,8 @@ struct TrackView_Previews: PreviewProvider {
 }
 
 struct TrackShape: Shape {
+    
     func path(in rect: CGRect) -> Path {
-//        var path = Path()
-//        path.move(to: CGPoint(x: rect.midX, y: rect.midY))
-//        path.closeSubpath()
-//        return Capsule.path(Capsule())(in: rect)
-//        return path
         return TrackShape.createTrackPath(in: rect)
     }
     
@@ -67,22 +66,24 @@ struct TrackShape: Shape {
         var path = Path()
         let distX = rect.maxX - rect.minX
         let distY = rect.maxY - rect.minY
-        /// 0.43 is ratio of radius to straightaway from actual track dimensions
-        let radius = distY * 0.4325157009
-        let diameter = 2 * radius
-        let diff = distX - diameter
-        let offset = diff / 2
+
+        let radius = distY * 0.2339701154
+
+        let midX = distX / 2
+        let topY = rect.minY + radius
+        let bottomY = rect.maxY - radius
+        let trailingX = midX + radius
+        let leadingX = midX - radius
         
-        let point1 = CGPoint(x: rect.minX + diameter + offset, y: rect.maxY)
-        let point2 = CGPoint(x: rect.minX + diameter + offset, y: rect.minY)
-        let point3 = CGPoint(x: rect.minX + offset, y: rect.maxY)
+        let point1 = CGPoint(x: trailingX, y: bottomY)
+        let point2 = CGPoint(x: trailingX, y: topY)
+        let point3 = CGPoint(x: leadingX, y: bottomY)
         
         path.move(to: point1)
         path.addLine(to: point2)
-        path.addArc(center: CGPoint(x: rect.minX + radius + offset, y: rect.minY), radius: radius, startAngle: .degrees(0), endAngle: .degrees(180), clockwise: true)
+        path.addArc(center: CGPoint(x: midX, y: topY), radius: radius, startAngle: .degrees(0), endAngle: .degrees(180), clockwise: true)
         path.addLine(to: point3)
-        path.addArc(center: CGPoint(x: rect.minX + radius + offset, y: rect.maxY), radius: radius, startAngle: .degrees(180), endAngle: .degrees(0), clockwise: true)
-//        path.closeSubpath()
+        path.addArc(center: CGPoint(x: midX, y: bottomY), radius: radius, startAngle: .degrees(180), endAngle: .degrees(0), clockwise: true)
         
         return path
     }

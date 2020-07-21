@@ -98,10 +98,12 @@ extension DistanceTimeTracker {
         self.startLocationUpdates()
         self.runStatus = .inProgress
         if !timer.isValid {
-            timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
-                self.secondsElapsed += 0.01
-                self.secondsElapsedSinceLastUpdate += 0.01
+            
+            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                self.secondsElapsed += 0.1
+                self.secondsElapsedSinceLastUpdate += 0.1
             }
+            timer.tolerance = 0.05
         }
     }
     
@@ -118,7 +120,7 @@ extension DistanceTimeTracker {
         if self.hours != 0 {
             result += "\(self.hourString):"
         }
-        result += "\(self.minuteString):\(self.secondString).\(self.centisecondString)"
+        result += "\(self.minuteString):\(self.secondString).\(self.decisecondString)"
         
         return result
     }
@@ -147,12 +149,12 @@ extension DistanceTimeTracker {
         String(format: "%02d", self.seconds)
     }
     
-    var centiseconds: Int {
-        Int((secondsElapsed - secondsElapsed.rounded(.down)) * 100)
+    var deciseconds: Int {
+        Int((secondsElapsed - secondsElapsed.rounded(.down)) * 10)
     }
     
-    var centisecondString : String {
-        String(format: "%02d", self.centiseconds)
+    var decisecondString : String {
+        String(format: "%1d", self.deciseconds)
     }
     
     var distanceString : String {

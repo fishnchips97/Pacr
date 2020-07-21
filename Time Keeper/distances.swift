@@ -11,13 +11,12 @@ import Foundation
 
 let distances = ["20 m", "1 mile", "5 km", "10 km"]
 
-//let distanceFinishLinePcts : [Double] = distances.map { (dist) -> Double in
-//    let distanceInMeters = distanceMeasurements[dist]!.converted(to: .meters).value
-//    let distanceOfOneLap = distanceInMeters.truncatingRemainder(dividingBy: 400)
-//    
-//    return distanceOfOneLap / 400
-//}
-let distanceFinishLinePcts = [0.05, 0.025, 0.5, 0.75]
+let distanceFinishLinePcts : [Double] = distances.map { (dist) -> Double in
+    let distanceInMeters = distanceMeasurements[dist]!.converted(to: .meters).value
+    let distanceOfOneLap = distanceInMeters.truncatingRemainder(dividingBy: 400)
+    
+    return distanceOfOneLap / 400
+}
 
 let distanceMeasurements = [
     "20 m" : Measurement(value: 20, unit: UnitLength.meters),
