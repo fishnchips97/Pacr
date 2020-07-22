@@ -10,13 +10,19 @@ import SwiftUI
 
 struct DotGraphView: View {
     
-    @State var xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
-    @State var yData = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170]
-    var highlightData = 0
+//    @State var xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+    @State var yData: [Double] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170]
+    var highlightData: Double = 0
+    var stringFormatter: (Double) -> (String) = TimeDatePaceFormatter.paceNumberToFormatString
     
-    func ratio(x: Int, xData: [Int]) -> CGFloat {
-        let numerator = CGFloat(x - xData.min()!)
-        let denominator = CGFloat(xData.max()! - xData.min()!)
+    func ratio(elem: Double, list: [Double]) -> CGFloat {
+        
+        if list.max()! == list.min()! {
+            return 1
+        }
+        
+        let numerator = CGFloat(elem - list.min()!)
+        let denominator = CGFloat(list.max()! - list.min()!)
         
         return numerator / denominator
     }
@@ -35,7 +41,7 @@ struct DotGraphView: View {
                         ForEach(0 ..< self.yData.count) {y_i in
                             
                             VStack {
-                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * (1 - self.ratio(x: self.yData[y_i], xData: self.yData)))
+                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * (1 - self.ratio(elem: self.yData[y_i], list: self.yData)))
                                 
                                 if self.highlightData == self.yData[y_i] {
                                     Circle()
@@ -49,7 +55,7 @@ struct DotGraphView: View {
                                     
                                     
 //                                    .offset(x: 0, y: -5)
-                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * self.ratio(x: self.yData[y_i], xData: self.yData))
+                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * self.ratio(elem: self.yData[y_i], list: self.yData))
                             }
                             
                             .frame(height: geometry.size.height)
@@ -79,21 +85,21 @@ struct DotGraphView: View {
                     ZStack {
                         Rectangle()
                         .fill(Color.white)
-                        .frame(width: 50)
+                        .frame(width: 75)
                         .opacity(0.75)
                         
                         VStack(alignment: .center) {
-                            Text("\(self.xData.max() ?? 1)")
-                                .font(.system(size: 20))
+                            Text("\(self.stringFormatter(self.yData.max() ?? 1))")
+                                .font(.system(size: 18))
                             Spacer()
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: 25, height: 3)
                             Spacer()
-                            Text("\(self.xData.min() ?? 0)")
-                                .font(.system(size: 20))
+                            Text("\(self.stringFormatter(self.yData.min() ?? 0))")
+                                .font(.system(size: 18))
                         }
-                        .frame(width: 50, height: geometry.size.height - CGFloat(self.circleSize))
+                        .frame(width: 75, height: geometry.size.height - CGFloat(self.circleSize))
                         .border(Color.black)
                     }
                     Spacer()

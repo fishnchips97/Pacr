@@ -70,7 +70,7 @@ struct LeaderboardView: View {
                             }
                             
                             ForEach (self.sortedRecords) { record in
-                                NavigationLink (destination: RunAnalysisView(run: record)) {
+                                NavigationLink (destination: RunAnalysisView(run: record, runs: self.sortedRecords)) {
                                     HStack {
                                         if orderingOptions[self.orderOptionIndex] == "Fastest Pace" {
                                             Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20)).bold()

@@ -27,6 +27,11 @@ class TimeDatePaceFormatter {
         return formattedString
     }
     
+    static func paceNumberToFormatString(pace: Double) -> String {
+        let start = secondsToTraditionalFormatString(seconds: pace)
+        return "\(start) min/mi"
+    }
+    
     static func dateToString(date: Date?) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
@@ -41,6 +46,10 @@ class TimeDatePaceFormatter {
         let paceNumber = timeInSecs / distance.converted(to: .miles).value
         let pace = "\(TimeDatePaceFormatter.secondsToTraditionalFormatString(seconds: paceNumber)) min/mi"
         return pace
+    }
+    
+    static func paceNumber(timeInSecs: Double, distance: Measurement<UnitLength>) -> Double {
+        return timeInSecs / distance.converted(to: .miles).value
     }
     
     

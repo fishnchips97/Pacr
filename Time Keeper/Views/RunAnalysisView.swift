@@ -10,6 +10,17 @@ import SwiftUI
 
 struct RunAnalysisView: View {
     var run : Record
+    var runs : [Record]
+    
+    var pace : Double {
+        let rec = self.run
+        return TimeDatePaceFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!)
+    }
+    var paces : [Double] {
+        self.runs.map { (rec) -> Double in
+            TimeDatePaceFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!)
+        }
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -17,9 +28,9 @@ struct RunAnalysisView: View {
                 Text("\(self.run.distance!.description)")
                     .font(.system(size: 40))
                     .bold()
-                    .padding()
+                    .padding(.vertical, 10)
                 
-                DotGraphView(xData: [1, 2, 3], yData: [10, 20, 30], highlightData: 3)
+                DotGraphView(yData: self.paces, highlightData: self.pace)
                     .frame(width: geometry.size.width - 30, height: 300)
                 
                 Spacer()
@@ -32,7 +43,6 @@ struct RunAnalysisView: View {
                 
                 Spacer()
                     
-                    //            Text("test")
                     
                     .navigationBarTitle(Text("Analysis"), displayMode: .inline)
             }
@@ -42,7 +52,28 @@ struct RunAnalysisView: View {
 }
 
 struct RunAnalysisView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        RunAnalysisView(run: Record())
+        let rec1 = Record()
+        
+        rec1.dateRecorded = Date()
+        rec1.timeInSeconds = NSNumber(value: 1500.21.roundTo(places: 2))
+        rec1.distance = NSString(utf8String: "10 km")
+        
+        let rec2 = Record()
+        
+        rec2.dateRecorded = Date()
+        rec2.timeInSeconds = NSNumber(value: 1000.21.roundTo(places: 2))
+        rec2.distance = NSString(utf8String: "10 km")
+        
+        let rec3 = Record()
+        
+        rec3.dateRecorded = Date()
+        rec3.timeInSeconds = NSNumber(value: 2000.21.roundTo(places: 2))
+        rec3.distance = NSString(utf8String: "10 km")
+        
+        let runs = [rec1, rec2, rec3]
+        
+        return RunAnalysisView(run: rec1, runs: runs)
     }
 }

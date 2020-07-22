@@ -10,9 +10,9 @@ import SwiftUI
 
 struct RecordingView: View {
     
-    @ObservedObject var tracker = DistanceTimeTracker()
+    @ObservedObject private var tracker = DistanceTimeTracker()
     
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) private var managedObjectContext
     
 
     @State private var selectedOption: Int = 0
@@ -21,24 +21,15 @@ struct RecordingView: View {
     @State private var currentAnimating = false
     @State private var currentPct : CGFloat = 0.0
     @State private var finishLinePcts : [CGFloat] = distanceFinishLinePcts.map {CGFloat($0)}
-//    private var finishLinePct : CGFloat {
-//        get {
-//            let distanceString = distances[self.selectedOption]
-//            let distanceInMeters = distanceMeasurements[distanceString]!.converted(to: .meters).value
-//            let distanceOfOneLap = distanceInMeters.truncatingRemainder(dividingBy: 400)
-//
-//            return CGFloat(distanceOfOneLap / 400)
-//        }
-//    }
     
-    let trackDistanceInMeters = 400.0
-    let metersInMile = 1609.34
+    private let trackDistanceInMeters = 400.0
+    private let metersInMile = 1609.34
     @State private var show = false
     
-    let minuteOptions: [Int] = Array(1 ..< 60)
-    @State var minuteIndex = 6
-    let secondOptions: [Int] = Array(0 ..< 60)
-    @State var secondIndex = 0
+    private let minuteOptions: [Int] = Array(1 ..< 60)
+    @State private var minuteIndex = 6
+    private let secondOptions: [Int] = Array(0 ..< 60)
+    @State private var secondIndex = 0
     
     
     

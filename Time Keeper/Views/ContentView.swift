@@ -26,7 +26,6 @@ struct AppView: View {
                     Text("Leaderboard")
                 }
         
-        
         RecordingView()
         .environment(\.managedObjectContext, self.managedObjectContext)
 //        .blur(radius: CGFloat(self.trackBlur))
