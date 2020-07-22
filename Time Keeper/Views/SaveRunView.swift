@@ -33,8 +33,6 @@ struct SaveRunView: View {
                 
                 Button(action: {
                     let record = Record(context: self.managedObjectContext)
-                    /// rescale the time if the gps updated way past the goal
-                    self.tracker.secondsElapsed *= distanceMeasurements[self.tracker.currentDistanceGoal]!.value / self.tracker.distance.value
                     
                     record.dateRecorded = Date()
                     record.timeInSeconds = NSNumber(value: self.tracker.secondsElapsed.roundTo(places: 2))
@@ -50,6 +48,10 @@ struct SaveRunView: View {
                 }
             }
         }.onAppear(perform: {
+            
+            /// rescale the time if the gps updated way past the goal
+            self.tracker.secondsElapsed *= distanceMeasurements[self.tracker.currentDistanceGoal]!.value / self.tracker.distance.value
+            
             withAnimation {
                 self.targetAnimating = false
                 self.currentAnimating = false

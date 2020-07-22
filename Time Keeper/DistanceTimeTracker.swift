@@ -34,9 +34,18 @@ class DistanceTimeTracker : NSObject, ObservableObject {
             objectWillChange.send()
         }
     }
-    var secondsElapsedSinceLastUpdate = 0.0
+    var secondsElapsedSinceLastUpdate = 0.0 {
+        didSet {
+            if secondsElapsedSinceLastUpdate >= 10 && stoppedRunning == false {
+                stoppedRunning.toggle()
+            }
+        }
+    }
+    @Published var stoppedRunning = false
     @Published var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
+            stoppedRunning = false
+//            print(distance.value)
             if let goal = distanceMeasurements[self.currentDistanceGoal] {
                 if self.distance >= goal {
                     self.stop()
@@ -88,8 +97,9 @@ extension DistanceTimeTracker : CLLocationManagerDelegate {
             }
             locationList.append(location)
         }
+//        print("setting update")
+//        self.secondsElapsedSinceLastUpdate = 0.0
         
-        self.secondsElapsedSinceLastUpdate = 0.0
     }
 }
 
