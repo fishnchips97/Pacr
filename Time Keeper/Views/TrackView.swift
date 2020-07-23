@@ -24,10 +24,16 @@ struct TrackView: View {
                     .frame(width: proxy.size.width, height: proxy.size.height)
 //                    .border(Color.black)
                 /// finish line
-                Rectangle()
+                CheckeredRectangle(rows: 2, columns: 5, even: true)
+                    .foregroundColor(Color.black)
                     .frame(width: 30, height: 10)
                     .offset(x: -15, y: (self.finishLinePct < 0.5 ? -15 : 5))
                     .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                CheckeredRectangle(rows: 2, columns: 5, even: false)
+                .foregroundColor(Color.white)
+                .frame(width: 30, height: 10)
+                .offset(x: -15, y: (self.finishLinePct < 0.5 ? -15 : 5))
+                .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
                 
                 
                 /// target pace
@@ -35,12 +41,14 @@ struct TrackView: View {
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
                     .modifier(FollowEffect(pct: self.startAnimationTarget ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                    .opacity(0.9)
                 
                 /// current pace
                 Circle().foregroundColor(Color.green)
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
                     .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                    .opacity(0.9)
                     
 
                 }.frame(alignment: .topLeading)
