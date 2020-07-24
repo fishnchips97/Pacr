@@ -319,11 +319,9 @@ struct ProfileView: View {
                         }
                     })
             }
+        }.onAppear {
+            self.distanceUnits = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
         }
-        
-        
-        
-        
     }
 }
 

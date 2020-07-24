@@ -32,7 +32,7 @@ struct RunAnalysisView: View {
                     .bold()
                     .padding(.vertical, 10)
                 
-                DotGraphView(yData: self.paces, highlightData: self.pace)
+                DotGraphView(yData: self.paces, highlightData: self.pace, yDataUnit: self.distanceUnits)
                     .frame(width: geometry.size.width - 30, height: 300)
                 
                 Spacer()
@@ -48,6 +48,8 @@ struct RunAnalysisView: View {
                     
                     .navigationBarTitle(Text("Analysis"), displayMode: .inline)
             }
+        }.onAppear {
+            self.distanceUnits = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
         }
         
     }

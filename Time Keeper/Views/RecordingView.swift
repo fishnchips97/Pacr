@@ -256,6 +256,8 @@ struct RecordingView: View {
                 )
                 .environment(\.managedObjectContext, self.managedObjectContext)
             }
+        }.onAppear {
+            self.distanceUnits = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
         }
     }
 }
