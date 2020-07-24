@@ -127,15 +127,15 @@ struct ProfileView: View {
                     
                     HStack {
                         VStack {
-                            Text("1600 m")
+                            Text("1600m")
                                 .bold()
                                 .font(.system(size: 20))
                                 .padding(10)
                                 .padding(.horizontal, 15)
-                                .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                                .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 6.5)
                                 .background(Color.black)
                         }
-                        .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 6.5)
                         
                         Spacer()
                         
@@ -169,7 +169,7 @@ struct ProfileView: View {
                         } else {
                             VStack (alignment: .center, spacing: 0) {
                                 Spacer()
-                                Text("No 1600 m")
+                                Text("No 1600m")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
@@ -198,10 +198,10 @@ struct ProfileView: View {
                                 .font(.system(size: 20))
                                 .padding(10)
                                 .padding(.horizontal, 15)
-                                .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                                .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 6.5)
                                 .background(Color.black)
                         }
-                        .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 6.5)
                         
                         Spacer()
                         if self.best5k != nil {
@@ -256,10 +256,10 @@ struct ProfileView: View {
                                 .font(.system(size: 20))
                                 .padding(10)
                                 .padding(.horizontal, 15)
-                                .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                                .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 6.5)
                                 .background(Color.black)
                         }
-                        .frame(width: geometry.size.width / 4.2, height: geometry.size.height / 6.5)
+                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 6.5)
                         
                         Spacer()
                         

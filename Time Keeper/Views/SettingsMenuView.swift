@@ -12,7 +12,7 @@ struct SettingsMenuView: View {
     //    @Environment(\.managedObjectContext) var managedObjectContext
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State var currentIcon = "AppIcon"
-    @State var distanceUnits = UserDefaults.standard.string(forKey: "Distance Units")
+    @State var distanceUnits: DistanceUnits = DistanceUnits(unit: UserDefaults.standard.string(forKey: "Distance Units") ?? "kilometers")
     
     var body: some View {
         
@@ -64,13 +64,13 @@ struct SettingsMenuView: View {
             
             HStack {
                 Button(action: {
-                    self.distanceUnits = (self.distanceUnits == "Kilometers") ? "Miles" : "Kilometers"
-                    UserDefaults.standard.set(self.distanceUnits, forKey: "Distance Units")
+                    self.distanceUnits = (self.distanceUnits == .kilometers) ? .miles : .kilometers
+                    UserDefaults.standard.set(self.distanceUnits.rawValue, forKey: "Distance Units")
                 }) {
                     Text("Distance Units")
                 }
                 Spacer()
-                Text(self.distanceUnits ?? "Kilometers")
+                Text(self.distanceUnits.rawValue)
                 .bold()
             }
             

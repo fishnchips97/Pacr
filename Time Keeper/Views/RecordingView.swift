@@ -23,7 +23,7 @@ struct RecordingView: View {
     @State private var finishLinePcts : [CGFloat] = distanceFinishLinePcts.map {CGFloat($0)}
     
     private let trackDistanceInMeters = 400.0
-    private let metersInMile = 1609.34
+    
     @State private var show = false
     
     private let minuteOptions: [Int] = Array(1 ..< 60)
@@ -31,7 +31,7 @@ struct RecordingView: View {
     private let secondOptions: [Int] = Array(0 ..< 60)
     @State private var secondIndex = 0
     
-    
+    @State var distanceUnits = UserDefaults.standard.string(forKey: "Distance Units")
     
     var body: some View {
         ZStack {
@@ -81,7 +81,6 @@ struct RecordingView: View {
                                         }
                                     }
                                 }
-                                
                             }
                         
                         HStack {
@@ -168,8 +167,17 @@ struct RecordingView: View {
                             
                             
                             Button(action: {
-                                let paceInSecondsPerMeter = Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]) / self.metersInMile
-                                let animationTime = self.trackDistanceInMeters * paceInSecondsPerMeter
+                                var animationTime = 0.0
+                                if self.distanceUnits == "Miles" {
+                                    let mile = Measurement(value: 1, unit: UnitLength.miles)
+                                    let paceInSecondsPerMeter = Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]) / mile.converted(to: .meters).value
+                                    animationTime = self.trackDistanceInMeters * paceInSecondsPerMeter
+                                } else {
+                                    let kilometer = Measurement(value: 1, unit: UnitLength.kilometers)
+                                    let paceInSecondsPerMeter = Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]) / kilometer.converted(to: .meters).value
+                                    animationTime = self.trackDistanceInMeters * paceInSecondsPerMeter
+                                }
+                                
                                 withAnimation(Animation.linear(duration: animationTime).repeatForever(autoreverses: false)) {
                                     self.targetAnimating = true
                                 }

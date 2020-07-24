@@ -27,9 +27,15 @@ class TimeDatePaceFormatter {
         return formattedString
     }
     
-    static func paceNumberToFormatString(pace: Double) -> String {
+    static func paceNumberToFormatString(pace: Double, distanceUnit: DistanceUnits) -> String {
         let start = secondsToTraditionalFormatString(seconds: pace)
-        return "\(start) min/mi"
+        switch distanceUnit {
+        case .kilometers:
+            return "\(start) min/km"
+        case .miles:
+            return "\(start) min/mi"
+        }
+        
     }
     
     static func dateToString(date: Date?) -> String {
