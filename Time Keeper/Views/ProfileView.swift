@@ -11,6 +11,7 @@ import SwiftUI
 struct ProfileView: View {
     //    @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
+    @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State private var defaultDistanceIndex: Int = 0
     private var best1600m : Record? {
         fastestRecord(records: Array(records), distance: "1600 m")
@@ -63,7 +64,7 @@ struct ProfileView: View {
             return "00:00"
         }
         let avgSeconds = sum / Double(result.count)
-        return TimeDatePaceFormatter.secondsToTraditionalFormatString(seconds: avgSeconds)
+        return UnitFormatter.secondsToTraditionalFormatString(seconds: avgSeconds)
     }
     @State var defaultTimeRangeIndex: Int = 0
     var body: some View {
@@ -219,7 +220,7 @@ struct ProfileView: View {
                             Spacer()
                             VStack {
                                 Spacer()
-                                Text("\(TimeDatePaceFormatter.pace(timeInSecs: self.best5k!.timeInSeconds!.doubleValue, distance: distanceMeasurements["5 km"]!))")
+                                Text("\(UnitFormatter.pace(timeInSecs: self.best5k!.timeInSeconds!.doubleValue, distance: distanceMeasurements["5 km"]!, unit: self.distanceUnits))")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
@@ -278,7 +279,7 @@ struct ProfileView: View {
                             Spacer()
                             VStack {
                                 Spacer()
-                                Text("\(TimeDatePaceFormatter.pace(timeInSecs: self.best5k!.timeInSeconds!.doubleValue, distance: distanceMeasurements["10 km"]!))")
+                                Text("\(UnitFormatter.pace(timeInSecs: self.best5k!.timeInSeconds!.doubleValue, distance: distanceMeasurements["10 km"]!, unit: self.distanceUnits))")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()

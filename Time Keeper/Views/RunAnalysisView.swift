@@ -12,13 +12,15 @@ struct RunAnalysisView: View {
     var run : Record
     var runs : [Record]
     
+    @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
+    
     var pace : Double {
         let rec = self.run
-        return TimeDatePaceFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!)
+        return UnitFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!, unit: self.distanceUnits)
     }
     var paces : [Double] {
         self.runs.map { (rec) -> Double in
-            TimeDatePaceFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!)
+            UnitFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!, unit: self.distanceUnits)
         }
     }
     
@@ -37,7 +39,7 @@ struct RunAnalysisView: View {
                 Text("\(self.run.time) seconds")
                     .font(.system(size: 40))
                     .padding()
-                Text("\(TimeDatePaceFormatter.dateToString(date: self.run.dateRecorded))")
+                Text("\(UnitFormatter.dateToString(date: self.run.dateRecorded))")
                     .font(.system(size: 20))
                     .padding()
                 

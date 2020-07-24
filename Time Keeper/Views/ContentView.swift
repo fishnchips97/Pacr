@@ -24,30 +24,30 @@ struct AppView: View {
                 .tabItem {
                     Image(systemName: "list.dash")
                     Text("Leaderboard")
-                }
-        
-        RecordingView()
-        .environment(\.managedObjectContext, self.managedObjectContext)
-//        .blur(radius: CGFloat(self.trackBlur))
-//        .navigationBarHidden(false)
-//        .navigationBarTitle("TrackKeeper")
-        .tabItem {
-            Image(systemName: "hare")
-            Text("Run")
-        }
-        
-        ProfileView()
-            .tabItem {
-                Image(systemName: "person.circle")
-                Text("Profile")
             }
+            
+            RecordingView()
+                .environment(\.managedObjectContext, self.managedObjectContext)
+                //        .blur(radius: CGFloat(self.trackBlur))
+                //        .navigationBarHidden(false)
+                //        .navigationBarTitle("TrackKeeper")
+                .tabItem {
+                    Image(systemName: "hare")
+                    Text("Run")
+            }
+            
+            ProfileView()
+                .tabItem {
+                    Image(systemName: "person.circle")
+                    Text("Profile")
+            }
+        }
+        //        .navigationBarHidden(true)
+        //        .edgesIgnoringSafeArea([.top, .bottom])
+        
+        
+        
     }
-    //        .navigationBarHidden(true)
-    //        .edgesIgnoringSafeArea([.top, .bottom])
-    
-    
-    
-}
 }
 
 

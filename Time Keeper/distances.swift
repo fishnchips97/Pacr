@@ -8,21 +8,8 @@
 
 import Foundation
 
-enum DistanceUnits: String {
-    case kilometers
-    case miles
-    
-    init(unit: String) {
-        if unit == "mile" {
-            self = .miles
-        } else {
-            self = .kilometers
-        }
-    }
-}
-
-
 let distances = ["20 m", "1600 m", "5 km", "10 km"]
+let availableDistanceUnits: [UnitLength] = [.kilometers, .miles]
 
 let distanceFinishLinePcts : [Double] = distances.map { (dist) -> Double in
     let distanceInMeters = distanceMeasurements[dist]!.converted(to: .meters).value

@@ -31,7 +31,7 @@ struct RecordingView: View {
     private let secondOptions: [Int] = Array(0 ..< 60)
     @State private var secondIndex = 0
     
-    @State var distanceUnits = UserDefaults.standard.string(forKey: "Distance Units")
+    @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     
     var body: some View {
         ZStack {
@@ -88,7 +88,8 @@ struct RecordingView: View {
                                 Text("Distance")
                                     .font(.system(size: 24, design: .monospaced))
                                     .underline()
-                                Text("\(self.tracker.distanceString) \(distanceMeasurements[distances[self.selectedOption]]?.unit.symbol ?? "")")
+//                                Text("\(self.tracker.distanceString) \(distanceMeasurements[distances[self.selectedOption]]?.unit.symbol ?? "")")
+                                Text("\(UnitFormatter.distanceString(distance: self.tracker.distance, unit: self.distanceUnits))")
                                 .font(.system(size: 24, design: .monospaced))
                             }
                             .padding()
@@ -112,7 +113,7 @@ struct RecordingView: View {
                             VStack {
                                 Text("Target Pace").font(.system(size: 16, design: .monospaced))
                                 HStack {
-                                    Text("\(String(format: "%02d", self.minuteOptions[self.minuteIndex])) : \(String(format: "%02d", self.secondOptions[self.secondIndex]))")
+                                    Text("\(UnitFormatter.paceNumberToString(pace: Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]), distanceUnit: self.distanceUnits))")
                                         .font(.system(size: 18, design: .monospaced))
                                 }
                                 Button(action: {
@@ -128,7 +129,8 @@ struct RecordingView: View {
                             VStack {
                                 Text("Avg. Pace").font(.system(size: 16, design: .monospaced))
                                 HStack {
-                                    Text("\(self.tracker.pace)")
+//                                    Text("\(self.tracker.pace)")
+                                    Text("\(UnitFormatter.pace(timeInSecs: self.tracker.secondsElapsed, distance: self.tracker.distance, unit: self.distanceUnits))")
                                         .font(.system(size: 18, design: .monospaced))
                                 }
                             }
@@ -168,7 +170,7 @@ struct RecordingView: View {
                             
                             Button(action: {
                                 var animationTime = 0.0
-                                if self.distanceUnits == "Miles" {
+                                if self.distanceUnits == .miles {
                                     let mile = Measurement(value: 1, unit: UnitLength.miles)
                                     let paceInSecondsPerMeter = Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]) / mile.converted(to: .meters).value
                                     animationTime = self.trackDistanceInMeters * paceInSecondsPerMeter
