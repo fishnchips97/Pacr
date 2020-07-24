@@ -12,8 +12,8 @@ struct ProfileView: View {
     //    @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State private var defaultDistanceIndex: Int = 0
-    private var bestMile : Record? {
-        fastestRecord(records: Array(records), distance: "1 mile")
+    private var best1600m : Record? {
+        fastestRecord(records: Array(records), distance: "1600 m")
     }
     private var best5k : Record? {
         fastestRecord(records: Array(records), distance: "5 km")
@@ -42,7 +42,7 @@ struct ProfileView: View {
         }
     }
     
-    private var mileAvgTime : String {
+    private var avgTime1600m : String {
         var result = Array(records).filter { (record) -> Bool in
             if timeRanges[defaultTimeRangeIndex] == "3 Months" {
                 let threeMonthsInSeconds = 2592000.0
@@ -53,7 +53,7 @@ struct ProfileView: View {
             return true
         }
         result = result.filter { (record) -> Bool in
-            record.distance?.description == "1 mile"
+            record.distance?.description == "1600 m"
         }
         var sum = 0.0
         for record in result {
@@ -127,7 +127,7 @@ struct ProfileView: View {
                     
                     HStack {
                         VStack {
-                            Text("Mile")
+                            Text("1600 m")
                                 .bold()
                                 .font(.system(size: 20))
                                 .padding(10)
@@ -139,11 +139,11 @@ struct ProfileView: View {
                         
                         Spacer()
                         
-                        if self.bestMile != nil {
+                        if self.best1600m != nil {
                             
                             VStack {
                                 Spacer()
-                                Text("\(self.bestMile!.time)")
+                                Text("\(self.best1600m!.time)")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
@@ -155,7 +155,7 @@ struct ProfileView: View {
                             Spacer()
                             VStack {
                                 Spacer()
-                                Text("\(self.mileAvgTime)")
+                                Text("\(self.avgTime1600m)")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
@@ -169,7 +169,7 @@ struct ProfileView: View {
                         } else {
                             VStack (alignment: .center, spacing: 0) {
                                 Spacer()
-                                Text("No mile")
+                                Text("No 1600 m")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
@@ -328,12 +328,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        //        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        //        let record = Record(context: context)
-        //        record.dateRecorded = Date()
-        //        record.timeInSeconds = NSNumber(value: 10.2)
-        //        record.distance = NSString(utf8String: distances.first ?? "1 mile")
-        //        return ProfileView().environment(\.managedObjectContext, context)
         return ProfileView()
     }
 }

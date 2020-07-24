@@ -9,7 +9,7 @@
 import Foundation
 
 
-let distances = ["20 m", "1 mile", "5 km", "10 km"]
+let distances = ["20 m", "1600 m", "5 km", "10 km"]
 
 let distanceFinishLinePcts : [Double] = distances.map { (dist) -> Double in
     let distanceInMeters = distanceMeasurements[dist]!.converted(to: .meters).value
@@ -20,7 +20,7 @@ let distanceFinishLinePcts : [Double] = distances.map { (dist) -> Double in
 
 let distanceMeasurements = [
     "20 m" : Measurement(value: 20, unit: UnitLength.meters),
-    "1 mile" : Measurement(value: 1, unit: UnitLength.miles),
+    "1600 m" : Measurement(value: 1600, unit: UnitLength.meters),
     "5 km" : Measurement(value: 5000, unit: UnitLength.meters),
     "10 km" : Measurement(value: 10000, unit: UnitLength.meters),
 ]

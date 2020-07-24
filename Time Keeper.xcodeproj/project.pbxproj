@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D907D90923D762DA001C3A0B /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D907D90823D762DA001C3A0B /* RecordingView.swift */; };
-		D907D90B23D76733001C3A0B /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D907D90A23D76733001C3A0B /* MainMenuView.swift */; };
 		D907D90D23D767B5001C3A0B /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D907D90C23D767B5001C3A0B /* SettingsMenuView.swift */; };
 		D907D90F23D7686D001C3A0B /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D907D90E23D7686D001C3A0B /* LeaderboardView.swift */; };
 		D907D91123D77845001C3A0B /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = D907D91023D77845001C3A0B /* Record.swift */; };
@@ -36,7 +35,6 @@
 
 /* Begin PBXFileReference section */
 		D907D90823D762DA001C3A0B /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
-		D907D90A23D76733001C3A0B /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		D907D90C23D767B5001C3A0B /* SettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuView.swift; sourceTree = "<group>"; };
 		D907D90E23D7686D001C3A0B /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		D907D91023D77845001C3A0B /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
@@ -128,9 +126,7 @@
 				D907D90E23D7686D001C3A0B /* LeaderboardView.swift */,
 				D907D90823D762DA001C3A0B /* RecordingView.swift */,
 				D90B18AE24B7986D0088499F /* ProfileView.swift */,
-				D907D90A23D76733001C3A0B /* MainMenuView.swift */,
 				D907D90C23D767B5001C3A0B /* SettingsMenuView.swift */,
-				D9EE79ED248EC356002D747B /* TrackView.swift */,
 				D982235D2484A1B900A33036 /* SaveRunView.swift */,
 				D935442024B61E6F008CB435 /* RunAnalysisView.swift */,
 				D9896B5224BD29A900A8CB8F /* DotGraphView.swift */,
@@ -141,6 +137,7 @@
 		D99DC24724CA4CAE00FE6139 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				D9EE79ED248EC356002D747B /* TrackView.swift */,
 				D99DC24824CA4CCB00FE6139 /* CheckeredFinishLineView.swift */,
 			);
 			path = Extras;
@@ -234,7 +231,6 @@
 				D907D90D23D767B5001C3A0B /* SettingsMenuView.swift in Sources */,
 				D9EE79EE248EC356002D747B /* TrackView.swift in Sources */,
 				D907D91123D77845001C3A0B /* Record.swift in Sources */,
-				D907D90B23D76733001C3A0B /* MainMenuView.swift in Sources */,
 				D939D4EF23CA627100936FC1 /* Time_Keeper.xcdatamodeld in Sources */,
 				D9331A5224C423BF00496F95 /* TimeDatePaceFormatter.swift in Sources */,
 				D99DC24924CA4CCB00FE6139 /* CheckeredFinishLineView.swift in Sources */,

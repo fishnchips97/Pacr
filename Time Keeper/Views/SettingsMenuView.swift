@@ -12,28 +12,13 @@ struct SettingsMenuView: View {
     //    @Environment(\.managedObjectContext) var managedObjectContext
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State var currentIcon = "AppIcon"
+    @State var distanceUnits = UserDefaults.standard.string(forKey: "Distance Units")
+    
     var body: some View {
         
         
         List {
             HStack {
-                if UIApplication.shared.alternateIconName == nil {
-                    Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(10)
-                        .shadow(radius: 10)
-                } else {
-                    Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(10)
-                        .shadow(radius: 10)
-                }
-                
-                
-                Spacer()
-                
                 Button(action: {
                     if let _ = UIApplication.shared.alternateIconName {
                         UIApplication.shared.setAlternateIconName(nil) { (error) in
@@ -52,21 +37,43 @@ struct SettingsMenuView: View {
                             }
                         }
                     }
-                    
-                    
-                    
                 }, label: {
                     Text("Toggle Icon")
-                        .foregroundColor(Color.white)
+                        .font(.system(size: 20))
                         .bold()
-                    //                            .frame(width: 200, height: 50)
                     
                 })
-                    .padding()
-                    .background(Color.yellow)
-                    .cornerRadius(10)
+                
+                Spacer()
+                
+                if UIApplication.shared.alternateIconName == nil {
+                    Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(10)
+                        .shadow(radius: 10)
+                } else {
+                    Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(10)
+                        .shadow(radius: 10)
+                }
                 
             }
+            
+            HStack {
+                Button(action: {
+                    self.distanceUnits = (self.distanceUnits == "Kilometers") ? "Miles" : "Kilometers"
+                    UserDefaults.standard.set(self.distanceUnits, forKey: "Distance Units")
+                }) {
+                    Text("Distance Units")
+                }
+                Spacer()
+                Text(self.distanceUnits ?? "Kilometers")
+                .bold()
+            }
+            
         }
         .onAppear {
             if UIApplication.shared.alternateIconName == nil {
