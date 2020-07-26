@@ -33,6 +33,15 @@ struct RecordingView: View {
     
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     
+    let formatter = NumberFormatter()
+    init() {
+        self.formatter.minimumFractionDigits = 0
+        self.formatter.maximumFractionDigits = 2
+    }
+    
+    
+    
+    
     var body: some View {
         ZStack {
             
@@ -42,46 +51,61 @@ struct RecordingView: View {
                 HStack{
                     Spacer()
                     VStack {
-                        TrackView(
-                            startAnimationTarget: self.$targetAnimating,
-                            startAnimationCurrent: self.$currentAnimating,
-                            currentPct: self.$currentPct,
-                            finishLinePct: self.$finishLinePcts[self.selectedOption]
-                        )
-                            .padding()
-                            .frame(width: geometry.size.width, height: geometry.size.height/1.8)
-                            .onReceive(self.tracker.$stoppedRunning) { (stoppedRunning) in
+                        ZStack(alignment: .center) {
+                            TrackView(
+                                startAnimationTarget: self.$targetAnimating,
+                                startAnimationCurrent: self.$currentAnimating,
+                                currentPct: self.$currentPct,
+                                finishLinePct: self.$finishLinePcts[self.selectedOption]
+                            )
+                                .padding()
+                                .frame(width: geometry.size.width, height: geometry.size.height/1.8)
+                                .onReceive(self.tracker.$stoppedRunning) { (stoppedRunning) in
 
-                                if self.tracker.runStatus == .inProgress && stoppedRunning == true {
-                                    withAnimation (Animation.linear(duration: 0)) {
-                                        let currentDistance = self.tracker.distance
-                                        let temp = currentDistance.converted(to: .meters)
-                                        let val = temp.value.truncatingRemainder(dividingBy: self.trackDistanceInMeters)
-                                        self.currentPct = CGFloat(val / self.trackDistanceInMeters)
-                                        self.currentAnimating = false
-                                    }
-                                }
-                            }
-                            .onReceive(self.tracker.$distance) { (currentDistance) in
-                                if self.tracker.runStatus == .inProgress {
-                                    let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
-                                    let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
-                                    self.tracker.secondsElapsedSinceLastUpdate = 0.0
-                                    let transitionTime = self.trackDistanceInMeters / currentSpeedInMetersPerSec
-                                    if currentDistance.value > 0 {
+                                    if self.tracker.runStatus == .inProgress && stoppedRunning == true {
                                         withAnimation (Animation.linear(duration: 0)) {
-                                            /// without this the other animation breaks
-                                            self.currentAnimating = false
-                                        }
-                                        withAnimation(Animation.linear(duration: transitionTime)) {
+                                            let currentDistance = self.tracker.distance
                                             let temp = currentDistance.converted(to: .meters)
                                             let val = temp.value.truncatingRemainder(dividingBy: self.trackDistanceInMeters)
                                             self.currentPct = CGFloat(val / self.trackDistanceInMeters)
-                                            self.currentAnimating = true
+                                            self.currentAnimating = false
                                         }
                                     }
                                 }
+                                .onReceive(self.tracker.$distance) { (currentDistance) in
+                                    if self.tracker.runStatus == .inProgress {
+                                        let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
+                                        let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
+                                        self.tracker.secondsElapsedSinceLastUpdate = 0.0
+                                        let transitionTime = self.trackDistanceInMeters / currentSpeedInMetersPerSec
+                                        if currentDistance.value > 0 {
+                                            withAnimation (Animation.linear(duration: 0)) {
+                                                /// without this the other animation breaks
+                                                self.currentAnimating = false
+                                            }
+                                            withAnimation(Animation.linear(duration: transitionTime)) {
+                                                let temp = currentDistance.converted(to: .meters)
+                                                let val = temp.value.truncatingRemainder(dividingBy: self.trackDistanceInMeters)
+                                                self.currentPct = CGFloat(val / self.trackDistanceInMeters)
+                                                self.currentAnimating = true
+                                            }
+                                        }
+                                    }
+                                }
+                            
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Laps")
+                                    .font(.system(size: 15))
+                                Text(self.formatter.string(from: self.tracker.distance.value / 400.0 as NSNumber)!)
+                                    .font(.system(size: 25, design: .monospaced))
+                                Divider()
+                                    .frame(width: geometry.size.width / 7)
+                                Text(self.formatter.string(from: distanceMeasurements[distances[self.selectedOption]]!.value / 400.0 as NSNumber)!)
+                                    .font(.system(size: 20))
                             }
+                            .frame(width: geometry.size.width / 4)
+                        }
+                        
                         
                         HStack {
                             VStack {
