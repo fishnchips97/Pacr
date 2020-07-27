@@ -93,17 +93,17 @@ struct RecordingView: View {
                                     }
                                 }
                             
-                            VStack(alignment: .leading, spacing: 10) {
+                            VStack(alignment: .leading) {
                                 Text("Laps")
-                                    .font(.system(size: 15))
+                                    .font(.system(size: 25))
                                 Text(self.formatter.string(from: self.tracker.distance.value / 400.0 as NSNumber)!)
                                     .font(.system(size: 25, design: .monospaced))
                                 Divider()
-                                    .frame(width: geometry.size.width / 7)
+                                    .frame(width: 100)
                                 Text(self.formatter.string(from: distanceMeasurements[distances[self.selectedOption]]!.value / 400.0 as NSNumber)!)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 25, design: .monospaced))
                             }
-                            .frame(width: geometry.size.width / 4)
+                            .frame(width: geometry.size.width / 3)
                         }
                         
                         
@@ -217,6 +217,8 @@ struct RecordingView: View {
                             .background(Color.green)
                             .cornerRadius(15)
                             .foregroundColor(.white)
+                            .disabled(self.tracker.runStatus != .notStarted)
+
                         }
                     }
                     Spacer()

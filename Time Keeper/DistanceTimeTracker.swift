@@ -60,12 +60,13 @@ class DistanceTimeTracker : NSObject, ObservableObject {
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
+        self.locationManager.allowsBackgroundLocationUpdates = true
     }
     
     func startLocationUpdates() {
         self.locationManager.delegate = self
         self.locationManager.activityType = .fitness
-        self.locationManager.distanceFilter = 10
+        self.locationManager.distanceFilter = 1
         self.locationManager.startUpdatingLocation()
     }
     
@@ -83,7 +84,7 @@ extension DistanceTimeTracker : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
             let sinceNow = location.timestamp.timeIntervalSinceNow
-            guard location.horizontalAccuracy < 20  && abs(sinceNow) < 10 else {
+            guard location.horizontalAccuracy < 20 && abs(sinceNow) < 10 else {
                 continue
             }
             if let prevLocation = locationList.last {
