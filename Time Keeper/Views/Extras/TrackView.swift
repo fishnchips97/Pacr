@@ -75,6 +75,7 @@ struct TrackShape: Shape {
         let distX = rect.maxX - rect.minX
         let distY = rect.maxY - rect.minY
 
+        /// 0.2339701154 is the ratio for radius to track length
         let radius = distY * 0.2339701154
 
         let midX = distX / 2
