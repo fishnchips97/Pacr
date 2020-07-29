@@ -9,47 +9,6 @@
 import Foundation
 import CoreLocation
 
-/// save data option https://www.raywenderlich.com/5247-core-location-tutorial-for-ios-tracking-visited-locations#toc-anchor-022
-
-// starter code to save data on disk
-
-//func saveLocationOnDisk(_ location: Location) {
-//  // 1
-//  let encoder = JSONEncoder()
-//  let timestamp = location.date.timeIntervalSince1970
-//
-//  // 2
-//  let fileURL = documentsURL.appendingPathComponent("\(timestamp)")
-//
-//  // 3
-//  let data = try! encoder.encode(location)
-//
-//  // 4
-//  try! data.write(to: fileURL)
-//
-//  // 5
-//  locations.append(location)
-//}
-
-//let jsonDecoder = JSONDecoder()
-//
-//// 1
-//let locationFilesURLs = try! fileManager
-//  .contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-//locations = locationFilesURLs.compactMap { url -> Location? in
-//  // 2
-//  guard !url.absoluteString.contains(".DS_Store") else {
-//    return nil
-//  }
-//  // 3
-//  guard let data = try? Data(contentsOf: url) else {
-//    return nil
-//  }
-//  // 4
-//  return try? jsonDecoder.decode(Location.self, from: data)
-//  // 5
-//  }.sorted(by: { $0.date < $1.date })
-
 
 let trackDistanceInMeters = 400.0
 
@@ -61,7 +20,7 @@ enum runStatusPossibilities {
 
 
 
-class DistanceTimeTracker : NSObject, ObservableObject {
+class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegate {
     
     
     
@@ -104,10 +63,6 @@ class DistanceTimeTracker : NSObject, ObservableObject {
         self.locationManager.allowsBackgroundLocationUpdates = true
     }
     
-    deinit {
-//        print("test")
-    }
-    
     func startLocationUpdates() {
         self.locationManager.delegate = self
         self.locationManager.activityType = .fitness
@@ -125,9 +80,9 @@ class DistanceTimeTracker : NSObject, ObservableObject {
     
 }
 
-extension DistanceTimeTracker : CLLocationManagerDelegate {
+extension DistanceTimeTracker {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        print(locationList.count)
+        print(locationList.count)
         for location in locations {
             let sinceNow = location.timestamp.timeIntervalSinceNow
             guard location.horizontalAccuracy < 20 && abs(sinceNow) < 10 else {

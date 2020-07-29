@@ -10,9 +10,7 @@ import SwiftUI
 
 struct RecordingView: View {
     
-    @ObservedObject private var tracker = DistanceTimeTracker()
-    
-    @Environment(\.managedObjectContext) private var managedObjectContext
+    private var tracker : DistanceTimeTracker
     
 
     @State private var selectedOption: Int = 0
@@ -34,7 +32,9 @@ struct RecordingView: View {
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     
     let formatter = NumberFormatter()
-    init() {
+    init(tracker: DistanceTimeTracker) {
+//        print("init recording view")
+        self.tracker = tracker
         self.formatter.minimumFractionDigits = 0
         self.formatter.maximumFractionDigits = 2
     }
@@ -280,7 +280,6 @@ struct RecordingView: View {
                         Color.black.opacity(0.5)
                             .edgesIgnoringSafeArea(.all)
                 )
-                .environment(\.managedObjectContext, self.managedObjectContext)
             }
         }.onAppear {
             self.distanceUnits = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
@@ -291,6 +290,6 @@ struct RecordingView: View {
 struct RecordingView_Previews: PreviewProvider {
     
     static var previews: some View {
-        RecordingView()
+        RecordingView(tracker: DistanceTimeTracker())
     }
 }

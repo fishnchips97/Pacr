@@ -11,10 +11,12 @@ import SwiftUI
 struct AppView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
+    @ObservedObject var tracker = DistanceTimeTracker()
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     
     
     @Environment(\.colorScheme) var colorScheme
+    
     
     var body: some View {
         TabView {
@@ -26,8 +28,8 @@ struct AppView: View {
                     Text("Leaderboard")
             }
             
-            RecordingView()
-                .environment(\.managedObjectContext, self.managedObjectContext)
+            RecordingView(tracker: self.tracker)
+//                .environment(\.managedObjectContext, self.managedObjectContext)
                 //        .blur(radius: CGFloat(self.trackBlur))
                 //        .navigationBarHidden(false)
                 //        .navigationBarTitle("TrackKeeper")
