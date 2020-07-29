@@ -56,7 +56,6 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
     
     override init() {
         super.init()
-//        print("init")
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
@@ -82,7 +81,6 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
 
 extension DistanceTimeTracker {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locationList.count)
         for location in locations {
             let sinceNow = location.timestamp.timeIntervalSinceNow
             guard location.horizontalAccuracy < 20 && abs(sinceNow) < 10 else {
