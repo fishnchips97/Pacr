@@ -26,26 +26,6 @@ extension Record {
         return request
     }
     
-    var time: String {
-
-        let timeInSecs = timeInSeconds?.doubleValue
-        let totalSeconds = timeInSecs ?? 0
-        let hours = Int(totalSeconds) / 3600
-        let minutes = (Int(totalSeconds) % 3600) / 60
-        let seconds = Int(totalSeconds) % 60
-        let centiseconds = round((totalSeconds - Double(Int(totalSeconds))) * 100)
-        var result = ""
-        if hours != 0 {
-            result += "\(hours):"
-        }
-        let minuteString = String(format: "%02d", minutes)
-        let secondString = String(format: "%02d", seconds)
-        let centisecondString = String(format: "%02.f", centiseconds)
-        result += "\(minuteString):\(secondString).\(centisecondString)"
-
-        return result
-
-    }
     
     
 }

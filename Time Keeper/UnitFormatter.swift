@@ -10,21 +10,34 @@ import Foundation
 
 class UnitFormatter {
     
-    static func secondsToTraditionalFormatString(seconds: Double) -> String {
+    static func secondsToTraditionalFormatString(seconds: Double, fractionalDigits: Int = 2) -> String {
+        let safeFractionalDigits = fractionalDigits > 2 ? 2 : fractionalDigits
         
         let formatter = DateComponentsFormatter()
+
         if seconds < 3600 {
             formatter.allowedUnits = [.minute, .second]
         } else {
             formatter.allowedUnits = [.hour, .minute, .second]
         }
-        
+        formatter.allowsFractionalUnits = true
         formatter.unitsStyle = .positional
         formatter.zeroFormattingBehavior = .pad
 
+        let milliseconds = modf(seconds).1
+        let numFormatter = NumberFormatter()
+        
+        numFormatter.maximumIntegerDigits = 0
+        numFormatter.minimumIntegerDigits = 0
+        numFormatter.maximumFractionDigits = safeFractionalDigits
+        numFormatter.minimumFractionDigits = safeFractionalDigits
+
+        let msString = safeFractionalDigits <= 0 ? "" : numFormatter.string(from: NSNumber(value: milliseconds))!
         let formattedString = formatter.string(from: TimeInterval(seconds))!
         
-        return formattedString
+        let timeStringWithMilliseconds = formattedString + msString
+        
+        return timeStringWithMilliseconds
     }
     
     
@@ -39,7 +52,7 @@ class UnitFormatter {
     }
     
     static func paceNumberToString(pace: Double, distanceUnit: UnitLength) -> String {
-        let start = secondsToTraditionalFormatString(seconds: pace)
+        let start = secondsToTraditionalFormatString(seconds: pace, fractionalDigits: 0)
         return "\(start) min/\(distanceUnit.symbol)"
         
     }
@@ -50,7 +63,7 @@ class UnitFormatter {
         if distance.converted(to: unit).value > 0.0 {
             paceNumber = timeInSecs / distance.converted(to: unit).value
         }
-        return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber)) min/\(unit.symbol)"
+        return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) min/\(unit.symbol)"
         
     }
     
@@ -72,4 +85,5 @@ class UnitFormatter {
         
         return "\(formatter.string(from: convertedDistance))"
     }
+    
 }

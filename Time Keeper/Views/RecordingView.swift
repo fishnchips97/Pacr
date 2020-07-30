@@ -125,7 +125,7 @@ struct RecordingView: View {
                                 Text("Time")
                                     .font(.system(size: 24, design: .monospaced))
                                     .underline()
-                                Text("\(self.tracker.secondsElapsedString)")
+                                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.tracker.secondsElapsed))")
                                     .font(.system(size: 24, design: .monospaced))
                             }
                             .padding()
@@ -209,7 +209,6 @@ struct RecordingView: View {
                                 }
                                 self.tracker.start()
                                 self.tracker.currentDistanceGoal = distances[self.selectedOption]
-                                self.tracker.updatePace()
                             }) {
                                 Text("Start").bold()
                             }
@@ -217,7 +216,7 @@ struct RecordingView: View {
                             .background(Color.green)
                             .cornerRadius(15)
                             .foregroundColor(.white)
-                            .disabled(self.tracker.runStatus != .notStarted)
+                            .disabled(self.tracker.runStatus == .inProgress)
 
                         }
                     }

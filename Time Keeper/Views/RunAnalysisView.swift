@@ -36,7 +36,7 @@ struct RunAnalysisView: View {
                     .frame(width: geometry.size.width - 30, height: 300)
                 
                 Spacer()
-                Text("\(self.run.time) seconds")
+                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.run.timeInSeconds!.doubleValue)) seconds")
                     .font(.system(size: 40))
                     .padding()
                 Text("\(UnitFormatter.dateToString(date: self.run.dateRecorded))")
@@ -61,19 +61,19 @@ struct RunAnalysisView_Previews: PreviewProvider {
         let rec1 = Record()
         
         rec1.dateRecorded = Date()
-        rec1.timeInSeconds = NSNumber(value: 1500.21.roundTo(places: 2))
+        rec1.timeInSeconds = NSNumber(value: 1500.21)
         rec1.distance = NSString(utf8String: "10 km")
         
         let rec2 = Record()
         
         rec2.dateRecorded = Date()
-        rec2.timeInSeconds = NSNumber(value: 1000.21.roundTo(places: 2))
+        rec2.timeInSeconds = NSNumber(value: 1000.21)
         rec2.distance = NSString(utf8String: "10 km")
         
         let rec3 = Record()
         
         rec3.dateRecorded = Date()
-        rec3.timeInSeconds = NSNumber(value: 2000.21.roundTo(places: 2))
+        rec3.timeInSeconds = NSNumber(value: 2000.21)
         rec3.distance = NSString(utf8String: "10 km")
         
         let runs = [rec1, rec2, rec3]

@@ -144,7 +144,7 @@ struct ProfileView: View {
                             
                             VStack {
                                 Spacer()
-                                Text("\(self.best1600m!.time)")
+                                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.best1600m!.timeInSeconds!.doubleValue))")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
@@ -208,7 +208,7 @@ struct ProfileView: View {
                         if self.best5k != nil {
                             VStack {
                                 Spacer()
-                                Text("\(self.best5k!.time)")
+                                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.best5k!.timeInSeconds!.doubleValue))")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
@@ -267,7 +267,7 @@ struct ProfileView: View {
                         if self.best5k != nil {
                             VStack {
                                 Spacer()
-                                Text("\(self.best10k!.time)")
+                                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.best10k!.timeInSeconds!.doubleValue))")
                                     .bold()
                                     .font(.system(size: 20))
                                 Spacer()
