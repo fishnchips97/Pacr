@@ -1,5 +1,5 @@
 //
-//  Time.swift
+//  TempUnitFormatter.swift
 //  Time Keeper
 //
 //  Created by Erik Fisher on 7/18/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UnitFormatter {
+class TempUnitFormatter {
     
     static func secondsToTraditionalFormatString(seconds: Double, fractionalDigits: Int = 2) -> String {
         let safeFractionalDigits = fractionalDigits > 2 ? 2 : fractionalDigits
@@ -62,7 +62,7 @@ class UnitFormatter {
         if distance.converted(to: unit).value > 0.0 {
             paceNumber = timeInSecs / distance.converted(to: unit).value
         }
-        return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) min/\(unit.symbol)"
+        return "\(TempUnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) min/\(unit.symbol)"
         
     }
     
