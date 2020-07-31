@@ -34,9 +34,6 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
             }
         }
     }
-    var avgPaceNumberInMeters: Double {
-        UnitFormatter.paceNumber(timeInSecs: secondsElapsed, distance: distance, unit: .meters)
-    }
     @Published var stoppedRunning = false
     @Published var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
