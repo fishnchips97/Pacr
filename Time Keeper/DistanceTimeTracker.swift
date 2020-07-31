@@ -69,6 +69,8 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
         self.runStatus = .notStarted
         self.distance = Measurement(value: 0, unit: UnitLength.meters)
         self.secondsElapsed = 0.0
+        self.secondsElapsedSinceLastUpdate = 0.0
+        self.secondsUpdatedOnDistanceChange = 0.0
         self.locationList.removeAll()
     }
     
