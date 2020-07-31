@@ -42,21 +42,22 @@ struct DotGraphView: View {
                         ForEach(0 ..< self.yData.count) {y_i in
                             
                             VStack {
-                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * (1 - self.ratio(elem: self.yData[y_i], list: self.yData)))
+                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * self.ratio(elem: self.yData[y_i], list: self.yData))
                                 
                                 if self.highlightData == self.yData[y_i] {
                                     Circle()
-                                    .fill(Color.black)
+                                    .fill(Color.green)
                                     .frame(width: 20, height: 20)
                                 } else {
                                     Circle()
-                                    .fill(Color.green)
+                                    .fill(Color.black)
                                     .frame(width: 20, height: 20)
                                 }
+                                
                                     
                                     
 //                                    .offset(x: 0, y: -5)
-                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * self.ratio(elem: self.yData[y_i], list: self.yData))
+                                Spacer(minLength: (geometry.size.height - CGFloat(self.circleSize)) * (1 - self.ratio(elem: self.yData[y_i], list: self.yData)))
                             }
                             
                             .frame(height: geometry.size.height)
@@ -90,15 +91,16 @@ struct DotGraphView: View {
                         .opacity(0.75)
                         
                         VStack(alignment: .center) {
-                            Text("\(self.stringFormatter(self.yData.max() ?? 1, self.yDataUnit))")
-                                .font(.system(size: 18))
+                            Text("\(self.stringFormatter(self.yData.min() ?? 0, self.yDataUnit))")
+                            .font(.system(size: 18))
                             Spacer()
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: 25, height: 3)
                             Spacer()
-                            Text("\(self.stringFormatter(self.yData.min() ?? 0, self.yDataUnit))")
-                                .font(.system(size: 18))
+                            Text("\(self.stringFormatter(self.yData.max() ?? 1, self.yDataUnit))")
+                            .font(.system(size: 18))
+                            
                         }
                         .frame(width: 75, height: geometry.size.height - CGFloat(self.circleSize))
                         .border(Color.black)

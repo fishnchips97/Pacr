@@ -26,7 +26,7 @@ struct ProfileView: View {
     
     private func fastestRecord(records: [Record], distance: String) -> Record? {
         var result = records.filter { (record) -> Bool in
-            if timeRanges[defaultTimeRangeIndex] == "3 Months" {
+            if timeRanges[defaultTimeRangeIndex] == "Recent" {
                 let threeMonthsInSeconds = 2592000.0
                 //                let threeMonthsInSeconds = 600.0
                 let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
@@ -45,7 +45,7 @@ struct ProfileView: View {
     
     private var avgTime1600m : String {
         var result = Array(records).filter { (record) -> Bool in
-            if timeRanges[defaultTimeRangeIndex] == "3 Months" {
+            if timeRanges[defaultTimeRangeIndex] == "Recent" {
                 let threeMonthsInSeconds = 2592000.0
                 //                let threeMonthsInSeconds = 600.0
                 let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
@@ -125,7 +125,7 @@ struct ProfileView: View {
 //                    .padding()
 //                    
 //                    Spacer()
-                    
+                    Spacer(minLength: 20)
                     HStack {
                         VStack {
                             Text("1.6k")
@@ -308,7 +308,8 @@ struct ProfileView: View {
                     .cornerRadius(15)
                     
                     Spacer()
-                    filterPicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex)
+                    buttonTogglePicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex, width: geometry.size.width / 3.3)
+                        .padding(.bottom)
                     
                     
                     

@@ -21,7 +21,7 @@ struct RunAnalysisView: View {
     var paces : [Double] {
         self.runs.map { (rec) -> Double in
             UnitFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!, unit: self.distanceUnits)
-        }
+        }.reversed()
     }
     
     var body: some View {
@@ -33,10 +33,10 @@ struct RunAnalysisView: View {
                     .padding(.vertical, 10)
                 
                 DotGraphView(yData: self.paces, highlightData: self.pace, yDataUnit: self.distanceUnits)
-                    .frame(width: geometry.size.width - 30, height: 300)
+                    .frame(width: geometry.size.width - 30, height: 200)
                 
                 Spacer()
-                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.run.timeInSeconds!.doubleValue)) seconds")
+                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.run.timeInSeconds!.doubleValue)) sec")
                     .font(.system(size: 40))
                     .padding()
                 Text("\(UnitFormatter.dateToString(date: self.run.dateRecorded))")

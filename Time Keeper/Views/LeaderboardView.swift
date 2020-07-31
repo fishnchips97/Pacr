@@ -9,8 +9,8 @@
 import SwiftUI
 
 
-let orderingOptions = ["Fastest Pace", "Most Recent"]
-let timeRanges = ["3 Months", "All Time"]
+let orderingOptions = ["Time", "Date"]
+let timeRanges = ["Recent", "All"]
 
 struct LeaderboardView: View {
     
@@ -33,11 +33,11 @@ struct LeaderboardView: View {
         result = result.filter { (record) -> Bool in
             record.distance?.description ?? "" == distances[defaultDistanceIndex]
         }
-        if orderingOptions[orderOptionIndex] == "Fastest Pace" {
+        if orderingOptions[orderOptionIndex] == "Time" {
             result.sort {
                 return $0.timeInSeconds?.decimalValue ?? 0 < $1.timeInSeconds?.decimalValue ?? 0
             }
-        } else if orderingOptions[orderOptionIndex] == "Most Recent" {
+        } else if orderingOptions[orderOptionIndex] == "Date" {
             result.sort {
                 return $0.dateRecorded ?? Date() > $1.dateRecorded ?? Date()
             }
@@ -58,47 +58,59 @@ struct LeaderboardView: View {
                             .padding([.top, .leading], 20.0)
                         Spacer()
                     }
+                Spacer()
                     
                     
                     
                     if self.sortedRecords.count > 0 {
-                        List {
-                            HStack {
-                                Text("Time").font(.system(size: 20)).bold()
-                                Spacer()
-                                Text("Date").font(.system(size: 20)).bold()
-                            }
-                            
-                            ForEach (self.sortedRecords) { record in
-                                NavigationLink (destination: RunAnalysisView(run: record, runs: self.sortedRecords)) {
-                                    HStack {
-                                        if orderingOptions[self.orderOptionIndex] == "Fastest Pace" {
-                                            Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20)).bold()
+                        VStack {
+                            List {
+                                HStack {
+                                    Text("Time").font(.system(size: 20)).bold()
+                                    Spacer()
+                                    Text("Date").font(.system(size: 20)).bold()
+                                }
+                                
+                                ForEach (self.sortedRecords) { record in
+                                    NavigationLink (destination: RunAnalysisView(run: record, runs: self.sortedRecords)) {
+                                        HStack {
+                                            if orderingOptions[self.orderOptionIndex] == "Time" {
+                                                Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20))
+                                                    .bold()
+                                            }
+                                            Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: record.timeInSeconds!.doubleValue))")
+                                                .font(.system(size: 20))
+                                                .bold()
+                                            Spacer()
+                                            Text("\(UnitFormatter.dateToString(date: record.dateRecorded))")
                                         }
-                                        Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: record.timeInSeconds!.doubleValue))").font(.system(size: 20)).bold()
-                                        Spacer()
-                                        Text("\(UnitFormatter.dateToString(date: record.dateRecorded))")
                                     }
+                                    
                                 }
                                 
                             }
-                            
                         }
-                        .frame(height: geometry.size.height/2)
+                        .frame(height: geometry.size.height/1.5)
                     } else {
-                        Text("Runs will show up here")
+                        VStack {
+                            Text("Runs will show up here")
                             .bold()
-                            .frame(height: geometry.size.height/2)
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height/1.5)
                     }
+                    Spacer()
                     
-                    
-                    VStack {
-                        Spacer().frame(height: 24)
-                        filterPicker(options: orderingOptions, selectedOption: self.$orderOptionIndex)
-                        filterPicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex)
-                        filterPicker(options: distances, selectedOption: self.$defaultDistanceIndex)
-                        Spacer().frame(height: 24)
+                    HStack {
+//                        Spacer().frame(height: 24)
+                        buttonTogglePicker(options: distances, selectedOption: self.$defaultDistanceIndex, width: geometry.size.width / 3.3)
+                            
+                        buttonTogglePicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex, width: geometry.size.width / 3.3)
+                            
+                        buttonTogglePicker(options: orderingOptions, selectedOption: self.$orderOptionIndex, width: geometry.size.width / 3.3)
+                            
+//                        Spacer().frame(height: 24)
                     }
+                Spacer()
                     
                 }.navigationBarTitle("Leaderboard")
             }
@@ -111,18 +123,31 @@ struct LeaderboardView: View {
     }
 }
 
-struct filterPicker: View {
+struct buttonTogglePicker: View {
     let options: [String]
     @Binding var selectedOption: Int
+    let width: CGFloat
     var body: some View {
-        Picker("Option Picker", selection: $selectedOption) {
-            ForEach(0 ..< options.count) { index in
-                Text(self.options[index]).tag(index)
-            }
+//        Picker("Option Picker", selection: $selectedOption) {
+//            ForEach(0 ..< options.count) { index in
+//                Text(self.options[index]).tag(index)
+//            }
+//        }
+//        .pickerStyle(SegmentedPickerStyle())
+//        .padding(.horizontal, 10)
+//        .padding(.bottom, 10)
+        Button(action: {
+            let nextIndex = self.options.index(after: self.selectedOption)
+            self.selectedOption = self.options.endIndex > nextIndex ? nextIndex : self.options.startIndex
+        }) {
+            Text("\(self.options[self.selectedOption])")
+            .bold()
         }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding(.horizontal, 10)
-        .padding(.bottom, 10)
+        .padding()
+        .frame(width: self.width)
+        .background(Color.green)
+        .cornerRadius(15)
+        .foregroundColor(Color.white)
     }
 }
 
