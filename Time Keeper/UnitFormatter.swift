@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TempUnitFormatter {
+class UnitFormatter {
     
     static func secondsToTraditionalFormatString(seconds: Double, fractionalDigits: Int = 2) -> String {
         let safeFractionalDigits = fractionalDigits > 2 ? 2 : fractionalDigits
@@ -62,7 +62,7 @@ class TempUnitFormatter {
         if distance.converted(to: unit).value > 0.0 {
             paceNumber = timeInSecs / distance.converted(to: unit).value
         }
-        return "\(TempUnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) min/\(unit.symbol)"
+        return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) min/\(unit.symbol)"
         
     }
     

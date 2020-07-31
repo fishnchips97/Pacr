@@ -23,7 +23,7 @@
 		D93D82C8247F046200316608 /* DistanceTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C7247F046200316608 /* DistanceTimeTracker.swift */; };
 		D93D82CA247F158300316608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C9247F158300316608 /* LocationManager.swift */; };
 		D946C35C2489B00D00448C2D /* distances.swift in Sources */ = {isa = PBXBuildFile; fileRef = D946C35B2489B00D00448C2D /* distances.swift */; };
-		D973D75624D397E800027ECA /* TempUnitFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D973D75524D397E800027ECA /* TempUnitFormatter.swift */; };
+		D973D75624D397E800027ECA /* UnitFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D973D75524D397E800027ECA /* UnitFormatter.swift */; };
 		D982235E2484A1B900A33036 /* SaveRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982235D2484A1B900A33036 /* SaveRunView.swift */; };
 		D9896B5324BD29A900A8CB8F /* DotGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9896B5224BD29A900A8CB8F /* DotGraphView.swift */; };
 		D999040124B2CFC7000B2D89 /* Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D99903FE24B2CFC7000B2D89 /* Dark.png */; };
@@ -52,7 +52,7 @@
 		D93D82C7247F046200316608 /* DistanceTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceTimeTracker.swift; sourceTree = "<group>"; };
 		D93D82C9247F158300316608 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D946C35B2489B00D00448C2D /* distances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = distances.swift; sourceTree = "<group>"; };
-		D973D75524D397E800027ECA /* TempUnitFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempUnitFormatter.swift; sourceTree = "<group>"; };
+		D973D75524D397E800027ECA /* UnitFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitFormatter.swift; sourceTree = "<group>"; };
 		D982235D2484A1B900A33036 /* SaveRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRunView.swift; sourceTree = "<group>"; };
 		D9896B5224BD29A900A8CB8F /* DotGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotGraphView.swift; sourceTree = "<group>"; };
 		D99903FE24B2CFC7000B2D89 /* Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dark.png; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 				D907D91023D77845001C3A0B /* Record.swift */,
 				D93D82C7247F046200316608 /* DistanceTimeTracker.swift */,
 				D946C35B2489B00D00448C2D /* distances.swift */,
-				D973D75524D397E800027ECA /* TempUnitFormatter.swift */,
+				D973D75524D397E800027ECA /* UnitFormatter.swift */,
 				D96DC915247B0E7700408921 /* Views */,
 				D939D4F223CA627600936FC1 /* Assets.xcassets */,
 				D939D4F723CA627600936FC1 /* LaunchScreen.storyboard */,
@@ -232,7 +232,7 @@
 				D9EE79EE248EC356002D747B /* TrackView.swift in Sources */,
 				D907D91123D77845001C3A0B /* Record.swift in Sources */,
 				D939D4EF23CA627100936FC1 /* Time_Keeper.xcdatamodeld in Sources */,
-				D973D75624D397E800027ECA /* TempUnitFormatter.swift in Sources */,
+				D973D75624D397E800027ECA /* UnitFormatter.swift in Sources */,
 				D99DC24924CA4CCB00FE6139 /* CheckeredFinishLineView.swift in Sources */,
 				D939D4EA23CA627100936FC1 /* AppDelegate.swift in Sources */,
 				D946C35C2489B00D00448C2D /* distances.swift in Sources */,
