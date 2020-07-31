@@ -1,5 +1,5 @@
 //
-//  TempUnitFormatter.swift
+//  UnitFormatter.swift
 //  Time Keeper
 //
 //  Created by Erik Fisher on 7/18/20.

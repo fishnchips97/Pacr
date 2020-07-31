@@ -51,86 +51,93 @@ struct RecordingView: View {
                 HStack{
                     Spacer()
                     VStack {
-                        ZStack(alignment: .center) {
-                            TrackView(
-                                startAnimationTarget: self.$targetAnimating,
-                                startAnimationCurrent: self.$currentAnimating,
-                                currentPct: self.$currentPct,
-                                finishLinePct: self.$finishLinePcts[self.selectedOption]
-                            )
-                                .padding()
-                                .frame(width: geometry.size.width, height: geometry.size.height/1.8)
-                                .onReceive(self.tracker.$stoppedRunning) { (stoppedRunning) in
+                        Spacer(minLength: 5)
+                        HStack {
+                            ZStack(alignment: .center) {
+                                TrackView(
+                                    startAnimationTarget: self.$targetAnimating,
+                                    startAnimationCurrent: self.$currentAnimating,
+                                    currentPct: self.$currentPct,
+                                    finishLinePct: self.$finishLinePcts[self.selectedOption]
+                                )
+                                    .frame(width: geometry.size.width / 2.3, height: geometry.size.height/2)
+                                    .onReceive(self.tracker.$stoppedRunning) { (stoppedRunning) in
 
-                                    if self.tracker.runStatus == .inProgress && stoppedRunning == true {
-                                        withAnimation (Animation.linear(duration: 0)) {
-                                            let currentDistance = self.tracker.distance
-                                            let temp = currentDistance.converted(to: .meters)
-                                            let val = temp.value.truncatingRemainder(dividingBy: self.trackDistanceInMeters)
-                                            self.currentPct = CGFloat(val / self.trackDistanceInMeters)
-                                            self.currentAnimating = false
-                                        }
-                                    }
-                                }
-                                .onReceive(self.tracker.$distance) { (currentDistance) in
-                                    if self.tracker.runStatus == .inProgress {
-                                        let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
-                                        let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
-                                        self.tracker.secondsElapsedSinceLastUpdate = 0.0
-                                        let transitionTime = self.trackDistanceInMeters / currentSpeedInMetersPerSec
-                                        if currentDistance.value > 0 {
+                                        if self.tracker.runStatus == .inProgress && stoppedRunning == true {
                                             withAnimation (Animation.linear(duration: 0)) {
-                                                /// without this the other animation breaks
-                                                self.currentAnimating = false
-                                            }
-                                            withAnimation(Animation.linear(duration: transitionTime)) {
+                                                let currentDistance = self.tracker.distance
                                                 let temp = currentDistance.converted(to: .meters)
                                                 let val = temp.value.truncatingRemainder(dividingBy: self.trackDistanceInMeters)
                                                 self.currentPct = CGFloat(val / self.trackDistanceInMeters)
-                                                self.currentAnimating = true
+                                                self.currentAnimating = false
                                             }
                                         }
                                     }
+                                    .onReceive(self.tracker.$distance) { (currentDistance) in
+                                        if self.tracker.runStatus == .inProgress {
+                                            let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
+                                            let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
+                                            self.tracker.secondsElapsedSinceLastUpdate = 0.0
+                                            let transitionTime = self.trackDistanceInMeters / currentSpeedInMetersPerSec
+                                            if currentDistance.value > 0 {
+                                                withAnimation (Animation.linear(duration: 0)) {
+                                                    /// without this the other animation breaks
+                                                    self.currentAnimating = false
+                                                }
+                                                withAnimation(Animation.linear(duration: transitionTime)) {
+                                                    let temp = currentDistance.converted(to: .meters)
+                                                    let val = temp.value.truncatingRemainder(dividingBy: self.trackDistanceInMeters)
+                                                    self.currentPct = CGFloat(val / self.trackDistanceInMeters)
+                                                    self.currentAnimating = true
+                                                }
+                                            }
+                                        }
+                                    }
+                                
+                                VStack(alignment: .center, spacing: 0) {
+                                    Text("Laps")
+                                        .font(.system(size: 25))
+                                        .frame(width: geometry.size.width / 4, alignment: .leading)
+                                        .padding(.leading, 20)
+                                    Spacer(minLength: 10)
+                                    Text(self.formatter.string(from: self.tracker.distance.value / 400.0 as NSNumber)!)
+                                        .font(.system(size: 21, design: .monospaced))
+//                                        .border(Color.green)
+                                    Spacer(minLength: 0)
+                                    Divider()
+                                        .frame(width: 50, height: 20)
+//                                        .border(Color.red)
+                                    Spacer(minLength: 0)
+                                    Text(self.formatter.string(from: distanceMeasurements[distances[self.selectedOption]]!.value / 400.0 as NSNumber)!)
+                                        .font(.system(size: 21, design: .monospaced))
+//                                        .border(Color.blue)
+                                    Spacer(minLength: 5)
                                 }
-                            
-                            VStack(alignment: .leading) {
-                                Text("Laps")
-                                    .font(.system(size: 25))
-                                Text(self.formatter.string(from: self.tracker.distance.value / 400.0 as NSNumber)!)
-                                    .font(.system(size: 25, design: .monospaced))
-                                Divider()
-                                    .frame(width: 100)
-                                Text(self.formatter.string(from: distanceMeasurements[distances[self.selectedOption]]!.value / 400.0 as NSNumber)!)
-                                    .font(.system(size: 25, design: .monospaced))
+                                .frame(width: geometry.size.width / 4, height: geometry.size.height / 7)
+//                                .border(Color.black)
                             }
-                            .frame(width: geometry.size.width / 3)
-                        }
-                        
-                        
-                        HStack {
+//                            .border(Color.black)
                             VStack {
+                                Spacer(minLength: 5)
                                 Text("Distance")
                                     .font(.system(size: 24, design: .monospaced))
                                     .underline()
-//                                Text("\(self.tracker.distanceString) \(distanceMeasurements[distances[self.selectedOption]]?.unit.symbol ?? "")")
                                 Text("\(UnitFormatter.distanceString(distance: self.tracker.distance, unit: self.distanceUnits))")
-                                .font(.system(size: 24, design: .monospaced))
-                            }
-                            .padding()
-                            .frame(width: geometry.size.width / 2)
-                            
-                            
-                            
-                            VStack {
+                                    .font(.system(size: 24, design: .monospaced))
+                                Spacer(minLength: 10)
                                 Text("Time")
                                     .font(.system(size: 24, design: .monospaced))
                                     .underline()
                                 Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.tracker.secondsElapsed))")
                                     .font(.system(size: 24, design: .monospaced))
+                                    
+                                    .frame(width: geometry.size.width / 2)
+                                Spacer(minLength: 5)
                             }
-                            .padding()
-                            .frame(width: geometry.size.width / 2)
+                            .frame(width: geometry.size.width / 2.3, height: geometry.size.height/2)
+//                            .border(Color.blue)
                         }
+                        
                         
                         
                         HStack {
@@ -147,8 +154,7 @@ struct RecordingView: View {
                                 }
                                 .disabled(self.tracker.runStatus != .notStarted)
                             }
-                            .padding()
-                            .frame(width: geometry.size.width / 2)
+                            .frame(width: geometry.size.width / 1.9)
                             
                             VStack {
                                 Text("Avg. Pace").font(.system(size: 16, design: .monospaced))
@@ -159,8 +165,9 @@ struct RecordingView: View {
                                 }
                             }
                             .padding()
-                            .frame(width: geometry.size.width / 2)
+                            .frame(width: geometry.size.width / 1.9)
                         }
+                        
                         
                         
                         
@@ -169,11 +176,14 @@ struct RecordingView: View {
                             ForEach(0 ..< distances.count) { index in
                                 Text(distances[index]).tag(index)
                             }
-                        }.pickerStyle(SegmentedPickerStyle())
-                            .disabled(self.tracker.runStatus != .notStarted)
-                            .padding()
-                        HStack{
+                        }
+                        .padding(.horizontal)
+                        .frame(width: geometry.size.width)
+                        .pickerStyle(SegmentedPickerStyle())
+                        .disabled(self.tracker.runStatus != .notStarted)
                             
+                        Spacer(minLength: 0)
+                        HStack{
                             Button(action: {
                                 withAnimation {
                                     self.tracker.stop()
@@ -219,6 +229,7 @@ struct RecordingView: View {
                             .disabled(self.tracker.runStatus == .inProgress)
 
                         }
+                        Spacer(minLength: 5)
                     }
                     Spacer()
                 }

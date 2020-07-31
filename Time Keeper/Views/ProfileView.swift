@@ -71,64 +71,64 @@ struct ProfileView: View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    HStack {
-                        Image(systemName: "person.circle")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: geometry.size.width / 7, height: geometry.size.height / 9)
-                        
-                        //                        Spacer(minLength: geometry.size.width / 7)
-                        Spacer()
-                        
-                        VStack {
-                            Spacer()
-                            Text("100")
-                                .bold()
-                                .font(.system(size: 20))
-                                .padding(.top, 10)
-                            
-                            Spacer()
-                            Text("Followers")
-                                .bold()
-                                .font(.system(size: 18))
-                                .padding(.bottom, 15)
-                        }
-                        .padding()
-                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
-                        .foregroundColor(Color.white)
-                        .background(Color.black)
-                        .cornerRadius(10)
-                        
-                        
-                        VStack {
-                            Spacer()
-                            Text("100")
-                                .bold()
-                                .font(.system(size: 20))
-                                .padding(.top, 10)
-                            
-                            Spacer()
-                            Text("Following")
-                                .bold()
-                                .font(.system(size: 18))
-                                .padding(.bottom, 15)
-                        }
-                        .padding()
-                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
-                        .foregroundColor(Color.white)
-                        .background(Color.black)
-                        .cornerRadius(10)
-                        
-                        Spacer()
-                    }
-                    .frame(height: geometry.size.height / 8)
-                    .padding()
+//                    HStack {
+//                        Image(systemName: "person.circle")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: geometry.size.width / 7, height: geometry.size.height / 9)
+//                        
+//                        //                        Spacer(minLength: geometry.size.width / 7)
+//                        Spacer()
+//                        
+//                        VStack {
+//                            Spacer()
+//                            Text("100")
+//                                .bold()
+//                                .font(.system(size: 20))
+//                                .padding(.top, 10)
+//                            
+//                            Spacer()
+//                            Text("Followers")
+//                                .bold()
+//                                .font(.system(size: 18))
+//                                .padding(.bottom, 15)
+//                        }
+//                        .padding()
+//                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
+//                        .foregroundColor(Color.white)
+//                        .background(Color.black)
+//                        .cornerRadius(10)
+//                        
+//                        
+//                        VStack {
+//                            Spacer()
+//                            Text("100")
+//                                .bold()
+//                                .font(.system(size: 20))
+//                                .padding(.top, 10)
+//                            
+//                            Spacer()
+//                            Text("Following")
+//                                .bold()
+//                                .font(.system(size: 18))
+//                                .padding(.bottom, 15)
+//                        }
+//                        .padding()
+//                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
+//                        .foregroundColor(Color.white)
+//                        .background(Color.black)
+//                        .cornerRadius(10)
+//                        
+//                        Spacer()
+//                    }
+//                    .frame(height: geometry.size.height / 8)
+//                    .padding()
+//                    
+//                    Spacer()
                     
-                    Spacer()
-                    
                     HStack {
                         VStack {
-                            Text("1600m")
+                            Text("1.6k")
                                 .bold()
                                 .font(.system(size: 20))
                                 .padding(10)

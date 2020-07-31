@@ -84,11 +84,11 @@ struct LeaderboardView: View {
                             }
                             
                         }
-                        .frame(height: geometry.size.height/1.5)
+                        .frame(height: geometry.size.height/2)
                     } else {
                         Text("Runs will show up here")
                             .bold()
-                            .frame(height: geometry.size.height/1.4)
+                            .frame(height: geometry.size.height/2)
                     }
                     
                     
