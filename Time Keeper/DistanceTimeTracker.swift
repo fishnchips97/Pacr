@@ -26,6 +26,7 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
             objectWillChange.send()
         }
     }
+    var secondsUpdatedOnDistanceChange = 0.0
     var secondsElapsedSinceLastUpdate = 0.0 {
         didSet {
             if secondsElapsedSinceLastUpdate >= 10 && stoppedRunning == false {
@@ -33,9 +34,13 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
             }
         }
     }
+    var avgPaceNumberInMeters: Double {
+        UnitFormatter.paceNumber(timeInSecs: secondsElapsed, distance: distance, unit: .meters)
+    }
     @Published var stoppedRunning = false
     @Published var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
+            secondsUpdatedOnDistanceChange = secondsElapsed
             stoppedRunning = false
             if let goal = distanceMeasurements[self.currentDistanceGoal] {
                 if self.distance >= goal {
