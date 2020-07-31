@@ -55,7 +55,6 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
         super.init()
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
         self.locationManager.allowsBackgroundLocationUpdates = true
     }
     
@@ -120,6 +119,7 @@ extension DistanceTimeTracker {
 extension DistanceTimeTracker {
     func completeRun() {
         self.runStatus = .finished
+        self.locationManager.stopUpdatingLocation()
     }
 }
 
