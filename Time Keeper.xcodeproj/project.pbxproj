@@ -12,7 +12,7 @@
 		D907D90F23D7686D001C3A0B /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D907D90E23D7686D001C3A0B /* LeaderboardView.swift */; };
 		D907D91123D77845001C3A0B /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = D907D91023D77845001C3A0B /* Record.swift */; };
 		D90B18AF24B7986D0088499F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90B18AE24B7986D0088499F /* ProfileView.swift */; };
-		D9331A5224C423BF00496F95 /* unitFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9331A5124C423BE00496F95 /* unitFormatter.swift */; };
+		D9331A5224C423BF00496F95 /* UnitFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9331A5124C423BE00496F95 /* UnitFormatter.swift */; };
 		D935442124B61E6F008CB435 /* RunAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935442024B61E6F008CB435 /* RunAnalysisView.swift */; };
 		D939D4EA23CA627100936FC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D939D4E923CA627100936FC1 /* AppDelegate.swift */; };
 		D939D4EC23CA627100936FC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D939D4EB23CA627100936FC1 /* SceneDelegate.swift */; };
@@ -39,7 +39,7 @@
 		D907D90E23D7686D001C3A0B /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		D907D91023D77845001C3A0B /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		D90B18AE24B7986D0088499F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		D9331A5124C423BE00496F95 /* unitFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = unitFormatter.swift; sourceTree = "<group>"; };
+		D9331A5124C423BE00496F95 /* UnitFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitFormatter.swift; sourceTree = "<group>"; };
 		D935442024B61E6F008CB435 /* RunAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunAnalysisView.swift; sourceTree = "<group>"; };
 		D939D4E623CA627100936FC1 /* Time Keeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Keeper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D939D4E923CA627100936FC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 				D907D91023D77845001C3A0B /* Record.swift */,
 				D93D82C7247F046200316608 /* DistanceTimeTracker.swift */,
 				D946C35B2489B00D00448C2D /* distances.swift */,
-				D9331A5124C423BE00496F95 /* unitFormatter.swift */,
+				D9331A5124C423BE00496F95 /* UnitFormatter.swift */,
 				D96DC915247B0E7700408921 /* Views */,
 				D939D4F223CA627600936FC1 /* Assets.xcassets */,
 				D939D4F723CA627600936FC1 /* LaunchScreen.storyboard */,
@@ -232,7 +232,7 @@
 				D9EE79EE248EC356002D747B /* TrackView.swift in Sources */,
 				D907D91123D77845001C3A0B /* Record.swift in Sources */,
 				D939D4EF23CA627100936FC1 /* Time_Keeper.xcdatamodeld in Sources */,
-				D9331A5224C423BF00496F95 /* unitFormatter.swift in Sources */,
+				D9331A5224C423BF00496F95 /* UnitFormatter.swift in Sources */,
 				D99DC24924CA4CCB00FE6139 /* CheckeredFinishLineView.swift in Sources */,
 				D939D4EA23CA627100936FC1 /* AppDelegate.swift in Sources */,
 				D946C35C2489B00D00448C2D /* distances.swift in Sources */,
