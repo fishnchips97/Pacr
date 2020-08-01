@@ -75,6 +75,7 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
 
 extension DistanceTimeTracker {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        print(locations.count, locationList.count)
         for location in locations {
             let sinceNow = location.timestamp.timeIntervalSinceNow
             guard location.horizontalAccuracy < 20 && abs(sinceNow) < 10 else {

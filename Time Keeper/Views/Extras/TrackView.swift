@@ -19,35 +19,34 @@ struct TrackView: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .topLeading) {
-
                 TrackShape().stroke(Color.orange, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
-                    .frame(width: proxy.size.width, height: proxy.size.height)
-//                    .border(Color.black)
+                    .frame(width: proxy.size.width - 15, height: proxy.size.height - 15)
+//                    .border(Color.blue)
                 /// finish line
                 CheckeredRectangle(rows: 2, columns: 5, even: true)
                     .foregroundColor(Color.black)
                     .frame(width: 30, height: 10)
                     .offset(x: -15, y: (self.finishLinePct < 0.5 ? -15 : 5))
-                    .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                    .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width - 15, height: proxy.size.height - 15)), rotate: false))
                 CheckeredRectangle(rows: 2, columns: 5, even: false)
                 .foregroundColor(Color.white)
                 .frame(width: 30, height: 10)
                 .offset(x: -15, y: (self.finishLinePct < 0.5 ? -15 : 5))
-                .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width - 15, height: proxy.size.height - 15)), rotate: false))
                 
                 
                 /// target pace
                 Circle().foregroundColor(Color.red)
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: self.startAnimationTarget ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                    .modifier(FollowEffect(pct: self.startAnimationTarget ? 1.0 : 0.0, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width - 15, height: proxy.size.height - 15)), rotate: false))
                     .opacity(0.9)
                 
                 /// current pace
                 Circle().foregroundColor(Color.green)
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: -15)
-                    .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height)), rotate: false))
+                    .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width - 15, height: proxy.size.height - 15)), rotate: false))
                     .opacity(0.9)
                     
 
@@ -76,11 +75,12 @@ struct TrackShape: Shape {
         let distY = rect.maxY - rect.minY
 
         /// 0.2339701154 is the ratio for radius to track length
-        let radius = distY * 0.2339701154
+        let radius = min(distY * 0.2339701154, distX * 0.5)
+        let straightAway = radius * 2.3120547945
 
         let midX = distX / 2
-        let topY = rect.minY + radius
-        let bottomY = rect.maxY - radius
+        let topY = rect.midY - straightAway / 2
+        let bottomY = rect.midY + straightAway / 2
         let trailingX = midX + radius
         let leadingX = midX - radius
         
