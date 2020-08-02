@@ -72,7 +72,13 @@ struct RecordingView: View {
                                 Button(action: {
                                     self.show.toggle()
                                 }) {
-                                    Text("change")
+                                    Text("edit")
+                                        .bold()
+                                        .padding(.vertical, 5)
+                                        .padding(.horizontal, 20)
+                                        .foregroundColor(Color.white)
+                                        .background(Color.blue)
+                                        .cornerRadius(15)
                                 }
                                 .disabled(self.tracker.runStatus != .notStarted)
                             }
