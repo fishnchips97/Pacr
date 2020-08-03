@@ -68,7 +68,6 @@ struct RecordingInfoView: View {
                         if self.tracker.runStatus == .inProgress {
                             let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
                             let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
-                            self.tracker.secondsElapsedSinceLastUpdate = 0.0
                             let transitionTime = trackDistanceInMeters / currentSpeedInMetersPerSec
                             if currentDistance.value > 0 {
                                 withAnimation (Animation.linear(duration: 0)) {
@@ -80,6 +79,7 @@ struct RecordingInfoView: View {
                                     let val = temp.value.truncatingRemainder(dividingBy: trackDistanceInMeters)
                                     self.currentPct = CGFloat(val / trackDistanceInMeters)
                                     self.currentAnimating = true
+//                                    print("uh", self.currentAnimating, transitionTime)
                                 }
                             }
                         }

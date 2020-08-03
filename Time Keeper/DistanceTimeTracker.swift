@@ -19,35 +19,41 @@ enum runStatusPossibilities {
 class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var runStatus = runStatusPossibilities.notStarted
     var currentDistanceGoal = distances.first ?? ""
-//    private var timer = Timer()
+    private var timer = Timer()
     private let locationManager = LocationManager.shared
     var secondsElapsed = 0.0 {
-        didSet {
+        willSet {
             objectWillChange.send()
         }
     }
     private var startTime: TimeInterval = Date().timeIntervalSince1970
     private var endTime: TimeInterval = Date().timeIntervalSince1970
     
+    // this is for updating average pace at a slower rate
     var secondsUpdatedOnDistanceChange = 0.0
-    var secondsElapsedSinceLastUpdate = 0.0 {
-        didSet {
-            if secondsElapsedSinceLastUpdate >= 10 && stoppedRunning == false {
+    // this is for stopping the animation of the green dot if user has stopped running and animating green dot
+    var secondsElapsedSinceLastUpdate: Double {
+        get {
+            let time = Date().timeIntervalSince1970 - timeOfLastUpdate
+            if time >= 10 && stoppedRunning == false {
                 stoppedRunning.toggle()
             }
+            return time
         }
     }
+    var timeOfLastUpdate = 0.0
     @Published var stoppedRunning = false
     @Published var distance = Measurement(value: 0, unit: UnitLength.meters) {
         didSet {
+            timeOfLastUpdate = Date().timeIntervalSince1970
             secondsUpdatedOnDistanceChange = secondsElapsed
             stoppedRunning = false
             
             if let goal = distanceMeasurements[self.currentDistanceGoal] {
                 if self.distance >= goal {
+                    self.stop()
                     endTime = Date().timeIntervalSince1970
                     secondsElapsed = startTime.distance(to: endTime)
-                    self.stop()
                 }
             }
         }
@@ -72,7 +78,6 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
         self.runStatus = .notStarted
         self.distance = Measurement(value: 0, unit: UnitLength.meters)
         self.secondsElapsed = 0.0
-        self.secondsElapsedSinceLastUpdate = 0.0
         self.secondsUpdatedOnDistanceChange = 0.0
         self.locationList.removeAll()
     }
@@ -104,25 +109,29 @@ extension DistanceTimeTracker {
         self.startLocationUpdates()
         startTime = Date().timeIntervalSince1970
         self.runStatus = .inProgress
-//        if !timer.isValid {
-//
-//            timer.tolerance = 0.1
-//            timer = Timer.scheduledTimer(withTimeInterval: 1/60, repeats: true) { _ in
-//                self.secondsElapsed += 1/60
-//                self.secondsElapsedSinceLastUpdate += 1/60
-//            }
+        if !timer.isValid {
+
+            timer = Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { _ in
+                let currentTime = Date().timeIntervalSince1970
+                self.secondsElapsed = self.startTime.distance(to: currentTime)
+//                self.secondsElapsedSinceLastUpdate += 0.07
+//                self.incrementSeconds(by: 0.1)
+            }
+            timer.tolerance = 0.1
+        }
+    }
+//    func incrementSeconds(by time: Double) {
+//        if self.runStatus == .inProgress {
+//            self.secondsElapsed += time
+//            self.secondsElapsedSinceLastUpdate += time
 //        }
-    }
-    func updateTime() {
-        self.secondsElapsed += 1/60
-        self.secondsElapsedSinceLastUpdate += 1/60
-//        print("test")
-    }
+////        print("test")
+//    }
     
     func stop() {
         self.locationManager.stopUpdatingLocation()
-        self.runStatus = runStatusPossibilities.finished
-//        timer.invalidate()
+        self.runStatus = runStatusPossibilities.notStarted
+        timer.invalidate()
     }
     
     

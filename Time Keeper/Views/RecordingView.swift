@@ -12,48 +12,56 @@ let trackDistanceInMeters = 400.0
 
 
 // stop with button: https://stackoverflow.com/questions/34211832/how-to-pause-a-cadisplaylink
-class CADisplayLinkBinding: NSObject, ObservableObject {
-    private var displayLink: CADisplayLink?
-    private var startTime = 0.0
-    private let animLength = 5.0
-
-    func startDisplayLink() {
-
-      stopDisplayLink() // make sure to stop a previous running display link
-      startTime = CACurrentMediaTime() // reset start time
-
-      // create displayLink & add it to the run-loop
-      let displayLink = CADisplayLink(
-        target: self, selector: #selector(displayLinkDidFire)
-      )
-      displayLink.add(to: .main, forMode: .common)
-      self.displayLink = displayLink
-    }
-
-    @objc func displayLinkDidFire(_ displayLink: CADisplayLink) {
-
-      var elapsed = CACurrentMediaTime() - startTime
-
-      if elapsed > animLength {
-        stopDisplayLink()
-        elapsed = animLength // clamp the elapsed time to the anim length
-      }
-
-      // do your animation logic here
-    }
-
-    // invalidate display link if it's non-nil, then set to nil
-    func stopDisplayLink() {
-      displayLink?.invalidate()
-      displayLink = nil
-    }
-}
+//class CADisplayLinkBinding: NSObject, ObservableObject {
+//
+//    init(tracker: DistanceTimeTracker) {
+//        self.tracker = tracker
+//    }
+//
+//    var tracker: DistanceTimeTracker
+//
+//    private var displayLink: CADisplayLink?
+//    private var startTime = 0.0
+//    private let animLength = 5.0
+////    var seconds = 0.12
+//
+//    func startDisplayLink() {
+//
+//        stopDisplayLink() // make sure to stop a previous running display link
+//        startTime = CACurrentMediaTime() // reset start time
+//
+//        // create displayLink & add it to the run-loop
+//        let displayLink = CADisplayLink(
+//            target: self, selector: #selector(displayLinkDidFire)
+//        )
+//        displayLink.add(to: .main, forMode: .common)
+////        displayLink.duration = 1 / 60
+//        self.displayLink = displayLink
+//    }
+//
+//    @objc func displayLinkDidFire(_ displayLink: CADisplayLink) {
+//        let actualFramesPerSecond = 1 / (self.displayLink!.targetTimestamp - self.displayLink!.timestamp)
+//        if self.tracker.runStatus != .inProgress {
+//            self.displayLink?.isPaused = true
+//            stopDisplayLink()
+//        } else {
+//            self.tracker.updateTime(fps: actualFramesPerSecond)
+//        }
+//        self.objectWillChange.send()
+//    }
+//
+//    // invalidate display link if it's non-nil, then set to nil
+//    func stopDisplayLink() {
+//        self.displayLink?.invalidate()
+//        self.displayLink = nil
+//    }
+//}
 
 
 struct RecordingView: View {
     
     @ObservedObject private var tracker : DistanceTimeTracker
-    private var displayLink: CADisplayLinkBinding
+//    @ObservedObject private var displayLink: CADisplayLinkBinding
     
     @State private var selectedOption: Int = 0
     
@@ -77,7 +85,6 @@ struct RecordingView: View {
     
     init(tracker: DistanceTimeTracker) {
         self.tracker = tracker
-        self.displayLink = CADisplayLinkBinding()
     }
     
     
@@ -153,13 +160,11 @@ struct RecordingView: View {
                             
                             withAnimation {
                                 self.tracker.stop()
-                                self.tracker.runStatus = .notStarted
                                 self.targetAnimating = false
                                 self.currentAnimating = false
                                 self.currentPct = 0.0
                             }
                             self.tracker.reset()
-                            self.displayLink.stopDisplayLink()
                             
                         }) {
                             Text("Cancel")
@@ -187,7 +192,6 @@ struct RecordingView: View {
                             }
                             self.tracker.start()
                             self.tracker.currentDistanceGoal = distances[self.selectedOption]
-                            self.displayLink.startDisplayLink()
                         }) {
                             Text("Start").bold()
                         }
