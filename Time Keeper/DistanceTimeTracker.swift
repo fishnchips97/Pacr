@@ -19,13 +19,16 @@ enum runStatusPossibilities {
 class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var runStatus = runStatusPossibilities.notStarted
     var currentDistanceGoal = distances.first ?? ""
-    private var timer = Timer()
+//    private var timer = Timer()
     private let locationManager = LocationManager.shared
     var secondsElapsed = 0.0 {
         didSet {
             objectWillChange.send()
         }
     }
+    private var startTime: TimeInterval = Date().timeIntervalSince1970
+    private var endTime: TimeInterval = Date().timeIntervalSince1970
+    
     var secondsUpdatedOnDistanceChange = 0.0
     var secondsElapsedSinceLastUpdate = 0.0 {
         didSet {
@@ -39,8 +42,11 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
         didSet {
             secondsUpdatedOnDistanceChange = secondsElapsed
             stoppedRunning = false
+            
             if let goal = distanceMeasurements[self.currentDistanceGoal] {
                 if self.distance >= goal {
+                    endTime = Date().timeIntervalSince1970
+                    secondsElapsed = startTime.distance(to: endTime)
                     self.stop()
                 }
             }
@@ -93,23 +99,30 @@ extension DistanceTimeTracker {
 }
 
 extension DistanceTimeTracker {
+    
     func start() {
         self.startLocationUpdates()
+        startTime = Date().timeIntervalSince1970
         self.runStatus = .inProgress
-        if !timer.isValid {
-            
-            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-                self.secondsElapsed += 0.1
-                self.secondsElapsedSinceLastUpdate += 0.1
-            }
-            timer.tolerance = 0.05
-        }
+//        if !timer.isValid {
+//
+//            timer.tolerance = 0.1
+//            timer = Timer.scheduledTimer(withTimeInterval: 1/60, repeats: true) { _ in
+//                self.secondsElapsed += 1/60
+//                self.secondsElapsedSinceLastUpdate += 1/60
+//            }
+//        }
+    }
+    func updateTime() {
+        self.secondsElapsed += 1/60
+        self.secondsElapsedSinceLastUpdate += 1/60
+//        print("test")
     }
     
     func stop() {
         self.locationManager.stopUpdatingLocation()
         self.runStatus = runStatusPossibilities.finished
-        timer.invalidate()
+//        timer.invalidate()
     }
     
     
