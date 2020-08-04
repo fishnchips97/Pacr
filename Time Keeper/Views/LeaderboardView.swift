@@ -15,7 +15,7 @@ let timeRanges = ["Recent", "All"]
 struct LeaderboardView: View {
     
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
-    //    @Environment(\.managedObjectContext) var managedObjectContext
+        @Environment(\.managedObjectContext) var moc
     
     @State private var orderOptionIndex: Int = 0
     @State private var defaultTimeRangeIndex: Int = 0
@@ -97,6 +97,7 @@ struct LeaderboardView: View {
                                 }
                                 
                             }
+                            .onDelete(perform: self.deleteItems)
                             
                         }
                         .frame(height: geometry.size.height/1.7)
@@ -121,14 +122,19 @@ struct LeaderboardView: View {
                     }
                     Spacer()
                     
-                }.navigationBarTitle("Leaderboard")
+                }
+                .navigationBarTitle("Leaderboard")
+            .navigationBarItems(trailing: EditButton())
             }
         }
-        
-        
-        
-        
-        
+    }
+    
+    func deleteItems(at offsets: IndexSet) {
+        for offset in offsets {
+            let record = records[offset]
+            moc.delete(record)
+        }
+        try? moc.save()
     }
 }
 
