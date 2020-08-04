@@ -51,7 +51,7 @@ class DistanceTimeTracker : NSObject, ObservableObject, CLLocationManagerDelegat
             
             if let goal = distanceMeasurements[self.currentDistanceGoal] {
                 if self.distance >= goal {
-                    self.stop()
+                    self.finishedRun()
                     endTime = Date().timeIntervalSince1970
                     secondsElapsed = startTime.distance(to: endTime)
                 }
@@ -128,9 +128,15 @@ extension DistanceTimeTracker {
 ////        print("test")
 //    }
     
-    func stop() {
+    func cancelRun() {
         self.locationManager.stopUpdatingLocation()
-        self.runStatus = runStatusPossibilities.notStarted
+        self.runStatus = runStatusPossibilities.finished
+        timer.invalidate()
+    }
+    
+    func finishedRun() {
+        self.locationManager.stopUpdatingLocation()
+        self.runStatus = runStatusPossibilities.finished
         timer.invalidate()
     }
     

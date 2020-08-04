@@ -62,7 +62,7 @@ class UnitFormatter {
         if distance.converted(to: unit).value > 0.0 {
             paceNumber = timeInSecs / distance.converted(to: unit).value
         }
-        return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) min/\(unit.symbol)"
+        return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) /\(unit.symbol)"
         
     }
     

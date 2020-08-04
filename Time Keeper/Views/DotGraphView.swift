@@ -19,7 +19,7 @@ struct DotGraphView: View {
     func ratio(elem: Double, list: [Double]) -> CGFloat {
         
         if list.max()! == list.min()! {
-            return 1
+            return 0
         }
         
         let numerator = CGFloat(elem - list.min()!)

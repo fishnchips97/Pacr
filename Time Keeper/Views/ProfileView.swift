@@ -13,14 +13,15 @@ struct ProfileView: View {
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State var defaultTimeRangeIndex: Int = 0
+    @State private var showingSettings = false
     var color: [Color] = [.blue, .red, .orange, .green]
     
-//    private var best5k : Record? {
-//        fastestRecord(records: Array(records), distance: "5 km")
-//    }
-//    private var best10k : Record? {
-//        fastestRecord(records: Array(records), distance: "10 km")
-//    }
+    //    private var best5k : Record? {
+    //        fastestRecord(records: Array(records), distance: "5 km")
+    //    }
+    //    private var best10k : Record? {
+    //        fastestRecord(records: Array(records), distance: "10 km")
+    //    }
     
     
     
@@ -30,62 +31,66 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
+                
+                
+                
+                
                 VStack {
-//                    HStack {
-//                        Image(systemName: "person.circle")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: geometry.size.width / 7, height: geometry.size.height / 9)
-//                        
-//                        //                        Spacer(minLength: geometry.size.width / 7)
-//                        Spacer()
-//                        
-//                        VStack {
-//                            Spacer()
-//                            Text("100")
-//                                .bold()
-//                                .font(.system(size: 20))
-//                                .padding(.top, 10)
-//                            
-//                            Spacer()
-//                            Text("Followers")
-//                                .bold()
-//                                .font(.system(size: 18))
-//                                .padding(.bottom, 15)
-//                        }
-//                        .padding()
-//                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
-//                        .foregroundColor(Color.white)
-//                        .background(Color.black)
-//                        .cornerRadius(10)
-//                        
-//                        
-//                        VStack {
-//                            Spacer()
-//                            Text("100")
-//                                .bold()
-//                                .font(.system(size: 20))
-//                                .padding(.top, 10)
-//                            
-//                            Spacer()
-//                            Text("Following")
-//                                .bold()
-//                                .font(.system(size: 18))
-//                                .padding(.bottom, 15)
-//                        }
-//                        .padding()
-//                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
-//                        .foregroundColor(Color.white)
-//                        .background(Color.black)
-//                        .cornerRadius(10)
-//                        
-//                        Spacer()
-//                    }
-//                    .frame(height: geometry.size.height / 8)
-//                    .padding()
-//                    
-//                    Spacer()
-                    Spacer(minLength: 20)
+                    //                    HStack {
+                    //                        Image(systemName: "person.circle")
+                    //                            .resizable()
+                    //                            .aspectRatio(contentMode: .fit)
+                    //                            .frame(width: geometry.size.width / 7, height: geometry.size.height / 9)
+                    //
+                    //                        //                        Spacer(minLength: geometry.size.width / 7)
+                    //                        Spacer()
+                    //
+                    //                        VStack {
+                    //                            Spacer()
+                    //                            Text("100")
+                    //                                .bold()
+                    //                                .font(.system(size: 20))
+                    //                                .padding(.top, 10)
+                    //
+                    //                            Spacer()
+                    //                            Text("Followers")
+                    //                                .bold()
+                    //                                .font(.system(size: 18))
+                    //                                .padding(.bottom, 15)
+                    //                        }
+                    //                        .padding()
+                    //                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
+                    //                        .foregroundColor(Color.white)
+                    //                        .background(Color.black)
+                    //                        .cornerRadius(10)
+                    //
+                    //
+                    //                        VStack {
+                    //                            Spacer()
+                    //                            Text("100")
+                    //                                .bold()
+                    //                                .font(.system(size: 20))
+                    //                                .padding(.top, 10)
+                    //
+                    //                            Spacer()
+                    //                            Text("Following")
+                    //                                .bold()
+                    //                                .font(.system(size: 18))
+                    //                                .padding(.bottom, 15)
+                    //                        }
+                    //                        .padding()
+                    //                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height / 9)
+                    //                        .foregroundColor(Color.white)
+                    //                        .background(Color.black)
+                    //                        .cornerRadius(10)
+                    //
+                    //                        Spacer()
+                    //                    }
+                    //                    .frame(height: geometry.size.height / 8)
+                    //                    .padding()
+                    //
+                    //                    Spacer()
+//                    Spacer(minLength: 20)
                     ForEach (0 ..< distances.count) { i in
                         VStack {
                             Spacer()
@@ -96,21 +101,38 @@ struct ProfileView: View {
                                 units: self.distanceUnits,
                                 backgroundColor: self.color[i]
                             )
-                                .frame(width: geometry.size.width / 1.1, height: geometry.size.height / 7)
-                                
+                                .frame(width: geometry.size.width / 1.1, height: geometry.size.height / 6)
+                            
                         }.tag(i)
                         
                     }
-                    Spacer(minLength: 40)
-                    buttonTogglePicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex, width: geometry.size.width / 3.3)
-                        .padding(.bottom)
-                    
-                }.navigationBarTitle("Profile")
-                    .navigationBarItems(trailing: NavigationLink(destination: SettingsMenuView()) {
-                        HStack {
-                            Image(systemName: "ellipsis.circle.fill").font(.system(size: 28)).foregroundColor(.black)
+                    Spacer(minLength: 20)
+                    ZStack {
+                        
+                        List {
+                            NavigationLink(destination: SettingsMenuView(), isActive: self.$showingSettings) {
+                                Text("There should be a better way than using a list")
+                            }
                         }
-                    })
+                        .frame(width: 1, height: 1)
+                        
+                        buttonTogglePicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex, width: geometry.size.width / 3.3)
+                        .padding(.bottom)
+                        
+                    }
+                    
+                    
+                    
+                    
+                    
+                }
+                    
+                .navigationBarTitle("Profile")
+                .navigationBarItems(trailing: Button(action: {
+                    self.showingSettings.toggle()
+                }, label: {
+                    Image(systemName: "ellipsis.circle.fill").font(.system(size: 28)).foregroundColor(.black)
+                }))
             }
         }.onAppear {
             self.distanceUnits = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
@@ -183,12 +205,12 @@ struct BestRunView: View {
         GeometryReader { geometry in
             HStack {
                 VStack {
-                    Text(self.distance == "1600 m" ? "1.6k" : self.distance)
+                    Text(self.distance == "1600 m" ? "1.6 km" : self.distance)
                         .bold()
-                        .font(.system(size: 20))
-                        .padding(10)
-                        .padding(.horizontal, 15)
-                        .frame(width: geometry.size.width / 3.5, height: geometry.size.height)
+                        .font(.system(size: 18))
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 5)
+                        .frame(width: geometry.size.width / 3.7, height: geometry.size.height)
                         .background(Color.black)
                 }
                 
@@ -202,36 +224,23 @@ struct BestRunView: View {
                         Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.timeInSeconds))")
                             .bold()
                             .font(.system(size: 20))
-                        Spacer()
+                        
                         Text("Best Time")
                             .bold()
                             .font(.system(size: 15))
+                        Spacer()
                     }
-                    .padding()
                     Spacer()
-                    if self.distance == "1600 m" {
-                        VStack {
-                            Spacer()
-                            Text("\(self.avgTimeForDistance)")
-                                .bold()
-                                .font(.system(size: 20))
-                            Spacer()
-                            Text("Avg. Time")
-                                .bold()
-                                .font(.system(size: 15))
-                        }
-                        .padding()
-                    } else {
-                        VStack {
-                            Text("\(UnitFormatter.pace(timeInSecs: self.timeInSeconds, distance: distanceMeasurements[self.distance]!, unit: self.units))")
-                                .bold()
-                                .font(.system(size: 20))
-                            Spacer()
-                            Text("Best Pace")
-                                .bold()
-                                .font(.system(size: 15))
-                        }
-                        .padding()
+                    VStack {
+                        Spacer()
+                        Text("\(UnitFormatter.pace(timeInSecs: self.timeInSeconds, distance: distanceMeasurements[self.distance]!, unit: self.units))")
+                            .bold()
+                            .font(.system(size: 18))
+                    
+                        Text("Best Pace")
+                            .bold()
+                            .font(.system(size: 15))
+                        Spacer()
                     }
                     
                     

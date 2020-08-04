@@ -159,7 +159,7 @@ struct RecordingView: View {
                         Button(action: {
                             
                             withAnimation {
-                                self.tracker.stop()
+                                self.tracker.cancelRun()
                                 self.targetAnimating = false
                                 self.currentAnimating = false
                                 self.currentPct = 0.0

@@ -17,19 +17,23 @@ struct AppView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
+    @State private var currentTab = 0
+    
     
     var body: some View {
-        TabView {
+        TabView(selection: self.$currentTab) {
+            //        TabView {
             
             LeaderboardView()
-                .environment(\.managedObjectContext, self.managedObjectContext)
+//                .environment(\.managedObjectContext, self.managedObjectContext)
                 .tabItem {
                     Image(systemName: "list.dash")
                     Text("Leaderboard")
             }
+            .tag(0)
             
             RecordingView(tracker: self.tracker)
-//                .environment(\.managedObjectContext, self.managedObjectContext)
+                //                .environment(\.managedObjectContext, self.managedObjectContext)
                 //        .blur(radius: CGFloat(self.trackBlur))
                 //        .navigationBarHidden(false)
                 //        .navigationBarTitle("TrackKeeper")
@@ -37,12 +41,14 @@ struct AppView: View {
                     Image(systemName: "hare")
                     Text("Run")
             }
+            .tag(1)
             
             ProfileView()
                 .tabItem {
                     Image(systemName: "person.circle")
                     Text("Profile")
             }
+            .tag(2)
         }
         //        .navigationBarHidden(true)
         //        .edgesIgnoringSafeArea([.top, .bottom])
