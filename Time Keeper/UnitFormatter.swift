@@ -29,11 +29,8 @@ class UnitFormatter {
         numFormatter.minimumFractionDigits = safeFractionalDigits
 
         let msString = safeFractionalDigits <= 0 ? "" : numFormatter.string(from: NSNumber(value: milliseconds))!
-        var formattedString = formatter.string(from: TimeInterval(seconds))!
-        if seconds < 3600 {
-            formattedString = formattedString.replacingOccurrences(of: "00:", with: "")
-        }
-//        print(seconds, formattedString)
+        let formattedString = formatter.string(from: TimeInterval(seconds))!
+        
         
         let timeStringWithMilliseconds = formattedString + msString
         
