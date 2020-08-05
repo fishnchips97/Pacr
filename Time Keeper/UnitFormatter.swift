@@ -14,12 +14,9 @@ class UnitFormatter {
         let safeFractionalDigits = fractionalDigits > 2 ? 2 : fractionalDigits
         
         let formatter = DateComponentsFormatter()
-
-        if seconds < 3600 {
-            formatter.allowedUnits = [.minute, .second]
-        } else {
-            formatter.allowedUnits = [.hour, .minute, .second]
-        }
+        
+        
+        formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
         formatter.zeroFormattingBehavior = .pad
 
@@ -32,7 +29,11 @@ class UnitFormatter {
         numFormatter.minimumFractionDigits = safeFractionalDigits
 
         let msString = safeFractionalDigits <= 0 ? "" : numFormatter.string(from: NSNumber(value: milliseconds))!
-        let formattedString = formatter.string(from: TimeInterval(seconds))!
+        var formattedString = formatter.string(from: TimeInterval(seconds))!
+        if seconds < 3600 {
+            formattedString = formattedString.replacingOccurrences(of: "00:", with: "")
+        }
+//        print(seconds, formattedString)
         
         let timeStringWithMilliseconds = formattedString + msString
         
@@ -52,7 +53,7 @@ class UnitFormatter {
     
     static func paceNumberToString(pace: Double, distanceUnit: UnitLength) -> String {
         let start = secondsToTraditionalFormatString(seconds: pace, fractionalDigits: 0)
-        return "\(start) min/\(distanceUnit.symbol)"
+        return "\(start) /\(distanceUnit.symbol)"
         
     }
     
