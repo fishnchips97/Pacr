@@ -13,6 +13,7 @@ struct AppView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @ObservedObject var tracker = DistanceTimeTracker()
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
+    @State var tortoiseOrHare: String = UserDefaults.standard.string(forKey: "Tortoise or Hare") ?? "hare"
     
     
     @Environment(\.colorScheme) var colorScheme
@@ -38,12 +39,13 @@ struct AppView: View {
                 //        .navigationBarHidden(false)
                 //        .navigationBarTitle("TrackKeeper")
                 .tabItem {
-                    Image(systemName: "hare")
+                    Image(systemName: self.tortoiseOrHare)
                     Text("Run")
             }
             .tag(1)
+//            .onpress
             
-            ProfileView()
+            ProfileView(tortoiseOrHare: self.$tortoiseOrHare)
                 .tabItem {
                     Image(systemName: "person.circle")
                     Text("Profile")

@@ -14,6 +14,7 @@ struct ProfileView: View {
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State var defaultTimeRangeIndex: Int = 0
     @State private var showingSettings = false
+    @Binding var tortoiseOrHare: String
     var color: [Color] = [.blue, .red, .orange, .green]
     
     //    private var best5k : Record? {
@@ -110,7 +111,7 @@ struct ProfileView: View {
                     ZStack {
                         
                         List {
-                            NavigationLink(destination: SettingsMenuView(), isActive: self.$showingSettings) {
+                            NavigationLink(destination: SettingsMenuView(tortoiseOrHare: self.$tortoiseOrHare), isActive: self.$showingSettings) {
                                 Text("There should be a better way than using a list")
                             }
                         }
@@ -271,6 +272,6 @@ struct BestRunView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        return ProfileView()
+        return ProfileView(tortoiseOrHare: .constant("hare"))
     }
 }

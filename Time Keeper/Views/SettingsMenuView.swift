@@ -14,6 +14,7 @@ struct SettingsMenuView: View {
     @State var currentIcon = "AppIcon"
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State var trackPrecisionMode: Bool = UserDefaults.standard.bool(forKey: "Track Precision Mode Enabled")
+    @Binding var tortoiseOrHare: String
     
     var body: some View {
         
@@ -71,6 +72,8 @@ struct SettingsMenuView: View {
                     UserDefaults.standard.set(nextIndex, forKey: "Distance Units Index")
                 }) {
                     Text("Distance Units")
+                    .font(.system(size: 20))
+                    .bold()
                 }
                 Spacer()
                 Text(self.distanceUnits.symbol)
@@ -81,13 +84,31 @@ struct SettingsMenuView: View {
                 Button(action: {
                     
                     let nextPrecisionModeSetting = !self.trackPrecisionMode
-//                    self.trackPrecisionMode = nextPrecisionModeSetting
+                    self.trackPrecisionMode = nextPrecisionModeSetting
                     UserDefaults.standard.set(nextPrecisionModeSetting, forKey: "Track Precision Mode Enabled")
                 }) {
                     Text("Precision Display Mode")
+                    .font(.system(size: 20))
+                    .bold()
                 }
                 Spacer()
                 Text(self.trackPrecisionMode ? "On" : "Off")
+                    .bold()
+            }
+            
+            HStack {
+                Button(action: {
+                    
+                    let tortoiseOrHareString = self.tortoiseOrHare == "hare" ? "tortoise" : "hare"
+                    self.tortoiseOrHare = tortoiseOrHareString
+                    UserDefaults.standard.set(tortoiseOrHareString, forKey: "Tortoise or Hare")
+                }) {
+                    Text("Tortoise or Hare")
+                    .font(.system(size: 20))
+                    .bold()
+                }
+                Spacer()
+                Text(self.tortoiseOrHare == "hare" ? "Hare" : "Tortoise")
                     .bold()
             }
             
@@ -106,6 +127,6 @@ struct SettingsMenuView: View {
 
 struct SettingsMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsMenuView()
+        SettingsMenuView(tortoiseOrHare: .constant("hare"))
     }
 }
