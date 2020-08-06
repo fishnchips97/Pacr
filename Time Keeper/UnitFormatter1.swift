@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UnitFormatter {
+class UnitFormatter1 {
     
     static func secondsToTraditionalFormatString(seconds: Double, fractionalDigits: Int = 2) -> String {
         let safeFractionalDigits = fractionalDigits > 2 ? 2 : fractionalDigits
@@ -16,7 +16,12 @@ class UnitFormatter {
         let formatter = DateComponentsFormatter()
         
         
-        formatter.allowedUnits = [.hour, .minute, .second]
+        if seconds < 3600 {
+            formatter.allowedUnits = [.minute, .second]
+        } else {
+            formatter.allowedUnits = [.hour, .minute, .second]
+        }
+        
         formatter.unitsStyle = .positional
         formatter.zeroFormattingBehavior = .pad
 
@@ -60,7 +65,7 @@ class UnitFormatter {
         if distance.converted(to: unit).value > 0.0 {
             paceNumber = timeInSecs / distance.converted(to: unit).value
         }
-        return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) /\(unit.symbol)"
+        return "\(UnitFormatter1.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) /\(unit.symbol)"
         
     }
     

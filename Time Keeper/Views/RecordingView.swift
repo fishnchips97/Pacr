@@ -116,7 +116,7 @@ struct RecordingView: View {
                         VStack {
                             Text("Target Pace").font(.system(size: 16, design: .monospaced))
                             HStack {
-                                Text("\(UnitFormatter.paceNumberToString(pace: Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]), distanceUnit: self.distanceUnits))")
+                                Text("\(UnitFormatter1.paceNumberToString(pace: Double(self.minuteOptions[self.minuteIndex] * 60 + self.secondOptions[self.secondIndex]), distanceUnit: self.distanceUnits))")
                                     .font(.system(size: 18, design: .monospaced))
                             }
                             Button(action: {
@@ -138,7 +138,7 @@ struct RecordingView: View {
                             Text("Avg. Pace").font(.system(size: 16, design: .monospaced))
                             HStack {
                                 //                                    Text("\(self.tracker.pace)")
-                                Text("\(UnitFormatter.pace(timeInSecs: self.tracker.secondsUpdatedOnDistanceChange, distance: self.tracker.distance, unit: self.distanceUnits))")
+                                Text("\(UnitFormatter1.pace(timeInSecs: self.tracker.secondsUpdatedOnDistanceChange, distance: self.tracker.distance, unit: self.distanceUnits))")
                                     .font(.system(size: 18, design: .monospaced))
                             }
                         }

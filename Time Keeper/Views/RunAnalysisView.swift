@@ -16,11 +16,11 @@ struct RunAnalysisView: View {
     
     var pace : Double {
         let rec = self.run
-        return UnitFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!, unit: self.distanceUnits)
+        return UnitFormatter1.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!, unit: self.distanceUnits)
     }
     var paces : [Double] {
         self.runs.map { (rec) -> Double in
-            UnitFormatter.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!, unit: self.distanceUnits)
+            UnitFormatter1.paceNumber(timeInSecs: rec.timeInSeconds as! Double, distance: distanceMeasurements[rec.distance!.description]!, unit: self.distanceUnits)
         }.reversed()
     }
     
@@ -36,10 +36,10 @@ struct RunAnalysisView: View {
                     .frame(width: geometry.size.width - 30, height: 200)
                 
                 Spacer()
-                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.run.timeInSeconds!.doubleValue)) sec")
+                Text("\(UnitFormatter1.secondsToTraditionalFormatString(seconds: self.run.timeInSeconds!.doubleValue)) sec")
                     .font(.system(size: 40))
                     .padding()
-                Text("\(UnitFormatter.dateToString(date: self.run.dateRecorded))")
+                Text("\(UnitFormatter1.dateToString(date: self.run.dateRecorded))")
                     .font(.system(size: 20))
                     .padding()
                 
