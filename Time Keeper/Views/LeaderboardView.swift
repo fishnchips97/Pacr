@@ -88,11 +88,11 @@ struct LeaderboardView: View {
                                             Text("\((self.sortedRecords.firstIndex(of: record) ?? 0) + 1).").font(.system(size: 20))
                                                 .bold()
                                         }
-                                        Text("\(UnitFormatter1.secondsToTraditionalFormatString(seconds: record.timeInSeconds!.doubleValue))")
+                                        Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: record.timeInSeconds!.doubleValue))")
                                             .font(.system(size: 20))
                                             .bold()
                                         Spacer()
-                                        Text("\(UnitFormatter1.dateToString(date: record.dateRecorded))")
+                                        Text("\(UnitFormatter.dateToString(date: record.dateRecorded))")
                                     }
                                 }
                                 

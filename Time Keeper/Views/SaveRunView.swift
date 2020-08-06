@@ -27,7 +27,7 @@ struct SaveRunView: View {
                 Text("\(self.tracker.currentDistanceGoal)")
                     .font(.system(size: 22))
                     .padding()
-                Text("\(UnitFormatter1.secondsToTraditionalFormatString(seconds: self.tracker.secondsElapsed)) seconds")
+                Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.tracker.secondsElapsed)) seconds")
                     .font(.system(size: 24))
                     .padding()
                 

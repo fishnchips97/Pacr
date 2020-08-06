@@ -199,7 +199,7 @@ struct BestRunView: View {
             return "00:00"
         }
         let avgSeconds = sum / Double(result.count)
-        return UnitFormatter1.secondsToTraditionalFormatString(seconds: avgSeconds)
+        return UnitFormatter.secondsToTraditionalFormatString(seconds: avgSeconds)
     }
     
     var body: some View {
@@ -222,7 +222,7 @@ struct BestRunView: View {
                     
                     VStack {
                         Spacer()
-                        Text("\(UnitFormatter1.secondsToTraditionalFormatString(seconds: self.timeInSeconds))")
+                        Text("\(UnitFormatter.secondsToTraditionalFormatString(seconds: self.timeInSeconds))")
                             .bold()
                             .font(.system(size: 20))
                         
@@ -234,7 +234,7 @@ struct BestRunView: View {
                     Spacer()
                     VStack {
                         Spacer()
-                        Text("\(UnitFormatter1.pace(timeInSecs: self.timeInSeconds, distance: distanceMeasurements[self.distance]!, unit: self.units))")
+                        Text("\(UnitFormatter.pace(timeInSecs: self.timeInSeconds, distance: distanceMeasurements[self.distance]!, unit: self.units))")
                             .bold()
                             .font(.system(size: 18))
                     
