@@ -13,6 +13,7 @@ struct SettingsMenuView: View {
     //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State var currentIcon = "AppIcon"
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
+    @State var trackPrecisionMode: Bool = UserDefaults.standard.bool(forKey: "Track Precision Mode Enabled")
     
     var body: some View {
         
@@ -65,18 +66,29 @@ struct SettingsMenuView: View {
             HStack {
                 Button(action: {
                     let index = availableDistanceUnits.firstIndex(of: self.distanceUnits)
-//                    self.distanceUnits
                     let nextIndex = availableDistanceUnits.endIndex == index! + 1 ? 0 : index! + 1
                     self.distanceUnits = availableDistanceUnits[nextIndex]
-//                        (self.distanceUnits == .kilometers) ? .miles : .kilometers
                     UserDefaults.standard.set(nextIndex, forKey: "Distance Units Index")
-                    UserDefaults.standard.synchronize()
                 }) {
                     Text("Distance Units")
                 }
                 Spacer()
                 Text(self.distanceUnits.symbol)
                 .bold()
+            }
+            
+            HStack {
+                Button(action: {
+                    
+                    let nextPrecisionModeSetting = !self.trackPrecisionMode
+//                    self.trackPrecisionMode = nextPrecisionModeSetting
+                    UserDefaults.standard.set(nextPrecisionModeSetting, forKey: "Track Precision Mode Enabled")
+                }) {
+                    Text("Precision Display Mode")
+                }
+                Spacer()
+                Text(self.trackPrecisionMode ? "On" : "Off")
+                    .bold()
             }
             
         }

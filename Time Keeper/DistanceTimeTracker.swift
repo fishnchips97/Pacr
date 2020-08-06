@@ -130,7 +130,7 @@ extension DistanceTimeTracker {
     
     func cancelRun() {
         self.locationManager.stopUpdatingLocation()
-        self.runStatus = runStatusPossibilities.finished
+        self.runStatus = runStatusPossibilities.notStarted
         timer.invalidate()
     }
     

@@ -8,7 +8,11 @@
 
 import SwiftUI
 
+
+
 struct TrackView: View {
+    
+    @State var trackPrecisionMode: Bool = UserDefaults.standard.bool(forKey: "Track Precision Mode Enabled")
     
     @Binding var startAnimationTarget: Bool
     @Binding var startAnimationCurrent: Bool
@@ -48,11 +52,29 @@ struct TrackView: View {
                     .offset(x: -15, y: -15)
                     .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width - 15, height: proxy.size.height - 15)), rotate: false))
                     .opacity(0.9)
+                
+                if self.trackPrecisionMode {
+                    /// current pace precision dot
+                    Circle().foregroundColor(Color.black)
+                        .frame(width: 6, height: 6)
+                        .offset(x: -3, y: -3)
+                        .modifier(FollowEffect(pct: self.startAnimationCurrent ? 1.0 : 0.0, path: TrackShape.createTrackPath(from: self.currentPct, rect: CGRect(x: 0, y: 0, width: proxy.size.width - 15, height: proxy.size.height - 15)), rotate: false))
+                    
+                    Circle()
+                    .foregroundColor(Color.blue)
+                    .frame(width: 6, height: 6)
+                    .offset(x: -3, y: (self.finishLinePct < 0.5 ? -3 : -3))
+                    .modifier(FollowEffect(pct: self.finishLinePct, path: TrackShape.createTrackPath(in: CGRect(x: 0, y: 0, width: proxy.size.width - 15, height: proxy.size.height - 15)), rotate: false))
+                }
+                
                     
 
                 }.frame(alignment: .topLeading)
         }
         .padding(20)
+        .onAppear {
+            self.trackPrecisionMode = UserDefaults.standard.bool(forKey: "Track Precision Mode Enabled")
+        }
         
     }
 }
