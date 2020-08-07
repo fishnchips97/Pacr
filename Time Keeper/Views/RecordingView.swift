@@ -61,7 +61,7 @@ let trackDistanceInMeters = 400.0
 struct RecordingView: View {
     
     @ObservedObject private var tracker : DistanceTimeTracker
-//    @ObservedObject private var displayLink: CADisplayLinkBinding
+    //    @ObservedObject private var displayLink: CADisplayLinkBinding
     
     @State private var selectedOption: Int = 0
     
@@ -122,7 +122,7 @@ struct RecordingView: View {
                             Button(action: {
                                 self.show.toggle()
                             }) {
-                                Text("edit")
+                                Text("Edit")
                                     .bold()
                                     .padding(.vertical, 5)
                                     .padding(.horizontal, 20)
@@ -214,8 +214,10 @@ struct RecordingView: View {
                         Text("\(String(format: "%02d", self.minuteOptions[self.minuteIndex])) : \(String(format: "%02d", self.secondOptions[self.secondIndex]))")
                             .font(.system(size: 24, design: .monospaced))
                     }
+                    
                     GeometryReader { geometry in
                         HStack(spacing: 0) {
+                            
                             Picker(selection: self.$minuteIndex, label: Text("Minute"), content: {
                                 ForEach(0 ..< self.minuteOptions.count) {
                                     Text("\(self.minuteOptions[$0])").tag($0)
@@ -223,6 +225,7 @@ struct RecordingView: View {
                                 
                             })
                                 .frame(maxWidth: geometry.size.width / 2)
+                                .border(Color.red)
                                 .clipped()
                             
                             Picker(selection: self.$secondIndex, label: Text("Second"), content: {
@@ -232,6 +235,7 @@ struct RecordingView: View {
                                 
                             })
                                 .frame(maxWidth: geometry.size.width / 2)
+                                .border(Color.green)
                                 .clipped()
                         }
                     }.frame(height: 250)
@@ -242,6 +246,12 @@ struct RecordingView: View {
                         self.show.toggle()
                     }) {
                         Text("Done")
+                            .bold()
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 20)
+                            .foregroundColor(Color.white)
+                            .background(Color.blue)
+                            .cornerRadius(15)
                     }
                     
                 }.labelsHidden()

@@ -21,6 +21,7 @@
 		D939D4F323CA627600936FC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D939D4F223CA627600936FC1 /* Assets.xcassets */; };
 		D939D4F623CA627600936FC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D939D4F523CA627600936FC1 /* Preview Assets.xcassets */; };
 		D939D4F923CA627600936FC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D939D4F723CA627600936FC1 /* LaunchScreen.storyboard */; };
+		D93CA77624DCDFFB00947B2A /* TargetPacePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93CA77524DCDFFB00947B2A /* TargetPacePickerView.swift */; };
 		D93D82C8247F046200316608 /* DistanceTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C7247F046200316608 /* DistanceTimeTracker.swift */; };
 		D93D82CA247F158300316608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D82C9247F158300316608 /* LocationManager.swift */; };
 		D946C35C2489B00D00448C2D /* distances.swift in Sources */ = {isa = PBXBuildFile; fileRef = D946C35B2489B00D00448C2D /* distances.swift */; };
@@ -51,6 +52,7 @@
 		D939D4F523CA627600936FC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D939D4F823CA627600936FC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D939D4FA23CA627600936FC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D93CA77524DCDFFB00947B2A /* TargetPacePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPacePickerView.swift; sourceTree = "<group>"; };
 		D93D82C7247F046200316608 /* DistanceTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceTimeTracker.swift; sourceTree = "<group>"; };
 		D93D82C9247F158300316608 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D946C35B2489B00D00448C2D /* distances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = distances.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				D939D4F023CA627100936FC1 /* ContentView.swift */,
 				D907D90E23D7686D001C3A0B /* LeaderboardView.swift */,
 				D907D90823D762DA001C3A0B /* RecordingView.swift */,
+				D93CA77524DCDFFB00947B2A /* TargetPacePickerView.swift */,
 				D930F54A24D4F282008C1375 /* RecordingInfoView.swift */,
 				D90B18AE24B7986D0088499F /* ProfileView.swift */,
 				D907D90C23D767B5001C3A0B /* SettingsMenuView.swift */,
@@ -236,6 +239,7 @@
 				D907D91123D77845001C3A0B /* Record.swift in Sources */,
 				D939D4EF23CA627100936FC1 /* Time_Keeper.xcdatamodeld in Sources */,
 				D973D75624D397E800027ECA /* UnitFormatter.swift in Sources */,
+				D93CA77624DCDFFB00947B2A /* TargetPacePickerView.swift in Sources */,
 				D930F54B24D4F282008C1375 /* RecordingInfoView.swift in Sources */,
 				D99DC24924CA4CCB00FE6139 /* CheckeredFinishLineView.swift in Sources */,
 				D939D4EA23CA627100936FC1 /* AppDelegate.swift in Sources */,
