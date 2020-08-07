@@ -15,9 +15,19 @@ class UnitFormatter {
         
         let formatter = DateComponentsFormatter()
         
-        
+        var msString = ""
         if seconds < 3600 {
             formatter.allowedUnits = [.minute, .second]
+            
+            let milliseconds = modf(seconds).1
+            let numFormatter = NumberFormatter()
+            
+            numFormatter.maximumIntegerDigits = 0
+            numFormatter.minimumIntegerDigits = 0
+            numFormatter.maximumFractionDigits = safeFractionalDigits
+            numFormatter.minimumFractionDigits = safeFractionalDigits
+
+            msString = safeFractionalDigits <= 0 ? "" : numFormatter.string(from: NSNumber(value: milliseconds))!
         } else {
             formatter.allowedUnits = [.hour, .minute, .second]
         }
@@ -25,15 +35,7 @@ class UnitFormatter {
         formatter.unitsStyle = .positional
         formatter.zeroFormattingBehavior = .pad
 
-        let milliseconds = modf(seconds).1
-        let numFormatter = NumberFormatter()
         
-        numFormatter.maximumIntegerDigits = 0
-        numFormatter.minimumIntegerDigits = 0
-        numFormatter.maximumFractionDigits = safeFractionalDigits
-        numFormatter.minimumFractionDigits = safeFractionalDigits
-
-        let msString = safeFractionalDigits <= 0 ? "" : numFormatter.string(from: NSNumber(value: milliseconds))!
         let formattedString = formatter.string(from: TimeInterval(seconds))!
         
         
