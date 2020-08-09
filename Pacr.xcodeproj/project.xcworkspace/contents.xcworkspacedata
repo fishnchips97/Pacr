@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Time Keeper.xcodeproj">
+      location = "self:/Users/erikfisher/Developer/Xcode/Pacr/Pacr.xcodeproj">
    </FileRef>
 </Workspace>
