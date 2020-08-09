@@ -25,7 +25,6 @@ struct LeaderboardView: View {
         var result = Array(records).filter { (record) -> Bool in
             if timeRanges[defaultTimeRangeIndex] == "3 Months" {
                 let threeMonthsInSeconds = 2592000.0
-                //                let threeMonthsInSeconds = 600.0
                 let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
                 return timeSinceRecordDateInSeconds < threeMonthsInSeconds
             }
@@ -44,7 +43,6 @@ struct LeaderboardView: View {
             }
         }
         return result
-        //        return [Record]()
     }
     
     var body: some View {
@@ -55,12 +53,9 @@ struct LeaderboardView: View {
                     HStack {
                         Text("\(distances[self.defaultDistanceIndex])")
                             .font(.title)
-//                            .multilineTextAlignment(.leading)
                             .padding(.leading, 20.0)
-//                            .padding(.top, 5.0)
                         Spacer()
                     }
-//                    .border(Color.black)
                     Spacer()
                     
                     
@@ -111,14 +106,12 @@ struct LeaderboardView: View {
                     Spacer()
                     
                     HStack {
-                        //                        Spacer().frame(height: 24)
                         buttonTogglePicker(options: distances, selectedOption: self.$defaultDistanceIndex, width: geometry.size.width / 3.3)
                         
                         buttonTogglePicker(options: timeRanges, selectedOption: self.$defaultTimeRangeIndex, width: geometry.size.width / 3.3)
                         
                         buttonTogglePicker(options: orderingOptions, selectedOption: self.$orderOptionIndex, width: geometry.size.width / 3.3)
                         
-                        //                        Spacer().frame(height: 24)
                     }
                     Spacer()
                     
@@ -143,14 +136,6 @@ struct buttonTogglePicker: View {
     @Binding var selectedOption: Int
     let width: CGFloat
     var body: some View {
-        //        Picker("Option Picker", selection: $selectedOption) {
-        //            ForEach(0 ..< options.count) { index in
-        //                Text(self.options[index]).tag(index)
-        //            }
-        //        }
-        //        .pickerStyle(SegmentedPickerStyle())
-        //        .padding(.horizontal, 10)
-        //        .padding(.bottom, 10)
         Button(action: {
             let nextIndex = self.options.index(after: self.selectedOption)
             self.selectedOption = self.options.endIndex > nextIndex ? nextIndex : self.options.startIndex

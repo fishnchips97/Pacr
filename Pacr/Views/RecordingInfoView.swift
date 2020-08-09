@@ -28,7 +28,6 @@ struct RecordingInfoView: View {
         currentPct: Binding<CGFloat>,
         finishLinePcts: Binding<[CGFloat]>
     ) {
-        //        print("init recording view")
         self.tracker = tracker
         self._selectedOption = selectedOption
         self._targetAnimating = targetAnimating
@@ -79,7 +78,6 @@ struct RecordingInfoView: View {
                                     let val = temp.value.truncatingRemainder(dividingBy: trackDistanceInMeters)
                                     self.currentPct = CGFloat(val / trackDistanceInMeters)
                                     self.currentAnimating = true
-//                                    print("uh", self.currentAnimating, transitionTime)
                                 }
                             }
                         }
@@ -93,21 +91,16 @@ struct RecordingInfoView: View {
                         Spacer(minLength: 10)
                         Text(self.formatter.string(from: self.tracker.distance.value / 400.0 as NSNumber)!)
                             .font(.system(size: 21, design: .monospaced))
-                        //                                        .border(Color.green)
                         Spacer(minLength: 0)
                         Divider()
                             .frame(width: 50, height: 20)
-                        //                                        .border(Color.red)
                         Spacer(minLength: 0)
                         Text(self.formatter.string(from: distanceMeasurements[distances[self.selectedOption]]!.value / 400.0 as NSNumber)!)
                             .font(.system(size: 21, design: .monospaced))
-                        //                                        .border(Color.blue)
                         Spacer(minLength: 5)
                     }
                     .frame(width: geometry.size.width / 4, height: geometry.size.height / 7)
-                    //                                .border(Color.black)
                 }
-                //                            .border(Color.black)
                 VStack {
                     Spacer(minLength: 5)
                     Text("Distance")
@@ -126,7 +119,6 @@ struct RecordingInfoView: View {
                     Spacer(minLength: 5)
                 }
                 .frame(width: geometry.size.width / 2.3, height: geometry.size.height/2)
-                //                            .border(Color.blue)
             }
         }
         

@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ProfileView: View {
-    //    @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State var defaultTimeRangeIndex: Int = 0
@@ -17,12 +16,6 @@ struct ProfileView: View {
     @Binding var tortoiseOrHare: String
     var color: [Color] = [.blue, .red, .orange, .green]
     
-    //    private var best5k : Record? {
-    //        fastestRecord(records: Array(records), distance: "5 km")
-    //    }
-    //    private var best10k : Record? {
-    //        fastestRecord(records: Array(records), distance: "10 km")
-    //    }
     
     
     
@@ -91,7 +84,6 @@ struct ProfileView: View {
                     //                    .padding()
                     //
                     //                    Spacer()
-//                    Spacer(minLength: 20)
                     ForEach (0 ..< distances.count) { i in
                         VStack {
                             Spacer()
@@ -163,7 +155,6 @@ struct BestRunView: View {
         var result = records.filter { (record) -> Bool in
             if timeRanges[timeRangeIndex] == "Recent" {
                 let threeMonthsInSeconds = 2592000.0
-                //                let threeMonthsInSeconds = 600.0
                 let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
                 return timeSinceRecordDateInSeconds < threeMonthsInSeconds
             }
@@ -182,7 +173,6 @@ struct BestRunView: View {
         var result = Array(records).filter { (record) -> Bool in
             if timeRanges[timeRangeIndex] == "Recent" {
                 let threeMonthsInSeconds = 2592000.0
-                //                let threeMonthsInSeconds = 600.0
                 let timeSinceRecordDateInSeconds = Double(Date().timeIntervalSince(record.dateRecorded ?? Date()))
                 return timeSinceRecordDateInSeconds < threeMonthsInSeconds
             }

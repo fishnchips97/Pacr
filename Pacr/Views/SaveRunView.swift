@@ -53,7 +53,7 @@ struct SaveRunView: View {
                         do {
                             try self.managedObjectContext.save()
                         } catch {
-                            //                        print(error)
+//                            print(error)
                         }
                         self.tracker.reset()
                     }) {

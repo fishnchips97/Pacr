@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct SettingsMenuView: View {
-    //    @Environment(\.managedObjectContext) var managedObjectContext
-    //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State var currentIcon = "AppIcon"
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State var trackPrecisionMode: Bool = UserDefaults.standard.bool(forKey: "Track Precision Mode Enabled")

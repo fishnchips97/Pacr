@@ -14,7 +14,6 @@ let trackDistanceInMeters = 400.0
 struct RecordingView: View {
     
     @ObservedObject private var tracker : DistanceTimeTracker
-    //    @ObservedObject private var displayLink: CADisplayLinkBinding
     
     @State private var selectedOption: Int = 0
     
@@ -26,11 +25,6 @@ struct RecordingView: View {
     
     
     @State private var show = false
-    
-//    private let minuteOptions: [Int] = Array(1 ..< 60)
-//    @State private var minuteIndex = 6
-//    private let secondOptions: [Int] = Array(0 ..< 60)
-//    @State private var secondIndex = 0
     
     private let targetPaceData: [[Int]] = [
         Array(1 ..< 60),
