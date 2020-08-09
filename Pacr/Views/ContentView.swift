@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Time Keeper
+//  Pacr
 //
 //  Created by Erik Fisher on 1/11/20.
 //  Copyright © 2020 Erik Fisher. All rights reserved.
@@ -12,7 +12,6 @@ struct AppView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     @ObservedObject var tracker = DistanceTimeTracker()
-    //    @FetchRequest(fetchRequest: Record.getAllRecords()) var records:FetchedResults<Record>
     @State var tortoiseOrHare: String = UserDefaults.standard.string(forKey: "Tortoise or Hare") ?? "hare"
     
     
@@ -23,10 +22,8 @@ struct AppView: View {
     
     var body: some View {
         TabView(selection: self.$currentTab) {
-            //        TabView {
             
             LeaderboardView()
-//                .environment(\.managedObjectContext, self.managedObjectContext)
                 .tabItem {
                     Image(systemName: "list.dash")
                     Text("Leaderboard")
@@ -34,16 +31,11 @@ struct AppView: View {
             .tag(0)
             
             RecordingView(tracker: self.tracker)
-                //                .environment(\.managedObjectContext, self.managedObjectContext)
-                //        .blur(radius: CGFloat(self.trackBlur))
-                //        .navigationBarHidden(false)
-                //        .navigationBarTitle("TrackKeeper")
                 .tabItem {
                     Image(systemName: self.tortoiseOrHare)
                     Text("Run")
             }
             .tag(1)
-//            .onpress
             
             ProfileView(tortoiseOrHare: self.$tortoiseOrHare)
                 .tabItem {
@@ -52,8 +44,6 @@ struct AppView: View {
             }
             .tag(2)
         }
-        //        .navigationBarHidden(true)
-        //        .edgesIgnoringSafeArea([.top, .bottom])
         
         
         

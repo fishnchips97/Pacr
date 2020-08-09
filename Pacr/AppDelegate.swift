@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Time Keeper
+//  Pacr
 //
 //  Created by Erik Fisher on 1/11/20.
 //  Copyright © 2020 Erik Fisher. All rights reserved.
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "Time_Keeper")
+        let container = NSPersistentContainer(name: "Pacr")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

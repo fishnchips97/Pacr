@@ -1,6 +1,6 @@
 //
 //  RecordingInfoView.swift
-//  Time Keeper
+//  Pacr
 //
 //  Created by Erik Fisher on 7/31/20.
 //  Copyright © 2020 Erik Fisher. All rights reserved.
