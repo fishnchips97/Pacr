@@ -80,7 +80,6 @@
 		D939D4DD23CA627100936FC1 = {
 			isa = PBXGroup;
 			children = (
-				D9FE8C2124DF8EFB00CB1342 /* Time Keeper */,
 				D9FE8BE424DF85D700CB1342 /* Pacr */,
 				D939D4E723CA627100936FC1 /* Products */,
 			);
@@ -158,13 +157,6 @@
 				D9FE8C0324DF85D700CB1342 /* CheckeredFinishLineView.swift */,
 			);
 			path = Extras;
-			sourceTree = "<group>";
-		};
-		D9FE8C2124DF8EFB00CB1342 /* Time Keeper */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Time Keeper";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
