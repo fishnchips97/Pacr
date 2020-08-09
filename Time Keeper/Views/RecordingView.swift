@@ -37,7 +37,7 @@ struct RecordingView: View {
         Array(0 ..< 60)
     ]
 
-    @State private var selections: [Int] = [7, 0]
+    @State private var selectionIndexes: [Int] = [6, 0]
     
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     
@@ -77,7 +77,7 @@ struct RecordingView: View {
                         VStack {
                             Text("Target Pace").font(.system(size: 16, design: .monospaced))
                             HStack {
-                                Text("\(UnitFormatter.paceNumberToString(pace: Double(self.targetPaceData[0][self.selections[0]] * 60 + self.targetPaceData[1][self.selections[1]]), distanceUnit: self.distanceUnits))")
+                                Text("\(UnitFormatter.paceNumberToString(pace: Double(self.targetPaceData[0][self.selectionIndexes[0]] * 60 + self.targetPaceData[1][self.selectionIndexes[1]]), distanceUnit: self.distanceUnits))")
                                     .font(.system(size: 18, design: .monospaced))
                             }
                             Button(action: {
@@ -98,7 +98,6 @@ struct RecordingView: View {
                         VStack {
                             Text("Avg. Pace").font(.system(size: 16, design: .monospaced))
                             HStack {
-                                //                                    Text("\(self.tracker.pace)")
                                 Text("\(UnitFormatter.pace(timeInSecs: self.tracker.secondsUpdatedOnDistanceChange, distance: self.tracker.distance, unit: self.distanceUnits))")
                                     .font(.system(size: 18, design: .monospaced))
                             }
@@ -111,10 +110,7 @@ struct RecordingView: View {
                     
                     
                     
-                    //                        self.tracker.runStatus != .notStarted
                     DistancePickerView(selectedOption: self.$selectedOption, isDisabled: self.tracker.runStatus != .notStarted)
-                        .padding(.horizontal)
-                    
                     Spacer(minLength: 0)
                     HStack{
                         Button(action: {
@@ -140,11 +136,11 @@ struct RecordingView: View {
                             var animationTime = 0.0
                             if self.distanceUnits == .miles {
                                 let mile = Measurement(value: 1, unit: UnitLength.miles)
-                                let paceInSecondsPerMeter = Double(self.targetPaceData[0][self.selections[0]] * 60 + self.targetPaceData[1][self.selections[1]]) / mile.converted(to: .meters).value
+                                let paceInSecondsPerMeter = Double(self.targetPaceData[0][self.selectionIndexes[0]] * 60 + self.targetPaceData[1][self.selectionIndexes[1]]) / mile.converted(to: .meters).value
                                 animationTime = trackDistanceInMeters * paceInSecondsPerMeter
                             } else {
                                 let kilometer = Measurement(value: 1, unit: UnitLength.kilometers)
-                                let paceInSecondsPerMeter = Double(self.targetPaceData[0][self.selections[0]] * 60 + self.targetPaceData[1][self.selections[1]]) / kilometer.converted(to: .meters).value
+                                let paceInSecondsPerMeter = Double(self.targetPaceData[0][self.selectionIndexes[0]] * 60 + self.targetPaceData[1][self.selectionIndexes[1]]) / kilometer.converted(to: .meters).value
                                 animationTime = trackDistanceInMeters * paceInSecondsPerMeter
                             }
                             
@@ -171,11 +167,11 @@ struct RecordingView: View {
             if show {
                 VStack {
                     HStack {
-                        Text("\(String(format: "%02d", self.targetPaceData[0][self.selections[0]])) : \(String(format: "%02d", self.targetPaceData[1][self.selections[1]]))")
+                        Text("\(String(format: "%02d", self.targetPaceData[0][self.selectionIndexes[0]])) : \(String(format: "%02d", self.targetPaceData[1][self.selectionIndexes[1]]))")
                             .font(.system(size: 24, design: .monospaced))
                     }
                     
-                    PickerView(data: self.targetPaceData, selections: self.$selections)
+                    PickerView(data: self.targetPaceData, selections: self.$selectionIndexes)
                         .frame(height: 250)
                     
                     
@@ -227,7 +223,7 @@ struct DistancePickerView: View {
                 Text(distances[index]).tag(index)
             }
         }
-        .padding(.horizontal)
+        .frame(width: 300)
         .pickerStyle(SegmentedPickerStyle())
         .disabled(self.isDisabled)
     }
@@ -239,21 +235,3 @@ struct RecordingView_Previews: PreviewProvider {
         RecordingView(tracker: DistanceTimeTracker())
     }
 }
-
-
-
-//struct ContentView: View {
-//
-//
-//    var body: some View {
-//        VStack {
-//
-//        } //VStack
-//    }
-//}
-//
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
