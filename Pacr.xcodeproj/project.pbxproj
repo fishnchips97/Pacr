@@ -32,7 +32,6 @@
 		D9FE8C1C24DF85D700CB1342 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8C0024DF85D700CB1342 /* ContentView.swift */; };
 		D9FE8C1D24DF85D700CB1342 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8C0224DF85D700CB1342 /* TrackView.swift */; };
 		D9FE8C1E24DF85D700CB1342 /* CheckeredFinishLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8C0324DF85D700CB1342 /* CheckeredFinishLineView.swift */; };
-		D9FE8C1F24DF85D700CB1342 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9FE8C0424DF85D700CB1342 /* Info.plist */; };
 		D9FE8C2024DF85D700CB1342 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8C0524DF85D700CB1342 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +80,7 @@
 		D939D4DD23CA627100936FC1 = {
 			isa = PBXGroup;
 			children = (
+				D9FE8C2124DF8EFB00CB1342 /* Time Keeper */,
 				D9FE8BE424DF85D700CB1342 /* Pacr */,
 				D939D4E723CA627100936FC1 /* Products */,
 			);
@@ -160,6 +160,13 @@
 			path = Extras;
 			sourceTree = "<group>";
 		};
+		D9FE8C2124DF8EFB00CB1342 /* Time Keeper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Time Keeper";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,7 +194,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Erik Fisher";
 				TargetAttributes = {
 					D939D4E523CA627100936FC1 = {
@@ -224,7 +231,6 @@
 				D9FE8C0D24DF85D700CB1342 /* Dark.png in Resources */,
 				D9FE8C0924DF85D700CB1342 /* Preview Assets.xcassets in Resources */,
 				D9FE8C0824DF85D700CB1342 /* Assets.xcassets in Resources */,
-				D9FE8C1F24DF85D700CB1342 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
