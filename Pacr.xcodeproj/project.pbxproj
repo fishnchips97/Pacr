@@ -17,7 +17,7 @@
 		D9FE8C0D24DF85D700CB1342 /* Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FE8BEF24DF85D700CB1342 /* Dark.png */; };
 		D9FE8C0E24DF85D700CB1342 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8BF024DF85D700CB1342 /* Record.swift */; };
 		D9FE8C0F24DF85D700CB1342 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8BF124DF85D700CB1342 /* AppDelegate.swift */; };
-		D9FE8C1024DF85D700CB1342 /* Time_Keeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8BF224DF85D700CB1342 /* Time_Keeper.xcdatamodeld */; };
+		D9FE8C1024DF85D700CB1342 /* Pacr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8BF224DF85D700CB1342 /* Pacr.xcdatamodeld */; };
 		D9FE8C1124DF85D700CB1342 /* UnitFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8BF424DF85D700CB1342 /* UnitFormatter.swift */; };
 		D9FE8C1224DF85D700CB1342 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8BF524DF85D700CB1342 /* LocationManager.swift */; };
 		D9FE8C1324DF85D700CB1342 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FE8BF724DF85D700CB1342 /* PickerView.swift */; };
@@ -108,7 +108,7 @@
 				D9FE8BE824DF85D700CB1342 /* Preview Content */,
 				D9FE8BEA24DF85D700CB1342 /* LaunchScreen.storyboard */,
 				D9FE8BEC24DF85D700CB1342 /* Icons */,
-				D9FE8BF224DF85D700CB1342 /* Time_Keeper.xcdatamodeld */,
+				D9FE8BF224DF85D700CB1342 /* Pacr.xcdatamodeld */,
 				D9FE8C0424DF85D700CB1342 /* Info.plist */,
 			);
 			path = Pacr;
@@ -233,7 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9FE8C1024DF85D700CB1342 /* Time_Keeper.xcdatamodeld in Sources */,
+				D9FE8C1024DF85D700CB1342 /* Pacr.xcdatamodeld in Sources */,
 				D9FE8C1A24DF85D700CB1342 /* SaveRunView.swift in Sources */,
 				D9FE8C1424DF85D700CB1342 /* ProfileView.swift in Sources */,
 				D9FE8C0F24DF85D700CB1342 /* AppDelegate.swift in Sources */,
@@ -448,13 +448,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		D9FE8BF224DF85D700CB1342 /* Time_Keeper.xcdatamodeld */ = {
+		D9FE8BF224DF85D700CB1342 /* Pacr.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				D9FE8BF324DF85D700CB1342 /* Time_Keeper.xcdatamodel */,
 			);
 			currentVersion = D9FE8BF324DF85D700CB1342 /* Time_Keeper.xcdatamodel */;
-			path = Time_Keeper.xcdatamodeld;
+			path = Pacr.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
