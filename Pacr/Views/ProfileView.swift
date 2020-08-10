@@ -16,7 +16,7 @@ struct ProfileView: View {
     @Binding var tortoiseOrHare: String
     var color: [Color] = [.blue, .red, .orange, .green]
     
-    
+    @Environment(\.colorScheme) var colorScheme
     
     
     
@@ -124,7 +124,9 @@ struct ProfileView: View {
                 .navigationBarItems(trailing: Button(action: {
                     self.showingSettings.toggle()
                 }, label: {
-                    Image(systemName: "ellipsis.circle.fill").font(.system(size: 28)).foregroundColor(.black)
+                    Image(systemName: "ellipsis.circle.fill")
+                        .font(.system(size: 28))
+                        .foregroundColor(self.colorScheme == .dark ? Color.white : Color.black)
                 }))
             }
         }.onAppear {
@@ -140,6 +142,9 @@ struct BestRunView: View {
     @State var distance: String
     @State var units: UnitLength
     @State var backgroundColor: Color
+    
+    @Environment(\.colorScheme) var colorScheme
+
     
     private var timeInSeconds: Double {
         self.bestRecord!.timeInSeconds!.doubleValue
@@ -202,7 +207,8 @@ struct BestRunView: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal, 5)
                         .frame(width: geometry.size.width / 3.7, height: geometry.size.height)
-                        .background(Color.black)
+                        .background(self.colorScheme == .dark ? Color.white : Color.black)
+                        .foregroundColor(self.colorScheme == .dark ? Color.black : Color.white)
                 }
                 
                 
