@@ -14,8 +14,10 @@ import UIKit
 // Apple notes on topic: https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit
 
 struct PickerView: UIViewRepresentable {
+    
     var data: [[Int]]
     @Binding var selections: [Int]
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     //makeCoordinator()
     func makeCoordinator() -> PickerView.Coordinator {
@@ -28,6 +30,8 @@ struct PickerView: UIViewRepresentable {
 
         picker.dataSource = context.coordinator
         picker.delegate = context.coordinator
+//        picker.backgroundColor = UIColor.blue
+//        picker.font
 
         return picker
     }
@@ -37,6 +41,16 @@ struct PickerView: UIViewRepresentable {
         for i in 0..<(self.selections.count) {
             view.selectRow(self.selections[i], inComponent: i, animated: false)
         }
+        
+        switch colorScheme {
+        case .dark:
+            view.backgroundColor = .black
+        default:
+            // .light
+            view.backgroundColor = .white
+        }
+//        view.tintColor = UIColor.white
+//        view.backgroundColor = UIColor.white
     }
 
     class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {

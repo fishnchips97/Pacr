@@ -21,6 +21,7 @@ struct RecordingView: View {
     @State private var currentAnimating = false
     @State private var currentPct : CGFloat = 0.0
     @State private var finishLinePcts : [CGFloat] = distanceFinishLinePcts.map {CGFloat($0)}
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     
     
@@ -164,6 +165,7 @@ struct RecordingView: View {
                         Text("\(String(format: "%02d", self.targetPaceData[0][self.selectionIndexes[0]])) : \(String(format: "%02d", self.targetPaceData[1][self.selectionIndexes[1]]))")
                             .font(.system(size: 24, design: .monospaced))
                     }
+                    .foregroundColor(self.colorScheme == .dark ? Color.white : Color.black)
                     
                     PickerView(data: self.targetPaceData, selections: self.$selectionIndexes)
                         .frame(height: 250)
@@ -184,7 +186,7 @@ struct RecordingView: View {
                     
                 }.labelsHidden()
                     .padding()
-                    .background(Color.white)
+                    .background(self.colorScheme == .dark ? Color.black : Color.white)
                     .cornerRadius(15)
                     .offset(x: 0, y: -50)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -196,6 +198,8 @@ struct RecordingView: View {
             if self.tracker.runStatus == .finished {
                 SaveRunView(tracker: self.tracker, targetAnimating: self.$targetAnimating, currentAnimating: self.$currentAnimating, currentPct: self.$currentPct)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    .foregroundColor(self.colorScheme == .dark ? Color.white : Color.black)
+                    .background(self.colorScheme == .dark ? Color.black : Color.white)
                     .background(
                         Color.black.opacity(0.5)
                             .edgesIgnoringSafeArea(.all)

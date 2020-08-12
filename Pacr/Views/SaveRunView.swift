@@ -81,7 +81,7 @@ struct SaveRunView: View {
                 
             })
                 .padding()
-                .background(Color.white)
+//                .background(Color.white)
                 .cornerRadius(15)
         }
         
