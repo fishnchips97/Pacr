@@ -11,6 +11,7 @@ import SwiftUI
 struct SaveRunView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     @ObservedObject var tracker : DistanceTimeTracker
     @Binding var targetAnimating : Bool
@@ -81,7 +82,7 @@ struct SaveRunView: View {
                 
             })
                 .padding()
-//                .background(Color.white)
+                .background(self.colorScheme == .dark ? Color.black : Color.white)
                 .cornerRadius(15)
         }
         

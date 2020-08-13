@@ -44,6 +44,7 @@ struct AppView: View {
             }
             .tag(2)
         }
+        .accentColor(.green)
         
         
         

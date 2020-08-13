@@ -191,18 +191,19 @@ struct RecordingView: View {
                     .offset(x: 0, y: -50)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .background(
-                        Color.black.opacity(0.5)
+                        (self.colorScheme == .dark ? Color.white : Color.black)
+                            .opacity(0.2)
                             .edgesIgnoringSafeArea(.all)
+                            
                 )
             }
             if self.tracker.runStatus == .finished {
                 SaveRunView(tracker: self.tracker, targetAnimating: self.$targetAnimating, currentAnimating: self.$currentAnimating, currentPct: self.$currentPct)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .foregroundColor(self.colorScheme == .dark ? Color.white : Color.black)
-                    .background(self.colorScheme == .dark ? Color.black : Color.white)
                     .background(
-                        Color.black.opacity(0.5)
-                            .edgesIgnoringSafeArea(.all)
+                        (self.colorScheme == .dark ? Color.white : Color.black)
+                        .opacity(0.2)
+                        .edgesIgnoringSafeArea(.all)
                 )
             }
         }.onAppear {
