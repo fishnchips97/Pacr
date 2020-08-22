@@ -17,6 +17,8 @@ struct RecordingInfoView: View {
     @Binding var currentAnimating: Bool
     @Binding var currentPct: CGFloat
     @Binding var finishLinePcts: [CGFloat]
+    var targetPace: Double
+    @State var behindPace = false
 
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     let formatter = NumberFormatter()
@@ -26,7 +28,8 @@ struct RecordingInfoView: View {
         targetAnimating: Binding<Bool>,
         currentAnimating: Binding<Bool>,
         currentPct: Binding<CGFloat>,
-        finishLinePcts: Binding<[CGFloat]>
+        finishLinePcts: Binding<[CGFloat]>,
+        targetPace: Double
     ) {
         self.tracker = tracker
         self._selectedOption = selectedOption
@@ -34,6 +37,7 @@ struct RecordingInfoView: View {
         self._currentAnimating = currentAnimating
         self._currentPct = currentPct
         self._finishLinePcts = finishLinePcts
+        self.targetPace = targetPace
         
         
         self.formatter.minimumFractionDigits = 0
@@ -65,6 +69,7 @@ struct RecordingInfoView: View {
                     }
                     .onReceive(self.tracker.$distance) { (currentDistance) in
                         if self.tracker.runStatus == .inProgress {
+                            
                             let distanceSinceLastUpdate = currentDistance.converted(to: .meters) - self.tracker.distance.converted(to: .meters)
                             let currentSpeedInMetersPerSec = distanceSinceLastUpdate.value / self.tracker.secondsElapsedSinceLastUpdate
                             let transitionTime = trackDistanceInMeters / currentSpeedInMetersPerSec
@@ -79,6 +84,13 @@ struct RecordingInfoView: View {
                                     self.currentPct = CGFloat(val / trackDistanceInMeters)
                                     self.currentAnimating = true
                                 }
+                            }
+                            
+                            let pacerDistance = self.tracker.secondsElapsed / self.targetPace
+                            print(pacerDistance)
+                            if self.behindPace != (currentDistance.converted(to: self.distanceUnits).value < pacerDistance) {
+                                self.behindPace = (currentDistance.converted(to: self.distanceUnits).value < pacerDistance)
+//                                print("switch")
                             }
                         }
                     }
@@ -132,7 +144,8 @@ struct RecordingInfoView_Previews: PreviewProvider {
                           targetAnimating: .constant(false),
                           currentAnimating: .constant(false),
                           currentPct: .constant(0.0),
-                          finishLinePcts: .constant([CGFloat]([1.0, 0.5, 1.0]))
+                          finishLinePcts: .constant([CGFloat]([1.0, 0.5, 1.0])),
+                          targetPace: 5.0
             
         )
     }

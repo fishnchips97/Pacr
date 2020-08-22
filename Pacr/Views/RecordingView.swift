@@ -42,6 +42,10 @@ struct RecordingView: View {
         self.tracker = tracker
     }
     
+    var targetPaceNumber: Double {
+        Double(self.targetPaceData[0][self.selectionIndexes[0]] * 60 + self.targetPaceData[1][self.selectionIndexes[1]])
+    }
+    
     
     
     
@@ -60,7 +64,8 @@ struct RecordingView: View {
                                       targetAnimating: self.$targetAnimating,
                                       currentAnimating: self.$currentAnimating,
                                       currentPct: self.$currentPct,
-                                      finishLinePcts: self.$finishLinePcts
+                                      finishLinePcts: self.$finishLinePcts,
+                                      targetPace: self.targetPaceNumber
                     )
                         .frame(width: geometry.size.width, height: geometry.size.height/1.7)
                     //                            .border(Color.black)
@@ -72,7 +77,7 @@ struct RecordingView: View {
                         VStack {
                             Text("Target Pace").font(.system(size: 16, design: .monospaced))
                             HStack {
-                                Text("\(UnitFormatter.paceNumberToString(pace: Double(self.targetPaceData[0][self.selectionIndexes[0]] * 60 + self.targetPaceData[1][self.selectionIndexes[1]]), distanceUnit: self.distanceUnits))")
+                                Text("\(UnitFormatter.paceNumberToString(pace: self.targetPaceNumber, distanceUnit: self.distanceUnits))")
                                     .font(.system(size: 18, design: .monospaced))
                             }
                             Button(action: {
@@ -131,11 +136,11 @@ struct RecordingView: View {
                             var animationTime = 0.0
                             if self.distanceUnits == .miles {
                                 let mile = Measurement(value: 1, unit: UnitLength.miles)
-                                let paceInSecondsPerMeter = Double(self.targetPaceData[0][self.selectionIndexes[0]] * 60 + self.targetPaceData[1][self.selectionIndexes[1]]) / mile.converted(to: .meters).value
+                                let paceInSecondsPerMeter = self.targetPaceNumber / mile.converted(to: .meters).value
                                 animationTime = trackDistanceInMeters * paceInSecondsPerMeter
                             } else {
                                 let kilometer = Measurement(value: 1, unit: UnitLength.kilometers)
-                                let paceInSecondsPerMeter = Double(self.targetPaceData[0][self.selectionIndexes[0]] * 60 + self.targetPaceData[1][self.selectionIndexes[1]]) / kilometer.converted(to: .meters).value
+                                let paceInSecondsPerMeter = self.targetPaceNumber / kilometer.converted(to: .meters).value
                                 animationTime = trackDistanceInMeters * paceInSecondsPerMeter
                             }
                             
