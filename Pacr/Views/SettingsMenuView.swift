@@ -12,6 +12,7 @@ struct SettingsMenuView: View {
     @State var currentIcon = "AppIcon"
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State var trackPrecisionMode: Bool = UserDefaults.standard.bool(forKey: "Track Precision Mode Enabled")
+    @State var buzzOn: Bool = UserDefaults.standard.bool(forKey: "Buzz for lead change")
     @Binding var tortoiseOrHare: String
     
     var body: some View {
@@ -107,6 +108,36 @@ struct SettingsMenuView: View {
                 }
                 Spacer()
                 Text(self.tortoiseOrHare == "hare" ? "Hare" : "Tortoise")
+                    .bold()
+            }
+            
+            HStack {
+                Button(action: {
+                    
+                    let tortoiseOrHareString = self.tortoiseOrHare == "hare" ? "tortoise" : "hare"
+                    self.tortoiseOrHare = tortoiseOrHareString
+                    UserDefaults.standard.set(tortoiseOrHareString, forKey: "Tortoise or Hare")
+                }) {
+                    Text("Tortoise or Hare")
+                    .font(.system(size: 20))
+                    .bold()
+                }
+                Spacer()
+                Text(self.tortoiseOrHare == "hare" ? "Hare" : "Tortoise")
+                    .bold()
+            }
+            
+            HStack {
+                Button(action: {
+                    self.buzzOn.toggle()
+                    UserDefaults.standard.set(self.buzzOn, forKey: "Buzz for lead change")
+                }) {
+                    Text("Buzz on lead change")
+                    .font(.system(size: 20))
+                    .bold()
+                }
+                Spacer()
+                Text(self.buzzOn ? "On" : "Off")
                     .bold()
             }
             

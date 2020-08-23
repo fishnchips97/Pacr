@@ -21,6 +21,7 @@ struct RecordingInfoView: View {
     @State var behindPace = false
 
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
+    @State var buzzOn: Bool = UserDefaults.standard.bool(forKey: "Buzz for lead change")
     let formatter = NumberFormatter()
     init(
         tracker: DistanceTimeTracker,
@@ -87,10 +88,16 @@ struct RecordingInfoView: View {
                             }
                             
                             let pacerDistance = self.tracker.secondsElapsed / self.targetPace
-                            print(pacerDistance)
+//                            print("behindPace:", self.behindPace)
                             if self.behindPace != (currentDistance.converted(to: self.distanceUnits).value < pacerDistance) {
                                 self.behindPace = (currentDistance.converted(to: self.distanceUnits).value < pacerDistance)
-//                                print("switch")
+                                if self.buzzOn {
+                                    if self.behindPace {
+//                                        print("buzz twice")
+                                    } else {
+//                                        print("buzz once")
+                                    }
+                                }
                             }
                         }
                     }
@@ -132,6 +139,9 @@ struct RecordingInfoView: View {
                 }
                 .frame(width: geometry.size.width / 2.3, height: geometry.size.height/2)
             }
+        }
+        .onAppear {
+            self.buzzOn = UserDefaults.standard.bool(forKey: "Buzz for lead change")
         }
         
     }
