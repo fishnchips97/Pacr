@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct SettingsMenuView: View {
     @State var currentIcon = "AppIcon"
@@ -139,6 +140,23 @@ struct SettingsMenuView: View {
                 Spacer()
                 Text(self.buzzOn ? "On" : "Off")
                     .bold()
+            }
+            Button(action: {
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+            }) {
+                Text("buzz normal")
+            }
+            Button(action: {
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.error)
+            }) {
+                Text("tap error")
+            }
+            Button(action: {
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
+            }) {
+                Text("tap success")
             }
             
         }
