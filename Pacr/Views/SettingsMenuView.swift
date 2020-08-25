@@ -115,22 +115,6 @@ struct SettingsMenuView: View {
             
             HStack {
                 Button(action: {
-                    
-                    let tortoiseOrHareString = self.tortoiseOrHare == "hare" ? "tortoise" : "hare"
-                    self.tortoiseOrHare = tortoiseOrHareString
-                    UserDefaults.standard.set(tortoiseOrHareString, forKey: "Tortoise or Hare")
-                }) {
-                    Text("Tortoise or Hare")
-                        .font(.system(size: 20))
-                        .bold()
-                }
-                Spacer()
-                Text(self.tortoiseOrHare == "hare" ? "Hare" : "Tortoise")
-                    .bold()
-            }
-            
-            HStack {
-                Button(action: {
                     self.buzzOn.toggle()
                     UserDefaults.standard.set(self.buzzOn, forKey: "Buzz for lead change")
                 }) {
