@@ -13,8 +13,9 @@ struct SettingsMenuView: View {
     @State var currentIcon = "AppIcon"
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
     @State var trackPrecisionMode: Bool = UserDefaults.standard.bool(forKey: "Track Precision Mode Enabled")
-    @State var buzzOn: Bool = UserDefaults.standard.bool(forKey: "Buzz for lead change")
+    @State var buzzOn: Bool = !UserDefaults.standard.bool(forKey: "Buzz for lead change")
     @Binding var tortoiseOrHare: String
+    @State var active = true
     
     var body: some View {
         
@@ -72,12 +73,12 @@ struct SettingsMenuView: View {
                     UserDefaults.standard.set(nextIndex, forKey: "Distance Units Index")
                 }) {
                     Text("Distance Units")
-                    .font(.system(size: 20))
-                    .bold()
+                        .font(.system(size: 20))
+                        .bold()
                 }
                 Spacer()
                 Text(self.distanceUnits.symbol)
-                .bold()
+                    .bold()
             }
             
             HStack {
@@ -88,8 +89,8 @@ struct SettingsMenuView: View {
                     UserDefaults.standard.set(nextPrecisionModeSetting, forKey: "Track Precision Mode Enabled")
                 }) {
                     Text("Precision Display Mode")
-                    .font(.system(size: 20))
-                    .bold()
+                        .font(.system(size: 20))
+                        .bold()
                 }
                 Spacer()
                 Text(self.trackPrecisionMode ? "On" : "Off")
@@ -104,8 +105,8 @@ struct SettingsMenuView: View {
                     UserDefaults.standard.set(tortoiseOrHareString, forKey: "Tortoise or Hare")
                 }) {
                     Text("Tortoise or Hare")
-                    .font(.system(size: 20))
-                    .bold()
+                        .font(.system(size: 20))
+                        .bold()
                 }
                 Spacer()
                 Text(self.tortoiseOrHare == "hare" ? "Hare" : "Tortoise")
@@ -120,8 +121,8 @@ struct SettingsMenuView: View {
                     UserDefaults.standard.set(tortoiseOrHareString, forKey: "Tortoise or Hare")
                 }) {
                     Text("Tortoise or Hare")
-                    .font(.system(size: 20))
-                    .bold()
+                        .font(.system(size: 20))
+                        .bold()
                 }
                 Spacer()
                 Text(self.tortoiseOrHare == "hare" ? "Hare" : "Tortoise")
@@ -134,29 +135,12 @@ struct SettingsMenuView: View {
                     UserDefaults.standard.set(self.buzzOn, forKey: "Buzz for lead change")
                 }) {
                     Text("Buzz on lead change")
-                    .font(.system(size: 20))
-                    .bold()
+                        .font(.system(size: 20))
+                        .bold()
                 }
                 Spacer()
                 Text(self.buzzOn ? "On" : "Off")
                     .bold()
-            }
-            Button(action: {
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-            }) {
-                Text("buzz normal")
-            }
-            Button(action: {
-                let generator = UINotificationFeedbackGenerator()
-                generator.notificationOccurred(.error)
-            }) {
-                Text("tap error")
-            }
-            Button(action: {
-                let generator = UINotificationFeedbackGenerator()
-                generator.notificationOccurred(.success)
-            }) {
-                Text("tap success")
             }
             
         }

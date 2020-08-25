@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct RecordingInfoView: View {
     
@@ -18,10 +19,11 @@ struct RecordingInfoView: View {
     @Binding var currentPct: CGFloat
     @Binding var finishLinePcts: [CGFloat]
     var targetPace: Double
-    @State var behindPace = false
+    @Binding var behindPace: Bool
+    @State var active = true
 
     @State var distanceUnits: UnitLength = availableDistanceUnits[UserDefaults.standard.integer(forKey: "Distance Units Index")]
-    @State var buzzOn: Bool = UserDefaults.standard.bool(forKey: "Buzz for lead change")
+    @State var buzzOn: Bool = !UserDefaults.standard.bool(forKey: "Buzz for lead change")
     let formatter = NumberFormatter()
     init(
         tracker: DistanceTimeTracker,
@@ -30,6 +32,7 @@ struct RecordingInfoView: View {
         currentAnimating: Binding<Bool>,
         currentPct: Binding<CGFloat>,
         finishLinePcts: Binding<[CGFloat]>,
+        behindPace: Binding<Bool>,
         targetPace: Double
     ) {
         self.tracker = tracker
@@ -38,6 +41,7 @@ struct RecordingInfoView: View {
         self._currentAnimating = currentAnimating
         self._currentPct = currentPct
         self._finishLinePcts = finishLinePcts
+        self._behindPace = behindPace
         self.targetPace = targetPace
         
         
@@ -88,14 +92,29 @@ struct RecordingInfoView: View {
                             }
                             
                             let pacerDistance = self.tracker.secondsElapsed / self.targetPace
-//                            print("behindPace:", self.behindPace)
                             if self.behindPace != (currentDistance.converted(to: self.distanceUnits).value < pacerDistance) {
                                 self.behindPace = (currentDistance.converted(to: self.distanceUnits).value < pacerDistance)
                                 if self.buzzOn {
                                     if self.behindPace {
-//                                        print("buzz twice")
+                                        // buzz twice
+                                        if self.active {
+                                            self.active = false
+                                            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                                            var i = 0
+                                            Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true) { timer in
+                                                if i == 0 {
+                                                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                                                } else if i == 1 {
+                                                    self.active = true
+                                                } else {
+                                                    timer.invalidate()
+                                                }
+                                                i += 1
+                                            }
+                                        }
                                     } else {
-//                                        print("buzz once")
+                                        // buzz once
+                                        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                                     }
                                 }
                             }
@@ -141,7 +160,7 @@ struct RecordingInfoView: View {
             }
         }
         .onAppear {
-            self.buzzOn = UserDefaults.standard.bool(forKey: "Buzz for lead change")
+            self.buzzOn = !UserDefaults.standard.bool(forKey: "Buzz for lead change")
         }
         
     }
@@ -155,6 +174,7 @@ struct RecordingInfoView_Previews: PreviewProvider {
                           currentAnimating: .constant(false),
                           currentPct: .constant(0.0),
                           finishLinePcts: .constant([CGFloat]([1.0, 0.5, 1.0])),
+                          behindPace: .constant(false),
                           targetPace: 5.0
             
         )

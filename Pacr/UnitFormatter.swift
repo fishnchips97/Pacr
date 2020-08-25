@@ -64,7 +64,7 @@ class UnitFormatter {
     static func pace(timeInSecs: Double, distance: Measurement<UnitLength>, unit: UnitLength) -> String {
         
         var paceNumber = 0.0
-        if distance.converted(to: unit).value > 0.0 {
+        if distance.converted(to: unit).value > 0.001 {
             paceNumber = timeInSecs / distance.converted(to: unit).value
         }
         return "\(UnitFormatter.secondsToTraditionalFormatString(seconds: paceNumber, fractionalDigits: 0)) /\(unit.symbol)"

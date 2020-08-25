@@ -21,6 +21,7 @@ struct RecordingView: View {
     @State private var currentAnimating = false
     @State private var currentPct : CGFloat = 0.0
     @State private var finishLinePcts : [CGFloat] = distanceFinishLinePcts.map {CGFloat($0)}
+    @State private var behindPace = false
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     
@@ -65,6 +66,7 @@ struct RecordingView: View {
                                       currentAnimating: self.$currentAnimating,
                                       currentPct: self.$currentPct,
                                       finishLinePcts: self.$finishLinePcts,
+                                      behindPace: self.$behindPace,
                                       targetPace: self.targetPaceNumber
                     )
                         .frame(width: geometry.size.width, height: geometry.size.height/1.7)
@@ -104,7 +106,6 @@ struct RecordingView: View {
                         }
                         .frame(width: geometry.size.width / 2)
                     }
-                        
                     .padding(.horizontal)
                     
                     
@@ -149,6 +150,7 @@ struct RecordingView: View {
                             }
                             self.tracker.start()
                             self.tracker.currentDistanceGoal = distances[self.selectedOption]
+                            self.behindPace = false
                         }) {
                             Text("Start").bold()
                         }
